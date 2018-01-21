@@ -45,16 +45,17 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		//System.out.println(username + " " + password);
+		System.out.println(username + " " + password);
 		
 		String message = "Uspesno";
 		String status = "success";
 		
 		
 		try {
-			User user = UserDAO.get(username);
-			if(user == null) throw new Exception("Neispravno");
-			if(!user.getPassword().equals(password)) throw new Exception("Neispravno");
+			User user = UserDAO.getByUserName(username);
+			
+			if(user == null) throw new Exception("Nepostojeci korisnik");
+			if(!user.getPassword().equals(password)) throw new Exception("Neispravna lozinka");
 			HttpSession session = request.getSession();
 			session.setAttribute("loggedInUser", user);
 			

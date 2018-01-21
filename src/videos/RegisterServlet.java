@@ -53,11 +53,12 @@ public class RegisterServlet extends HttpServlet {
 			if(!passwordReg.equals(passwordRep)) 
 				throw new Exception("Lozinke se ne poklapaju");
 			
-			User existingUser = UserDAO.get(usernameReg);
+			User existingUser = UserDAO.getByUserName(usernameReg);
 			if(existingUser != null)
 				throw new Exception("Korisnik vec postoji");
 				
 			User newUser = new User();
+			newUser.setUsername(usernameReg);
 		}catch (Exception ex){
 			message = ex.getMessage();
 			}

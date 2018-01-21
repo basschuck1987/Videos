@@ -3,10 +3,12 @@ package model;
 import java.util.Date;
 import java.util.List;
 
-
 public class User {
-	
-	public enum Role {USER, ADMIN};
+
+	public enum Role {
+		USER, ADMIN
+	};
+
 	private long id;
 	private String username;
 	private String password;
@@ -20,16 +22,17 @@ public class User {
 	private List<User> followers;
 	private List<LikeDislike> videoLikes;
 	private List<LikeDislike> commentLikes;
-	
+
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(String username, String password, String name, String surname,String email, String description,
-			 Date date,Role role,boolean blocked, List<User> followers, List<LikeDislike> videoLikes,
-			List<LikeDislike> commentLikes) {
+	public User(Integer id, String username, String password, String name, String surname, String email,
+			String description, Date date, Role role, boolean blocked, List<User> followers,
+			List<LikeDislike> videoLikes, List<LikeDislike> commentLikes) {
 		super();
+		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -42,6 +45,21 @@ public class User {
 		this.followers = followers;
 		this.videoLikes = videoLikes;
 		this.commentLikes = commentLikes;
+	}
+
+	public User(Integer id, String username, String password, String name, String surname, String email,
+			String description, Date date, Role role, boolean blocked) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.description = description;
+		this.date = date;
+		this.role = role;
+		this.blocked = blocked;
 	}
 
 	public String getUsername() {
@@ -139,6 +157,5 @@ public class User {
 	public void setCommentLikes(List<LikeDislike> commentLikes) {
 		this.commentLikes = commentLikes;
 	}
-	
-	
+
 }
