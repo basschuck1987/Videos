@@ -1,5 +1,21 @@
 $(document).ready(function(e){
 	
+	getVideos();
+	
+	function getVideos(){
+		$.ajax({
+			url: 'VideosServlet',
+			method: 'GET',
+			dataType: 'json',
+			success: function(response){
+				console.log(response);
+			},
+			error: function(request, message, error){
+				alert(error);
+			}
+		});
+	};
+	
 	$('#loginForm').submit(function(e){
 		e.preventDefault();
 		
@@ -43,7 +59,7 @@ $(document).ready(function(e){
 			dataType: 'json',
 			success: function(response){
 				if(response.status == 'failure'){
-					alert(response.msg)
+					alert(response.message)
 				}
 			},
 			error: function(request, message, error){

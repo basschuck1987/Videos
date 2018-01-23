@@ -9,7 +9,7 @@ public class User {
 		USER, ADMIN
 	};
 
-	private long id;
+	private int id;
 	private String username;
 	private String password;
 	private String name;
@@ -60,6 +60,15 @@ public class User {
 		this.date = date;
 		this.role = role;
 		this.blocked = blocked;
+	}
+
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getUsername() {

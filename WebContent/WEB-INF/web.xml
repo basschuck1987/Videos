@@ -42,4 +42,14 @@
     <servlet-name>RegisterServlet</servlet-name>
     <url-pattern>/RegisterServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>VideosServlet</display-name>
+    <servlet-name>VideosServlet</servlet-name>
+    <servlet-class>videos.VideosServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VideosServlet</servlet-name>
+    <url-pattern>/VideosServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

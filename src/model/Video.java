@@ -10,7 +10,7 @@ public class Video {
 		UNLISTED,
 		PRIVATE
 	};
-	private long id;
+	private int id;
 	private String url;
 	private String thumbnail;
 	private String description;
@@ -25,7 +25,7 @@ public class Video {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Video(long id, String url, String thumbnail, String description, Visibility visibility, boolean blocked,
+	public Video(int id, String url, String thumbnail, String description, Visibility visibility, boolean blocked,
 			int previews, Date date, User owner) {
 		super();
 		this.id = id;
@@ -43,7 +43,7 @@ public class Video {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
