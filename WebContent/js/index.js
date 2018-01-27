@@ -41,7 +41,7 @@ $(document).ready(function(e){
 		});
 
 	});
-	$('#signupForm').submit(function(e){
+	/*$('#signupForm').submit(function(e){
 		e.preventDefault();
 		
 		var x = $('#enterUsername').val().trim();
@@ -67,7 +67,7 @@ $(document).ready(function(e){
 			}
 		});
 
-	});
+	});*/
 	
 });
 	
