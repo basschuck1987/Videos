@@ -8,7 +8,7 @@ public class ConnectionManager {
 
 	private static final String DATABASE = "localhost:3306/Videos";
 	private static final String USER_NAME = "root";
-	private static final String PASSWORD = "root";
+	private static final String PASSWORD = "";
 	
 	private static Connection connection;
 	

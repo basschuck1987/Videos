@@ -65,6 +65,8 @@ insert into video (url, thumbnail, description, visibility, blocked, previews,da
 insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url2', 'thumnail2', 'decription2', 'PUBLIC', 0, 25,'2018-01-27',1);
 insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url2', 'thumnail2', 'decription3', 'PUBLIC', 0, 3654,'2018-01-27',2);
 
+update video set thumbnail = 'thumbnails/city.jpg' where id = 1;
+
 
 create table comment(
 	id bigint auto_increment,
