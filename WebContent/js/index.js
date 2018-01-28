@@ -1,6 +1,49 @@
 $(document).ready(function(e){
 	
+	// VIDEOS DIV
+	var videosDiv = $("#videosDiv");
+	
+	//LOGIN REGISTER BUTTONS
+	var loginRegisterButtons = $(".loginRegisterButtons");
+	
+	// LOGOUT BUTTON
+	var logoutButton = $("#logoutButton");
+	logoutButton.hide();
+
 	getVideos();
+	
+	function initVideos(videos){
+		videosDiv.empty();
+		for (var i = 0; i < videos.length; i++) {
+			appendVideo(videos[i]);
+		}
+	};
+
+	
+	
+	function appendVideo(video){
+		var divColumn = $('<div class="col-md-5"></div>');
+		var divThumbnail = $('<div class="thumbnail"></div>');
+		var naziv = $('<div><p>' + video.description + '</p></div>');
+		var linkVidea = $('<a href="video.html?id='+video.id+'"></a>');
+		var img = $('<img src="' + video.thumbnail + '" style="width:100%">');
+		var linkOwnera = $('<a href="user.html"></a>');
+		var caption = $('<div class="caption"><p>' + video.owner.username + '</p></div>');
+		var textBlock = $('<div class="text-block"> <p>Date: '+ new Date(video.date).toLocaleDateString("en-US") + '</p><p>Previews: '+ video.previews +'</p></div>');
+		
+		linkOwnera.append(caption);
+		linkVidea.append(img);
+		divThumbnail.append(naziv);
+		divThumbnail.append(linkVidea);
+		divThumbnail.append(linkOwnera);
+		divThumbnail.append(textBlock);
+		divColumn.append(divThumbnail);
+		
+		videosDiv.append(divColumn);
+		
+		      
+		
+	}
 	
 	function getVideos(){
 		$.ajax({
@@ -8,7 +51,12 @@ $(document).ready(function(e){
 			method: 'GET',
 			dataType: 'json',
 			success: function(response){
-				console.log(response);
+				if(response.status == "success"){
+					initVideos(response.videos);
+				}else{
+					alert(response.message);
+				}
+
 			},
 			error: function(request, message, error){
 				alert(error);
@@ -32,8 +80,12 @@ $(document).ready(function(e){
 			dataType: 'json',
 			success: function(response){
 				if(response.status == 'failure'){
-					alert(response.msg)
-				}
+					alert(response.message)
+				} 
+				logoutButton.show();
+				loginRegisterButtons.hide();
+				getVideos();
+				
 			},
 			error: function(request, message, error){
 				alert(error)
@@ -68,6 +120,10 @@ $(document).ready(function(e){
 		});
 
 	});*/
+	
+	$('.dropdown-menu-link').click(function(){
+		return false;
+	});
 	
 });
 	

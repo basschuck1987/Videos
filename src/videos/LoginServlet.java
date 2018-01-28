@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		System.out.println(username + " " + password);
+	//	System.out.println(username + " " + password);
 		
 		String message = "Uspesno";
 		String status = "success";

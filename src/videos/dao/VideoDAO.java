@@ -34,7 +34,7 @@ public class VideoDAO {
 
 			if (rs.next()) {
 				int index = 1;
-				Integer Videoid = rs.getInt(index++);
+				Integer videoId = rs.getInt(index++);
 				String url = rs.getString(index++);
 				String thumbnail = rs.getString(index++);
 				String description = rs.getString(index++);
@@ -45,7 +45,7 @@ public class VideoDAO {
 				User owner = UserDAO.getById(rs.getInt(index++)) ;
 
 				
-				video = new Video(id, url, thumbnail, description, visibility, blocked, previews, date, owner);
+				video = new Video(videoId, url, thumbnail, description, visibility, blocked, previews, date, owner);
 				
 			}
 
@@ -90,7 +90,7 @@ public static List<Video> getByType(Visibility visibilty) {
 
 			rs = ps.executeQuery();
 
-			if (rs.next()) {
+			while(rs.next()) {
 				int index = 1;
 				Integer id = rs.getInt(index++);
 				String url = rs.getString(index++);
@@ -127,7 +127,7 @@ public static List<Video> getByType(Visibility visibilty) {
 		}
 		return videos;
 	}
-public static List<Video> getPrivateVideoUser(Integer id) {
+	public static List<Video> getPrivateVideoUser(Integer id) {
 	
 	Video video = null;
 	Connection conn = ConnectionManager.getConnection();
@@ -147,7 +147,7 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 
 		rs = ps.executeQuery();
 
-		if (rs.next()) {
+		while(rs.next()) {
 			int index = 1;
 			Integer videoId = rs.getInt(index++);
 			String url = rs.getString(index++);
@@ -160,7 +160,7 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 			User owner = UserDAO.getById(rs.getInt(index++)) ;
 
 			
-			video = new Video(id, url, thumbnail, description, visibility, blocked, previews, date, owner);
+			video = new Video(videoId, url, thumbnail, description, visibility, blocked, previews, date, owner);
 			videos.add(video);
 		}
 

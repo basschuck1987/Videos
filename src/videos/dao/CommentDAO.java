@@ -27,7 +27,6 @@ public static Comment getById(Integer id) {
 
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, id);
-			System.out.println(ps);
 
 			rs = ps.executeQuery();
 

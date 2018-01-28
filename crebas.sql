@@ -34,7 +34,9 @@ create table followers(
     foreign key (idUser) references user(id),
     foreign key (idFollower) references user(id)
 );
-insert into followers values(1, null, null);
+insert into followers(idUser,idFollower) values( 1, 2);
+insert into followers(idUser,idFollower) values(1, 3);
+insert into followers(idUser,idFollower) values(1, 4);
 drop table followers;
 drop table UserLikeDislike;
 
@@ -58,9 +60,10 @@ create table video(
     
 );
 
-insert into video (url, thumbnail, description, visibility, blocked, previews) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5);
-insert into video (url, thumbnail, description, visibility, blocked, previews) values ('url1', 'thumnail1', 'decription1', 'PRIVATE', 0, 15);
-insert into video (url, thumbnail, description, visibility, blocked, previews) values ('url2', 'thumnail2', 'decription2', 'PUBLIC', 0, 25);
+insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1);
+insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url1', 'thumnail1', 'decription1', 'PRIVATE', 0, 15,'2017-12-31',2);
+insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url2', 'thumnail2', 'decription2', 'PUBLIC', 0, 25,'2018-01-27',1);
+insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url2', 'thumnail2', 'decription3', 'PUBLIC', 0, 3654,'2018-01-27',2);
 
 
 create table comment(

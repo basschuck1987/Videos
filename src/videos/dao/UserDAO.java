@@ -133,7 +133,7 @@ public class UserDAO {
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 
-			if (rs.next()) {
+			while(rs.next()) {
 				int index = 1;
 				Integer userId = rs.getInt(index++);
 				String username = rs.getString(index++);

@@ -39,13 +39,19 @@
 			      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
 			    </form>
 			    <ul class="nav navbar-nav navbar-right">
-				    <li>
+				    <li id="logoutButton">
+				    	<form action="registration.html">
+				    		<button type="submit" class="btn btn-link btn-lg login">
+	                  		<span class="glyphicon glyphicon-log-out"></span> Logout</button>
+	                  	</form>
+	                  </li>
+	                  <li class="loginRegisterButtons">
 				    	<form action="registration.html">
 				    		<button type="submit" class="btn btn-link btn-lg login">
 	                  		<span class="glyphicon glyphicon-user"></span> Sign Up</button>
 	                  	</form>
 	                  </li>
-	                  <li>
+	                  <li class="loginRegisterButtons">
 	                  	<button type="button" class="btn btn-link btn-lg login" data-toggle="modal" data-target="#loginModal">
 	                  	<span class="glyphicon glyphicon-log-in"></span> Login</button>
 	                  </li>
@@ -88,88 +94,137 @@
 							  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 							  <span class="caret"></span> </button>
 								  <ul class="dropdown-menu" role="menu">
-								      <li><a href="#">Name</a></li>
-								      <li><a href="#">Owner</a></li>
-								      <li><a href="#">Previews</a></li>
-							    	  <li><a href="#">Date</a></li>
+								      <li><a class="dropdown-menu-link" href="#">Name</a></li>
+								      <li><a class="dropdown-menu-link" href="#">Owner</a></li>
+								      <li><a class="dropdown-menu-link" href="#">Previews</a></li>
+							    	  <li><a class="dropdown-menu-link" href="#">Date</a></li>
 								  </ul>
 						</div> 
 						
-             <div class="col-md-8 col-md-offset-2">
-				  <div class="col-md-4">
+             <div id="videosDiv" class="col-md-8 col-md-offset-2">
+				  <!-- <div class="col-md-5">
 				    <div class="thumbnail">
-				      <a href="/w3images/lights.jpg">
+				    <div><p>naziv</p></div>
+				      <a href="video.html">
 				        <img src="slike/city.jpg" alt="Lights" style="width:100%">
-				        <div class="caption">
+				      </a>
+				      <a href="user.html">
+				       <div class="caption">
 				          <p>Lorem ipsum...</p>
 				        </div>
 				      </a>
+				      <div class="text-block"> 
+					    <p>datum</p>
+					    <p>br pregleda</p>
+					  </div>
 				    </div>
 				  </div>
 
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="video.html">
-        <img src="slike/city.jpg" alt="Nature" style="width:100%">
-        <div class="caption">
-          <p>Lorem ipsum...</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="/w3images/fjords.jpg">
-        <img src="slike/city.jpg" alt="Fjords" style="width:100%">
-        <div class="caption">
-          <p>Lorem ipsum...</p>
-        </div>
-      </a>
-    </div>
-  </div>
-   <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="/w3images/fjords.jpg">
-        <img src="slike/city.jpg" alt="Fjords" style="width:100%">
-        <div class="caption">
-          <p>Lorem ipsum...</p>
-        </div>
-      </a>
-    </div>
-  </div>
-     <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="/w3images/fjords.jpg">
-        <img src="slike/city.jpg" alt="Fjords" style="width:100%">
-        <div class="caption">
-          <p>Lorem ipsum...</p>
-        </div>
-      </a>
-    </div>
-  </div>
+ 				<div class="col-md-5">
+				    <div class="thumbnail">
+				    <div><p>naziv</p></div>
+				      <a href="video.html">
+				        <img src="slike/city.jpg" alt="Lights" style="width:100%">
+				      </a>
+				      <a href="user.html">
+				       <div class="caption">
+				          <p>Lorem ipsum...</p>
+				        </div>
+				      </a>
+				      <div class="text-block"> 
+					    <p>datum</p>
+					    <p>br pregleda</p>
+					  </div>
+				    </div>
+				  </div>
+ 				<div class="col-md-5">
+				    <div class="thumbnail">
+				    <div><p>naziv</p></div>
+				      <a href="video.html">
+				        <img src="slike/city.jpg" alt="Lights" style="width:100%">
+				      </a>
+				      <a href="user.html">
+				       <div class="caption">
+				          <p>Lorem ipsum...</p>
+				        </div>
+				      </a>
+				      <div class="text-block"> 
+					    <p>datum</p>
+					    <p>br pregleda</p>
+					  </div>
+				    </div>
+				  </div>
+ 				<div class="col-md-5">
+				    <div class="thumbnail">
+				    <div><p>naziv</p></div>
+				      <a href="video.html">
+				        <img src="slike/city.jpg" alt="Lights" style="width:100%">
+				      </a>
+				      <a href="user.html">
+				       <div class="caption">
+				          <p>Lorem ipsum...</p>
+				        </div>
+				      </a>
+				      <div class="text-block"> 
+					    <p>datum</p>
+					    <p>br pregleda</p>
+					  </div>
+				    </div>
+				  </div>
+     			<div class="col-md-5">
+				    <div class="thumbnail">
+				    <div><p>naziv</p></div>
+				      <a href="video.html">
+				        <img src="slike/city.jpg" alt="Lights" style="width:100%">
+				      </a>
+				      <a href="user.html">
+				       <div class="caption">
+				          <p>Lorem ipsum...</p>
+				        </div>
+				      </a>
+				      <div class="text-block"> 
+					    <p>datum</p>
+					    <p>br pregleda</p>
+					  </div>
+				    </div>
+				  </div>
   
-      <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="/w3images/fjords.jpg">
-        <img src="slike/city.jpg" alt="Fjords" style="width:100%">
-        <div class="caption">
-          <p>Lorem ipsum...</p>
-        </div>
-      </a>
-    </div>
-  </div>
+      			<div class="col-md-5">
+				    <div class="thumbnail">
+				    <div><p>naziv</p></div>
+				      <a href="video.html">
+				        <img src="slike/city.jpg" alt="Lights" style="width:100%">
+				      </a>
+				      <a href="user.html">
+				       <div class="caption">
+				          <p>Lorem ipsum...</p>
+				        </div>
+				      </a>
+				      <div class="text-block"> 
+					    <p>datum</p>
+					    <p>br pregleda</p>
+					  </div>
+				    </div>
+				  </div>
   
-      <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="/w3images/fjords.jpg">
-        <img src="slike/city.jpg" alt="Fjords" style="width:100%">
-        <div class="caption">
-          <p>Lorem ipsum...</p>
-        </div>
-      </a>
-    </div>
-  </div>
-
+				<div class="col-md-5">
+				    <div class="thumbnail">
+				    <div><p>naziv</p></div>
+				      <a href="video.html">
+				        <img src="slike/city.jpg" alt="Lights" style="width:100%">
+				      </a>
+				      <a href="user.html">
+				       <div class="caption">
+				          <p>Lorem ipsum...</p>
+				        </div>
+				      </a>
+				      <div class="text-block"> 
+					    <p>datum</p>
+					    <p>br pregleda</p>
+					  </div>
+				    </div>
+				  </div>
+ -->
 </div>
 
 

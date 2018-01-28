@@ -33,7 +33,7 @@ public class LikeDislikeDAO {
 
 				rs = ps.executeQuery();
 
-				if (rs.next()) {
+				while (rs.next()) {
 					int index = 1;
 					Integer id = rs.getInt(index++);
 					boolean likeOrDislike = rs.getBoolean(index++);
