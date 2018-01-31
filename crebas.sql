@@ -63,8 +63,14 @@ create table video(
 insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1);
 insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url1', 'thumnail1', 'decription1', 'PRIVATE', 0, 15,'2017-12-31',2);
 insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url2', 'thumnail2', 'decription2', 'PUBLIC', 0, 25,'2018-01-27',1);
-insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url2', 'thumnail2', 'decription3', 'PUBLIC', 0, 3654,'2018-01-27',2);
+insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url2', 'thumnail2', 'decription3', 'PUBLIC', 0, 3654,'2018-01-27',1);
 
+use videos;
+select * from video where visibility in ('PUBLIC','PRIVATE',null);
+select * from video where visibility = 'PUBLIC' order by id desc;
+select * from video where visibility in ('PUBLIC' , null , null) order by 'id' DESC;
+select * from video where visibility in ('PUBLIC' , null , null) order by id DESC;
+update video set thumbnail = 'thumbnails/city.jpg' where id = 1;
 
 create table comment(
 	id bigint auto_increment,
