@@ -40,35 +40,21 @@ public class VideosServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		User loggedInUser = (User) session.getAttribute("loggedInUser");
-		String orderBy = request.getParameter("orderBy");
-		String direction = request.getParameter("direction");
-		String defaultOrderBy = "id";
-		String defaultDirection = "DESC";
 		List<Video> lista = new ArrayList<Video>();
 		String message = "";
 		String status = "";
 		try {
-			if(orderBy != null && direction != null) {
-				if(loggedInUser == null) {
-					lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, null, null,orderBy, direction));
+			if(loggedInUser == null) {
+				lista.addAll(VideoDAO.getByType(Visibility.PUBLIC));
+				lista.addAll(VideoDAO.getByType(Visibility.UNLISTED));
+			}else {
+				if(loggedInUser.getRole() == User.Role.ADMIN) {
+					lista.addAll(VideoDAO.getByType(Visibility.PUBLIC));
+					lista.addAll(VideoDAO.getByType(Visibility.UNLISTED));
+					lista.addAll(VideoDAO.getByType(Visibility.PRIVATE));
 				}else {
-					if(loggedInUser.getRole() == User.Role.ADMIN) {
-						lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.PRIVATE,Visibility.UNLISTED, orderBy, direction));
-					}else {
-						lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.UNLISTED,null, orderBy, direction));
-						lista.addAll(VideoDAO.getPrivateVideoUser(loggedInUser.getId()));
-					}
-				}
-			} else {
-				if(loggedInUser == null) {
-					lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, null, null,defaultOrderBy, defaultDirection));
-				}else {
-					if(loggedInUser.getRole() == User.Role.ADMIN) {
-						lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.PRIVATE,Visibility.UNLISTED, defaultOrderBy, defaultDirection));
-					}else {
-						lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.UNLISTED,null, defaultOrderBy, defaultDirection));
-						lista.addAll(VideoDAO.getPrivateVideoUser(loggedInUser.getId()));
-					}
+					lista.addAll(VideoDAO.getByType(Visibility.PUBLIC));
+					lista.addAll(VideoDAO.getPrivateVideoUser(loggedInUser.getId()));
 				}
 			}
 			

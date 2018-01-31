@@ -9,9 +9,6 @@ $(document).ready(function(e){
 	// LOGOUT BUTTON
 	var logoutButton = $("#logoutButton");
 	logoutButton.hide();
-	
-	// VIDEOS ID LIST
-	var videosId = [];
 
 	getVideos();
 	
@@ -124,28 +121,8 @@ $(document).ready(function(e){
 
 	});*/
 	
-	$('#descriptionAsc_btn').click(function(e){
-		e.preventDefault();
-		
-		var params = $.param({
-			lista: videosId,
-			direction: "ASC",
-			orderBy: "description"
-		});
-		console.log(params)
-		$.ajax({
-			url: 'VideosServlet?' + params,
-			method: 'GET',
-			dataType: 'json',
-			success: function(response){
-				initVideos(response.videos);
-			},
-			error: function(request, message, error){
-				alert(error)
-			}
-			
-		});
-		
+	$('.dropdown-menu-link').click(function(){
+		return false;
 	});
 	
 });
