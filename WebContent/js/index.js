@@ -10,8 +10,8 @@ $(document).ready(function(e){
 	var logoutButton = $("#logoutButton");
 	logoutButton.hide();
 	
-	// VIDEOS ID LIST
-	var videosId = [];
+/*	// VIDEOS ID LIST
+	var videosId = [];*/
 
 	getVideos();
 	
@@ -20,6 +20,8 @@ $(document).ready(function(e){
 		for (var i = 0; i < videos.length; i++) {
 			appendVideo(videos[i]);
 		}
+		
+	
 	};
 
 	
@@ -128,7 +130,7 @@ $(document).ready(function(e){
 		e.preventDefault();
 		
 		var params = $.param({
-			lista: videosId,
+		//	lista: videosId,
 			direction: "ASC",
 			orderBy: "description"
 		});
@@ -147,6 +149,129 @@ $(document).ready(function(e){
 		});
 		
 	});
+	
+	$('#descriptionDesc_btn').click(function(e){
+		e.preventDefault();
+		
+		var params = $.param({
+		//	lista: videosId,
+			direction: "DESC",
+			orderBy: "description"
+		});
+		console.log(params)
+		$.ajax({
+			url: 'VideosServlet?' + params,
+			method: 'GET',
+			dataType: 'json',
+			success: function(response){
+				initVideos(response.videos);
+			},
+			error: function(request, message, error){
+				alert(error)
+			}
+			
+		});
+		
+	});
+	
+	$('#ownerAsc_btn').click(function(e){
+		e.preventDefault();
+		
+		var params = $.param({
+		//	lista: videosId,
+			direction: "ASC",
+			orderBy: "owner"
+		});
+		console.log(params)
+		$.ajax({
+			url: 'VideosServlet?' + params,
+			method: 'GET',
+			dataType: 'json',
+			success: function(response){
+				initVideos(response.videos);
+			},
+			error: function(request, message, error){
+				alert(error)
+			}
+			
+		});
+		
+	});
+	
+	$('#previewsAsc_btn').click(function(e){
+		e.preventDefault();
+		
+		var params = $.param({
+		//	lista: videosId,
+			direction: "ASC",
+			orderBy: "previews"
+		});
+		console.log(params)
+		$.ajax({
+			url: 'VideosServlet?' + params,
+			method: 'GET',
+			dataType: 'json',
+			success: function(response){
+				initVideos(response.videos);
+			},
+			error: function(request, message, error){
+				alert(error)
+			}
+			
+		});
+		
+	});
+	
+	$('#dateAsc_btn').click(function(e){
+		e.preventDefault();
+		
+		var params = $.param({
+		//	lista: videosId,
+			direction: "ASC",
+			orderBy: "date"
+		});
+		console.log(params)
+		$.ajax({
+			url: 'VideosServlet?' + params,
+			method: 'GET',
+			dataType: 'json',
+			success: function(response){
+				initVideos(response.videos);
+			},
+			error: function(request, message, error){
+				alert(error)
+			}
+			
+		});
+		
+	});
+	
+	
+	$('#searchForm').submit(function(e){
+		e.preventDefault();
+		
+		var x = $('#inputSearch').val();
+		var params = $.param({
+			searchParams : x
+		});
+		console.log(params)
+		$.ajax({
+			url: 'VideosServlet?' + params,
+			method: 'GET',
+			dataType: 'json',
+			success: function(response){
+				if(response.status == 'failure'){
+					initVideos(response.videos);
+				} 
+				
+			},
+			error: function(request, message, error){
+				alert(error)
+			}
+		});
+
+	});
+	
 	
 });
 	

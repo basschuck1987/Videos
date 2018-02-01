@@ -44,6 +44,9 @@ public class VideosServlet extends HttpServlet {
 		String direction = request.getParameter("direction");
 		String defaultOrderBy = "id";
 		String defaultDirection = "DESC";
+		String parameters = request.getParameter("searchParams");
+		System.out.println(parameters);
+		
 		List<Video> lista = new ArrayList<Video>();
 		String message = "";
 		String status = "";
@@ -70,8 +73,7 @@ public class VideosServlet extends HttpServlet {
 						lista.addAll(VideoDAO.getPrivateVideoUser(loggedInUser.getId()));
 					}
 				}
-			}
-			
+			}	
 			status = "success";
 			message = "Uspesno obradjen zahtev";
 

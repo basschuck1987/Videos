@@ -62,4 +62,14 @@
     <servlet-name>VideosSortServlet</servlet-name>
     <url-pattern>/VideosSortServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UsersServlet</display-name>
+    <servlet-name>UsersServlet</servlet-name>
+    <servlet-class>videos.UsersServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UsersServlet</servlet-name>
+    <url-pattern>/UsersServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
