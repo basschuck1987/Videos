@@ -36,18 +36,19 @@ $(document).ready(function(e){
 
 function appendUser(user){
 	var tableRow= $('<tr></tr>');
-	var userName = $('<td><div class="glyphicon glyphicon-user"><a href="user.html?"id='+user.id+'>'+ user.username +'</a></div>');
+	var userName = $('<td><div class="glyphicon glyphicon-user"><a href="user.html?"id='+user.id+" "+'>'+" "+ user.username +'</a></div>');
 	var name = $('<td>'+user.name+'</td>');
 	var surname = $('<td>'+user.surname+'</td>');
 	var email = $('<td>'+user.email+'</td>');
 	var role = $('<td>'+user.role +'</td>');
-	
+	var button= $('<td><button type="button" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button></td>')
 	usersDiv.append(tableRow);
 	usersDiv.append(userName);
 	usersDiv.append(name);
 	usersDiv.append(surname);
 	usersDiv.append(email);
 	usersDiv.append(role);
+	usersDiv.append(button);
 }
 
 function getUsers(){
@@ -96,7 +97,7 @@ $('#loginForm').submit(function(e){
 
 });
 
-$('#usernameAsc_btn').click(function(e){
+/*$('#usernameAsc_btn').click(function(e){
 	e.preventDefault();
 	
 	var params = $.param({
@@ -117,7 +118,183 @@ $('#usernameAsc_btn').click(function(e){
 		}
 	});
 	
+});*/
+
+$('#usernameAsc_btn').click(function(e){
+	e.preventDefault();
+	
+	var params = $.param({
+		direction: "ASC",
+		orderBy: "username"
+	});
+	console.log(params)
+	$.ajax({
+		url: 'UsersServlet?' + params,
+		method: 'GET',
+		dataType: 'json',
+		success: function(response){
+			initVideos(response.users);
+		},
+		error: function(request, message, error){
+			alert(error)
+		}
+		
+	});
+	
+});
+$('#usernameDesc_btn').click(function(e){
+	e.preventDefault();
+	
+	var params = $.param({
+		direction: "DESC",
+		orderBy: "username"
+	});
+	console.log(params)
+	$.ajax({
+		url: 'UsersServlet?' + params,
+		method: 'GET',
+		dataType: 'json',
+		success: function(response){
+			initVideos(response.users);
+		},
+		error: function(request, message, error){
+			alert(error)
+		}
+		
+	});
+	
+});
+$('#nameAsc_btn').click(function(e){
+	e.preventDefault();
+	
+	var params = $.param({
+		direction: "ASC",
+		orderBy: "name"
+	});
+	console.log(params)
+	$.ajax({
+		url: 'UsersServlet?' + params,
+		method: 'GET',
+		dataType: 'json',
+		success: function(response){
+			initVideos(response.users);
+		},
+		error: function(request, message, error){
+			alert(error)
+		}
+		
+	});
+	
+});
+$('#nameDesc_btn').click(function(e){
+	e.preventDefault();
+	
+	var params = $.param({
+		direction: "DESC",
+		orderBy: "name"
+	});
+	console.log(params)
+	$.ajax({
+		url: 'UsersServlet?' + params,
+		method: 'GET',
+		dataType: 'json',
+		success: function(response){
+			initVideos(response.users);
+		},
+		error: function(request, message, error){
+			alert(error)
+		}
+		
+	});
+	
+});
+$('#surnameAsc_btn').click(function(e){
+	e.preventDefault();
+	
+	var params = $.param({
+		direction: "ASC",
+		orderBy: "surname"
+	});
+	console.log(params)
+	$.ajax({
+		url: 'UsersServlet?' + params,
+		method: 'GET',
+		dataType: 'json',
+		success: function(response){
+			initVideos(response.users);
+		},
+		error: function(request, message, error){
+			alert(error)
+		}
+		
+	});
+	
+});
+$('#surnameDesc_btn').click(function(e){
+	e.preventDefault();
+	
+	var params = $.param({
+		direction: "DESC",
+		orderBy: "surname"
+	});
+	console.log(params)
+	$.ajax({
+		url: 'UsersServlet?' + params,
+		method: 'GET',
+		dataType: 'json',
+		success: function(response){
+			initVideos(response.users);
+		},
+		error: function(request, message, error){
+			alert(error)
+		}
+		
+	});
+	
 });
 
-
+$('#emailAsc_btn').click(function(e){
+	e.preventDefault();
+	
+	var params = $.param({
+		direction: "ASC",
+		orderBy: "email"
+	});
+	console.log(params)
+	$.ajax({
+		url: 'UsersServlet?' + params,
+		method: 'GET',
+		dataType: 'json',
+		success: function(response){
+			initVideos(response.users);
+		},
+		error: function(request, message, error){
+			alert(error)
+		}
+		
+	});
+	
+});
+$('#roleAsc_btn').click(function(e){
+	e.preventDefault();
+	
+	var params = $.param({
+		direction: "ASC",
+		orderBy: "role"
+	});
+	console.log(params)
+	$.ajax({
+		url: 'UsersServlet?' + params,
+		method: 'GET',
+		dataType: 'json',
+		success: function(response){
+			initVideos(response.users);
+		},
+		error: function(request, message, error){
+			alert(error)
+		}
+		
+	});
+	
+});
 });

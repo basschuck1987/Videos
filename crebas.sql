@@ -18,14 +18,18 @@ create table user(
     
 );
 select  password from user;
-select * from user;
+select * from user order by name desc;
 
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('a' , 'a', 'admin', 'admin', 'email', 'description','2017-05-21', 'ADMIN',0);
+insert into user (username,password,name,surname,email,description,Date,role,blocked)values('sake' , 'sake123', 'Sandra', 'Stojanovic', 'sandramish96@gmail.com', 'description','2017-05-21', 'ADMIN',0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('u' , 'u', 'user', 'user', 'email1', 'description1', '2017-11-17', 'USER', 0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('s' , 's' 'admin', 'admin', 'email', 'description','2017-05-21', 'ADMIN',0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('s' , 's', 'admin', 'admin', 'email', 'description','2017-05-21', 'ADMIN',0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('t' , null, 'admin', 'admin', 'email', 'description','2017-05-21', 'ADMIN',0);
-
+insert into user (username,password,name,surname,email,description,Date,role,blocked)values('sake' , 'sake123' 'Sandra', 'Stojanovic', 'sandramish96@gmail.com', 'description','2017-05-21', 'ADMIN',0);
+insert into user (username,password,name,surname,email,description,Date,role,blocked)values('raso' , 'raso123' 'Radovan', 'Maodus', 'raso1997@gmailcom', 'description','2017-05-21', 'ADMIN',0);
+delete from user where id in(2,4,1,3,5,6);
+select * from user;
 create table followers(
 	id bigint auto_increment,
     idUser bigint,
@@ -40,7 +44,7 @@ insert into followers(idUser,idFollower) values(1, 4);
 drop table followers;
 drop table UserLikeDislike;
 
-
+select * from user order by id DESC;
 
 insert into UserLikeDislike (idUser,idLikeDislike) values (1, 1);
 

@@ -42,7 +42,7 @@ public class UsersServlet extends HttpServlet {
 		User loggedInUser = (User) session.getAttribute("loggedInUser");
 		String orderBy = request.getParameter("orderBy");
 		String direction = request.getParameter("direction");
-		System.out.println(orderBy + direction);
+		System.out.println(orderBy +""+ direction);
 		String defaultOrderBy = "id";
 		String defaultDirection = "DESC";
 		
