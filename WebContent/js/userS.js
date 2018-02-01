@@ -19,7 +19,7 @@
 
 $(document).ready(function(e){
 	
-	var usersDiv = $('#usersDiv')
+	var usersDiv = $('#usersDiv');
 	
 	getUsers();
 	
@@ -86,8 +86,6 @@ $('#loginForm').submit(function(e){
 			if(response.status == 'failure'){
 				alert(response.message)
 			} 
-			logoutButton.show();
-			loginRegisterButtons.hide();
 			getVideos();
 			
 		},
@@ -97,4 +95,29 @@ $('#loginForm').submit(function(e){
 	});
 
 });
+
+$('#usernameAsc_btn').click(function(e){
+	e.preventDefault();
+	
+	var params = $.param({
+		orderBy: "username",
+		direction: "ASC"
+		
+	});
+	console.log(params)
+	$.ajax({
+		url: 'UsersServlet' + params,
+		method: 'GET',
+		dataType: 'json',
+		success: function(response){
+			initUsers(response.users);
+		},
+		error: function(request,message,error){
+			alert(error)
+		}
+	});
+	
+});
+
+
 });

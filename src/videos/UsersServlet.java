@@ -38,22 +38,27 @@ public class UsersServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		User loggedInUser = (User) session.getAttribute("loggedInUser");
+		String orderBy = request.getParameter("orderBy");
+		String direction = request.getParameter("direction");
+		System.out.println(orderBy + direction);
+		String defaultOrderBy = "id";
+		String defaultDirection = "DESC";
 		
 		List<User> lista = new ArrayList<User>();
 		String message = "";
 		String status = "";
 		try { 
-			lista.addAll(UserDAO.getAll());
+			if(orderBy != null && direction != null) {
+				lista.addAll(UserDAO.getOrderBy(orderBy, direction));
+			}else {
+			
+			lista.addAll(UserDAO.getOrderBy(defaultOrderBy, defaultDirection));
+		}
+			
+			
+			
 			status = "success";
 			message = "Uspesno obradjen zahtev";
 		}
@@ -64,7 +69,7 @@ public class UsersServlet extends HttpServlet {
 		Map<String, Object> data = new HashMap<>();
 		data.put("message", message);
 		data.put("status",status);
-		data.put("videos", lista);
+		data.put("users", lista);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonData = mapper.writeValueAsString(data);
@@ -72,5 +77,13 @@ public class UsersServlet extends HttpServlet {
 		response.setContentType("application/json");
 		response.getWriter().write(jsonData);
 	}
+	
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
 }
