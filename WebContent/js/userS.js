@@ -36,7 +36,7 @@ $(document).ready(function(e){
 
 function appendUser(user){
 	var tableRow= $('<tr></tr>');
-	var userName = $('<td><div class="glyphicon glyphicon-user"><a href="user.html?"id='+user.id+" "+'>'+" "+ user.username +'</a></div>');
+	var userName = $('<td><div class="glyphicon glyphicon-user"><a href="/user.html?id='+user.id+'">'+" "+ user.username +'</a></div>');
 	var name = $('<td>'+user.name+'</td>');
 	var surname = $('<td>'+user.surname+'</td>');
 	var email = $('<td>'+user.email+'</td>');

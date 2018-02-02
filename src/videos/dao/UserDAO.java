@@ -9,9 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import model.User;
-import model.Video;
 import model.User.Role;
-import model.Video.Visibility;
 
 public class UserDAO {
 
@@ -285,7 +283,59 @@ public class UserDAO {
 		}
 		return users;
 	}
-	
+	public static List<User> getBy() {
+		User user = null;
+		Connection conn = ConnectionManager.getConnection();
+		List<User> users = new ArrayList<User>();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+
+			String query = "select * from user where id = ?";
+
+			ps = conn.prepareStatement(query);
+			
+			System.out.println(ps);
+
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				int index = 1;
+				Integer userId = rs.getInt(index++);
+				String username = rs.getString(index++);
+				String password = rs.getString(index++);
+				String name = rs.getString(index++);
+				String surname = rs.getString(index++);
+				String email = rs.getString(index++);
+				String description = rs.getString(index++);
+				Date date = rs.getDate(index++);
+				Role role = Role.valueOf(rs.getString(index++));
+				boolean blocked = rs.getBoolean(index++);
+
+				user = new User(userId, username, password, name, surname, email, description, date, role, blocked);
+				users.add(user);
+			}
+
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			System.out.println("Greska u upitu");
+			ex.printStackTrace();
+		}
+
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+		return users;
+	}
 	
 	/*
 	 * public static List<User> getAll(){ return new ArrayList<>(); } public static

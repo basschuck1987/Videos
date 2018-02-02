@@ -30,7 +30,7 @@ $(document).ready(function(e){
 		var divColumn = $('<div class="col-md-5"></div>');
 		var divThumbnail = $('<div class="thumbnail"></div>');
 		var naziv = $('<div><p>' + video.description + '</p></div>');
-		var linkVidea = $('<a href="video.html?id='+video.id+'"></a>');
+		var linkVidea = $('<a href="/video.html?id='+video.id+'"></a>');
 		var img = $('<img src="' + video.thumbnail + '" style="width:100%">');
 		var linkOwnera = $('<a href="user.html"></a>');
 		var caption = $('<div class="caption"><p>' + video.owner.username + '</p></div>');
