@@ -12,6 +12,7 @@ import java.util.List;
 
 import model.User;
 import model.Video;
+import model.User.Role;
 import model.Video.Visibility;
 
 public class VideoDAO {
@@ -44,9 +45,10 @@ public class VideoDAO {
 				Integer previews = rs.getInt(index++);
 				Date date = rs.getDate(index++);
 				User owner = UserDAO.getById(rs.getInt(index++)) ;
+				String name = rs.getString(index++);
 
 				
-				video = new Video(videoId, url, thumbnail, description, visibility, blocked, previews, date, owner);
+				video = new Video(videoId, name, url, thumbnail, description, visibility, blocked, previews, date, owner);
 				
 			}
 
@@ -117,9 +119,10 @@ public class VideoDAO {
 					Integer previews = rs.getInt(index++);
 					Date date = rs.getDate(index++);
 					User owner = UserDAO.getById(rs.getInt(index++)) ;
+					String name = rs.getString(index++);
 	
 					
-					video = new Video(id, url, thumbnail, description, visibility, blocked, previews, date, owner);
+					video = new Video(id,name, url, thumbnail, description, visibility, blocked, previews, date, owner);
 					videos.add(video);
 				}
 	
@@ -174,9 +177,10 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 			Integer previews = rs.getInt(index++);
 			Date date = rs.getDate(index++);
 			User owner = UserDAO.getById(rs.getInt(index++)) ;
+			String name = rs.getString(index++);
 
 			
-			video = new Video(videoId, url, thumbnail, description, visibility, blocked, previews, date, owner);
+			video = new Video(videoId,name, url, thumbnail, description, visibility, blocked, previews, date, owner);
 			videos.add(video);
 		}
 
@@ -229,9 +233,10 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 				Integer previews = rs.getInt(index++);
 				Date date = rs.getDate(index++);
 				User owner = UserDAO.getById(rs.getInt(index++)) ;
+				String name = rs.getString(index++);
 
 				
-				video = new Video(id, url, thumbnail, description, visibility, blocked, previews, date, owner);
+				video = new Video(id,name, url, thumbnail, description, visibility, blocked, previews, date, owner);
 				videos.add(video);
 			}
 
@@ -312,5 +317,59 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 		}
 		return videos;
 	}*/
+	public static Video getIdByUrl(Integer id) {
+
+		Connection conn = ConnectionManager.getConnection();
+		Video video = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+
+			String query = "select * from video where id = ?";
+
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, id);
+			System.out.println(ps);
+
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				int index = 1;
+				Integer idVideo = rs.getInt(index++);
+				String url = rs.getString(index++);
+				String thumbnail = rs.getString(index++);
+				String description = rs.getString(index++);
+				Visibility visibility = Visibility.valueOf(rs.getString(index++));
+				boolean blocked = rs.getBoolean(index++);
+				Integer previews = rs.getInt(index++);
+				Date date = rs.getDate(index++);
+				User owner = UserDAO.getById(rs.getInt(index++)) ;
+				String name = rs.getString(index++);
+
+				
+				return new Video(idVideo,name, url, thumbnail, description, visibility, blocked, previews, date, owner);
+				
+			}
+
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			System.out.println("Greska u upitu");
+			ex.printStackTrace();
+		}
+
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+		return null;
+	}
 
 }

@@ -66,7 +66,7 @@ $('#changeSave_btn').submit(function(e){
 		inputDesc = p,
 		sel1 = sel1
 	});
-	
+	console.log(params);
 	$.ajax({
 		url: 'UserServlet?' + params,
 		method: 'POST',

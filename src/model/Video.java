@@ -11,6 +11,7 @@ public class Video {
 		PRIVATE
 	};
 	private int id;
+	private String name;
 	private String url;
 	private String thumbnail;
 	private String description;
@@ -25,10 +26,11 @@ public class Video {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Video(int id, String url, String thumbnail, String description, Visibility visibility, boolean blocked,
+	public Video(int id, String name, String url, String thumbnail, String description, Visibility visibility, boolean blocked,
 			int previews, Date date, User owner) {
 		super();
 		this.id = id;
+		this.name = name;
 		this.url = url;
 		this.thumbnail = thumbnail;
 		this.description = description;
@@ -37,6 +39,14 @@ public class Video {
 		this.previews = previews;
 		this.date = date;
 		this.owner = owner;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public long getId() {

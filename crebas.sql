@@ -29,6 +29,8 @@ insert into user (username,password,name,surname,email,description,Date,role,blo
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('sake' , 'sake123' 'Sandra', 'Stojanovic', 'sandramish96@gmailcom', 'description','2017-05-21', 'ADMIN',0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('raso' , 'raso123' 'Radovan', 'Maodus', 'email', 'description','2017-05-21', 'ADMIN',0);
 delete from user where id in(2,4,1,3,5,6);
+
+select * from user;
 select * from user;
 create table followers(
 	id bigint auto_increment,
@@ -51,6 +53,7 @@ insert into UserLikeDislike (idUser,idLikeDislike) values (1, 1);
 create table video(
 
 	id bigint auto_increment,
+    name varchar(20) not null,
     url varchar(100),
     thumbnail varchar(100),
     description varchar(300),
@@ -63,6 +66,15 @@ create table video(
     foreign key (owner) references user(id)
     
 );
+alter table video add column name varchar(20) not null;
+select * from video;
+alter table video drop column name;
+alter table video add column name varchar(20);
+
+insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'aaa');
+insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('uT6T-a9Dl28', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'aaa');
+insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'ssss');
+insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'ddd');
 
 insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1);
 insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url1', 'thumnail1', 'decription1', 'PRIVATE', 0, 15,'2017-12-31',2);
@@ -78,6 +90,7 @@ select * from video where visibility = 'PUBLIC' order by id desc;
 select * from video where visibility in ('PUBLIC' , null , null) order by 'id' DESC;
 select * from video where visibility in ('PUBLIC' , null , null) order by id DESC;
 update video set thumbnail = 'thumbnails/city.jpg' where id = 1;
+update video set thumbnail = 'thumbnails/playButton.png' where id = 2;
 
 create table comment(
 	id bigint auto_increment,

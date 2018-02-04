@@ -29,9 +29,9 @@ $(document).ready(function(e){
 	function appendVideo(video){
 		var divColumn = $('<div class="col-md-5"></div>');
 		var divThumbnail = $('<div class="thumbnail"></div>');
-		var naziv = $('<div><p>' + video.description + '</p></div>');
+		var naziv = $('<div><p>' + video.name + '</p></div>');
 		var linkVidea = $('<a href="/Videos/video.html?id='+video.id+'"></a>');
-		var img = $('<img src="' + video.thumbnail + '" style="width:100%">');
+		var img = $('<img src="' + video.thumbnail + '" style="width:470px; height:300px";>');
 		var linkOwnera = $('<a href="/Videos/user.html?id=' + video.owner.id+'"></a>');
 		var caption = $('<div class="caption"><p>' + video.owner.username + '</p></div>');
 		var textBlock = $('<div class="text-block"> <p>Date: '+ new Date(video.date).toLocaleDateString("en-US") + '</p><p>Previews: '+ video.previews +'</p></div>');

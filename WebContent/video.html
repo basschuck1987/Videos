@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script src="js/jquery-2.1.0.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
-	<script src="js/index.js"></script>
+	<script src="js/video.js"></script>
 	<script src="js/f.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -91,15 +91,16 @@
 			
 			
 			<div class="container-fluid pb-video-container">
-			 <div class="row pb-row">
-                        	<div class="col-md-2"></div>
-                            <div class="col-md-8 pb-video">
+			 <div id ="urlDiv" class="row pb-row">
+                     <!--   <div class="col-md-2"></div>
+                             <div class="col-md-8 pb-video">
                                 <iframe class="pb-video-frame" width="100%" height="350" src="https://www.youtube.com/embed/K68UrdUOr2Y?list=RDzuAcaBkcYGE?ecver=1" frameborder="0" allowfullscreen></iframe>
-                                <label class="form-control label-warning text-center">Claydee - Alena</label>
-                            </div>
+                            </div> -->
                             </div>
                          <div class="container">
-			  
+			   <br/>
+			<br/>
+			<br/>
 			 <div class="table-responsive">          
 			  <table class="table">
 			    <thead>
@@ -112,15 +113,15 @@
  			        <th class="text-center">Rating</th>
 			      </tr>
 			    </thead>
-			    <tbody>
-			      <tr>
+			    <tbody id="videoDiv">
+			      <!-- <tr>
 			        <td></td>
 			        <td></td>
 			        <td></td>
 			        <td></td>
 			        <td></td>
 			        <td class="text-center"><a>Likes:</a><span class="badge">5</span><a>Dislikes:</a><span class="badge"></span></span></td>
-			      </tr>
+			      </tr> -->
 			    </tbody>
 			  </table>
 			  </div>
@@ -141,7 +142,9 @@
                 	<button class="btn btn-success btn-circle text-uppercase" type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Submit comment</button>
                 </div>
             </div>     
-            
+             <br/>
+			<br/>
+			<br/>
             <!-- Comments  -->
 			<div class="container">
 				<div class="row">
