@@ -51,7 +51,9 @@ public class VideosServlet extends HttpServlet {
 		String message = "";
 		String status = "";
 		try {
-			if(orderBy != null && direction != null) {
+			lista.addAll(VideoDAO.getSearch(parameters));
+			
+			/*if(orderBy != null && direction != null) {
 				if(loggedInUser == null) {
 					lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, null, null,orderBy, direction));
 				}else {
@@ -73,7 +75,7 @@ public class VideosServlet extends HttpServlet {
 						lista.addAll(VideoDAO.getPrivateVideoUser(loggedInUser.getId()));
 					}
 				}
-			}	
+			}*/	
 			status = "success";
 			message = "Uspesno obradjen zahtev";
 

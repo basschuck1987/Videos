@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script src="js/jquery-2.1.0.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
-	<script src="js/index.js"></script>
+	<script src="js/user.js"></script>
+	<script src="js/f.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/jquery-ui.css">
@@ -96,15 +97,15 @@
 			    		<thead>
 						    <tr>
 							    <th>Username</th>
-							    <th>Previews</th>
+							    <th>Followers</th>
 							    <th>Date of registration</th>
 							    <th>Description</th>
 							    <th>Blocked/The role</th>
 							    <th>&nbsp;</th>
 						     </tr>
 			    		</thead>
-			  			<tbody>
-						    <tr>
+			  			<tbody id="userDiv">
+						    <!-- <tr>
 							    <td></td>
 							    <td><span class="badge">5</span></td>
 							    <td></td>
@@ -124,23 +125,23 @@
 									   <div class="modal-body">
 										     <div class="form-group">
 											 	<label for="usr">Name:</label>
-												<input type="text" class="form-control" id="usr">
+												<input type="text" class="form-control">
 											</div>
 											<div class="form-group">
-												<label for="pwd">Surname:</label>
-												<input type="text" class="form-control" id="pwd">
+												<label for="sur">Surname:</label>
+												<input type="text" class="form-control">
 											</div>
 											<div class="form-group">
-												<label for="pwd">Password:</label>
-											    <input type="password" class="form-control" id="pwd">
+											<label for="pwd">Password:</label>
+											    <input type="password" class="form-control">
 											</div>
 											<div class="form-group">
 												<label for="pwd">Repeat password:</label>
-											    <input type="password" class="form-control" id="pwd">
+											    <input type="password" class="form-control">
 											</div>
 											<div class="form-group">
-												<label for="pwd">Description:</label>
-											    <input type="text" class="form-control" id="pwd">
+												<label for="desc">Description:</label>
+											    <input type="text" class="form-control">
 											</div>
 											<div class="form-group">
 													  <label for="sel1">Select role:</label>
@@ -157,7 +158,7 @@
   								</div>
 							</div>
 							    <td>
-						    </tr>
+						    </tr> -->
 			    		</tbody>
 			  		</table>
 				</div>

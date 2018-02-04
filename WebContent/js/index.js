@@ -30,9 +30,9 @@ $(document).ready(function(e){
 		var divColumn = $('<div class="col-md-5"></div>');
 		var divThumbnail = $('<div class="thumbnail"></div>');
 		var naziv = $('<div><p>' + video.description + '</p></div>');
-		var linkVidea = $('<a href="/video.html?id='+video.id+'"></a>');
+		var linkVidea = $('<a href="/Videos/video.html?id='+video.id+'"></a>');
 		var img = $('<img src="' + video.thumbnail + '" style="width:100%">');
-		var linkOwnera = $('<a href="user.html"></a>');
+		var linkOwnera = $('<a href="/Videos/user.html?id=' + video.owner.id+'"></a>');
 		var caption = $('<div class="caption"><p>' + video.owner.username + '</p></div>');
 		var textBlock = $('<div class="text-block"> <p>Date: '+ new Date(video.date).toLocaleDateString("en-US") + '</p><p>Previews: '+ video.previews +'</p></div>');
 		
@@ -260,7 +260,7 @@ $(document).ready(function(e){
 			method: 'GET',
 			dataType: 'json',
 			success: function(response){
-				if(response.status == 'failure'){
+				if(response.status != 'failure'){
 					initVideos(response.videos);
 				} 
 				

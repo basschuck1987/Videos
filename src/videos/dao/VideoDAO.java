@@ -200,7 +200,7 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 	}
 	return videos;
 }
-	public static List<Video> getSorted(String searchParams) {
+	public static List<Video> getSearch(String searchParams) {
 		
 		Video video = null;
 		Connection conn = ConnectionManager.getConnection();

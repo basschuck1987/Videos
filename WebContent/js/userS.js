@@ -36,19 +36,26 @@ $(document).ready(function(e){
 
 function appendUser(user){
 	var tableRow= $('<tr></tr>');
-	var userName = $('<td><div class="glyphicon glyphicon-user"><a href="/user.html?id='+user.id+'">'+" "+ user.username +'</a></div>');
+	var userName = $('<td><div class="glyphicon glyphicon-user"><a href="/Videos/user.html?id='+user.id+'">'+" "+ user.username +'</a></div>');
 	var name = $('<td>'+user.name+'</td>');
 	var surname = $('<td>'+user.surname+'</td>');
 	var email = $('<td>'+user.email+'</td>');
 	var role = $('<td>'+user.role +'</td>');
 	var button= $('<td><button type="button" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button></td>')
-	usersDiv.append(tableRow);
+	/*usersDiv.append(tableRow);
 	usersDiv.append(userName);
 	usersDiv.append(name);
 	usersDiv.append(surname);
 	usersDiv.append(email);
 	usersDiv.append(role);
-	usersDiv.append(button);
+	usersDiv.append(button);*/
+	tableRow.append(userName);
+	tableRow.append(name);
+	tableRow.append(surname);
+	tableRow.append(email);
+	tableRow.append(role);
+	tableRow.append(button);
+	usersDiv.append(tableRow);
 }
 
 function getUsers(){
@@ -133,7 +140,7 @@ $('#usernameAsc_btn').click(function(e){
 		method: 'GET',
 		dataType: 'json',
 		success: function(response){
-			initVideos(response.users);
+			initUsers(response.users);
 		},
 		error: function(request, message, error){
 			alert(error)
@@ -155,8 +162,8 @@ $('#usernameDesc_btn').click(function(e){
 		method: 'GET',
 		dataType: 'json',
 		success: function(response){
-			initVideos(response.users);
-		},
+			initUsers(response.users);
+			},
 		error: function(request, message, error){
 			alert(error)
 		}
@@ -177,7 +184,7 @@ $('#nameAsc_btn').click(function(e){
 		method: 'GET',
 		dataType: 'json',
 		success: function(response){
-			initVideos(response.users);
+			initUsers(response.users);
 		},
 		error: function(request, message, error){
 			alert(error)
@@ -199,7 +206,7 @@ $('#nameDesc_btn').click(function(e){
 		method: 'GET',
 		dataType: 'json',
 		success: function(response){
-			initVideos(response.users);
+			initUsers(response.users);
 		},
 		error: function(request, message, error){
 			alert(error)
@@ -221,7 +228,7 @@ $('#surnameAsc_btn').click(function(e){
 		method: 'GET',
 		dataType: 'json',
 		success: function(response){
-			initVideos(response.users);
+			initUsers(response.users);
 		},
 		error: function(request, message, error){
 			alert(error)
@@ -243,7 +250,7 @@ $('#surnameDesc_btn').click(function(e){
 		method: 'GET',
 		dataType: 'json',
 		success: function(response){
-			initVideos(response.users);
+			initUsers(response.users);
 		},
 		error: function(request, message, error){
 			alert(error)
@@ -266,7 +273,7 @@ $('#emailAsc_btn').click(function(e){
 		method: 'GET',
 		dataType: 'json',
 		success: function(response){
-			initVideos(response.users);
+			initUsers(response.users);
 		},
 		error: function(request, message, error){
 			alert(error)
@@ -288,7 +295,7 @@ $('#roleAsc_btn').click(function(e){
 		method: 'GET',
 		dataType: 'json',
 		success: function(response){
-			initVideos(response.users);
+			initUsers(response.users);
 		},
 		error: function(request, message, error){
 			alert(error)

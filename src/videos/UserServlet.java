@@ -35,13 +35,17 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String id = request.getParameter("id");
+		System.out.println(id);
+		User user = null;
 		
-		List<User> lista = new ArrayList<User>();
 		String message = "";
 		String status = "";
 		try { 
-		
-			lista.addAll(UserDAO.getBy());
+			user = UserDAO.getById(Integer.parseInt(id));
+			if(user == null) {
+				throw new Exception("Nepostojeci korisnik.");
+			}
 			
 			status = "success";
 			message = "Uspesno obradjen zahtev";
@@ -53,7 +57,7 @@ public class UserServlet extends HttpServlet {
 		Map<String, Object> data = new HashMap<>();
 		data.put("message", message);
 		data.put("status",status);
-		data.put("users", lista);
+		data.put("user", user);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonData = mapper.writeValueAsString(data);
