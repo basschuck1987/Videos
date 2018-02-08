@@ -20,6 +20,7 @@ public class Video {
 	private int previews;
 	private Date date;
 	private User owner;
+	private boolean likeDislikeVisible;
 	
 	public Video() {
 		super();
@@ -27,7 +28,7 @@ public class Video {
 	}
 
 	public Video(int id, String name, String url, String thumbnail, String description, Visibility visibility, boolean blocked,
-			int previews, Date date, User owner) {
+			int previews, Date date, User owner, boolean likeDislikeVisible) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -39,6 +40,15 @@ public class Video {
 		this.previews = previews;
 		this.date = date;
 		this.owner = owner;
+		this.likeDislikeVisible = likeDislikeVisible;
+	}
+
+	public boolean isLikeDislikeVisible() {
+		return likeDislikeVisible;
+	}
+
+	public void setLikeDislikeVisible(boolean likeDislikeVisible) {
+		this.likeDislikeVisible = likeDislikeVisible;
 	}
 
 	public String getName() {

@@ -62,6 +62,7 @@ create table video(
     previews int,
     date datetime,
     owner bigint,
+    likeDislikeVisible boolean,
     primary key (id),
     foreign key (owner) references user(id)
     
@@ -70,8 +71,9 @@ alter table video add column name varchar(20) not null;
 select * from video;
 alter table video drop column name;
 alter table video add column name varchar(20);
+alter table video add column likeDislikeVisible boolean;
 
-insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'aaa');
+insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name,likeDislikeVisible) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'aaa', 0);
 insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('uT6T-a9Dl28', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'aaa');
 insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'ssss');
 insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'ddd');
@@ -83,6 +85,8 @@ insert into video (url, thumbnail, description, visibility, blocked, previews,da
 insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url2', 'thumnail2', 'blabla', 'PUBLIC', 0, 3654,'2018-01-27',1);
 
 select * from video where description like "%l%";
+select * from video;
+select * from user where id = 1;
 
 use videos;
 select * from video where visibility in ('PUBLIC','PRIVATE',null);
@@ -104,12 +108,16 @@ create table comment(
     
 );
 
-insert into comment (content, date, owner, video) values ('content', '2017-08-09', 1, 1);
+select * from comment order by date;
+
+select * from comment;
+insert into comment (content, date, owner, video) values ('content', '2017-05-11', 1, 1);
 
 insert into comment (content, date, owner, video) values ('content', '2017-08-09', 2, 2);
-
+select * from comment where video = 2;
 drop table likedislike;
-
+select * from comment;
+select * from likeDislike;
  create table likeDislike(
 	
     id bigint auto_increment,
@@ -122,6 +130,13 @@ drop table likedislike;
     foreign key (comment) references comment(id)
     
 );
+
+insert into likeDislike(likeOrDislike, date, video, comment) values (0, '2015-06-11', 1, null);
+insert into likeDislike(likeOrDislike, date, video, comment) values (1, '2017-06-11', null, 2);
+
+
+select* from likeDislike;
+
 create table UserLikeDislike(
 	id bigint auto_increment,
     idUser bigint,

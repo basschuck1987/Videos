@@ -63,8 +63,8 @@ $('#changeSave_btn').submit(function(e){
 		inputUsr : x,
 		inputPs : y,
 		inputRps : z,
-		inputDesc = p,
-		sel1 = sel1
+		inputDesc : p,
+		sel1 : sel1
 	});
 	console.log(params);
 	$.ajax({

@@ -10,6 +10,9 @@ $(document).ready(function(e){
 	var logoutButton = $("#logoutButton");
 	logoutButton.hide();
 	
+	var usersButton = $("#usersButton");
+	usersButton.hide();
+	
 /*	// VIDEOS ID LIST
 	var videosId = [];*/
 
@@ -20,12 +23,8 @@ $(document).ready(function(e){
 		for (var i = 0; i < videos.length; i++) {
 			appendVideo(videos[i]);
 		}
-		
-	
 	};
 
-	
-	
 	function appendVideo(video){
 		var divColumn = $('<div class="col-md-5"></div>');
 		var divThumbnail = $('<div class="thumbnail"></div>');
@@ -59,6 +58,7 @@ $(document).ready(function(e){
 				if(response.status == "success"){
 					initVideos(response.videos);
 				}else{
+					
 					alert(response.message);
 				}
 
@@ -85,11 +85,16 @@ $(document).ready(function(e){
 			dataType: 'json',
 			success: function(response){
 				if(response.status == 'failure'){
+					
 					alert(response.message)
-				} 
-				logoutButton.show();
-				loginRegisterButtons.hide();
-				getVideos();
+				}else{
+					logoutButton.show();
+					loginRegisterButtons.hide();
+					usersButton.show();
+					getVideos();
+				}
+				
+				
 				
 			},
 			error: function(request, message, error){
@@ -98,6 +103,13 @@ $(document).ready(function(e){
 		});
 
 	});
+	
+ $('#loginForm').submit(function(e) {
+		    e.preventDefault();
+		    // Coding
+		    $('#loginModal').modal('toggle'); //or  $('#IDModal').modal('hide');
+		    return false;
+		});
 	/*$('#signupForm').submit(function(e){
 		e.preventDefault();
 		

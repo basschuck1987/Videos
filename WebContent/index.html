@@ -30,7 +30,7 @@
 			          <li><a href="#">Private videos</a></li>
 			        </ul>
 			      </li>
-			      <li class="active"><a href="#">Users</a></li>
+			      <li id="usersButton" class="active"><a href="userS.html">Users</a></li>
 			    </ul>
 			   
 			     <form  id="searchForm" class="navbar-form navbar-left" action="/action_page.php">
@@ -41,7 +41,7 @@
 			    </form>
 			    <ul class="nav navbar-nav navbar-right">
 				    <li id="logoutButton">
-				    	<form action="registration.html">
+				    	<form action="LogoutServlet">
 				    		<button type="submit" class="btn btn-link btn-lg login">
 	                  		<span class="glyphicon glyphicon-log-out"></span> Logout</button>
 	                  	</form>
@@ -80,7 +80,7 @@
                             <input type="password" id="inputPassword"name="password" placeholder="Password">
                         </div>
                             <div class="modal-footer">
-	                            <button type="submit" name="login" class="btn btn-success">Login</button>
+	                            <button id="loginButton" type="submit" name="login" class="btn btn-success">Login</button>
 	                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 							</div>
 							</form>

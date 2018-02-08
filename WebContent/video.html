@@ -7,6 +7,7 @@
 	<script src="js/jquery-2.1.0.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
 	<script src="js/video.js"></script>
+	
 	<script src="js/f.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -145,42 +146,50 @@
              <br/>
 			<br/>
 			<br/>
+			
             <!-- Comments  -->
 			<div class="container">
+			
 				<div class="row">
 					<div class="col-sm-offset-3 col-sm-5">
+							<br/>
+							<br/>
+							<br/>
 						<h4>Comments</h4>
 					</div>
 				</div>
+			
 			<div class="col-sm-offset-2">
-			 <br/>
-			<br/>
-			<br/>
+			
 				<div class="btn-group">
 							  <button type="button" class="btn btn-default">Sort</button>
 							  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 							  <span class="caret"></span> </button>
 								  <ul class="dropdown-menu" role="menu">
-								      <li><a href="#">Rating</a></li>
-								      <li><a href="#">Date</a></li>
+								      <li><a id="ratingAsc_btn" role="button">Rating ASC</a></li>
+								      <li><a id="ratingDesc_btn" role="button">Rating DESC</a></li>
+								      <li><a id="dateAsc_btn" role="button">Date ASC</a></li>
+								      <li><a id="dateDesc_btn" role="button">Date DESC</a><li>
 								  </ul>
 						</div> 
 			</div>
-			<div class="row">
-				<div class="col-sm-offset-3 col-sm-5">
+			<div id="commentDiv" class="row">
+			<!-- 	<div class="col-sm-offset-3 col-sm-5">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<strong>myusername</strong> <span class="text-muted">commented 5 days ago</span>
 						</div>
-						<div class="panel-body">
+						<div id="idContent" class="panel-body">
 							Panel content
 						</div>
 					</div>
+					
+				</div>  -->
 				</div>
-			</div>
+			
 		
 			
-			
+			<!-- 
 			<div class="row">
 				<div class="col-sm-offset-3 col-sm-5">
 					<div class="panel panel-default">
@@ -190,7 +199,7 @@
 						<div class="panel-body">
 							Panel content
 						</div>
-					</div>
+					</div> 
 				</div>
 			</div>
 			
@@ -222,13 +231,13 @@
 				</div>
 				<div class="panel-body">
 				Panel content
-				</div><!-- /panel-body -->
-				</div><!-- /panel panel-default -->
-				</div><!-- /col-sm-5 -->
-				</div><!-- /row -->
+				</div>/panel-body
+				</div>/panel panel-default
+				</div>/col-sm-5
+				</div>/row
 				
-				</div><!-- /container -->
-				
+				</div>/container
+				 -->
 				
 		       
                     

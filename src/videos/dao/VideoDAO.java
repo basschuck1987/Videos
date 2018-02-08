@@ -17,7 +17,7 @@ import model.Video.Visibility;
 
 public class VideoDAO {
 	
-	public static Video getById(Integer id) {
+	/*public static Video getById(Integer id) {
 		
 		Video video = null;
 		Connection conn = ConnectionManager.getConnection();
@@ -71,7 +71,7 @@ public class VideoDAO {
 			}
 		}
 		return video;
-	}
+	}*/
 
 	public static List<Video> getByTypeOrdered(Visibility visibility1, 
 				Visibility visibility2,Visibility visibility3,
@@ -120,9 +120,10 @@ public class VideoDAO {
 					Date date = rs.getDate(index++);
 					User owner = UserDAO.getById(rs.getInt(index++)) ;
 					String name = rs.getString(index++);
+					boolean likeDislikeVisible = rs.getBoolean(index++);
 	
 					
-					video = new Video(id,name, url, thumbnail, description, visibility, blocked, previews, date, owner);
+					video = new Video(id,name, url, thumbnail, description, visibility, blocked, previews, date, owner, likeDislikeVisible);
 					videos.add(video);
 				}
 	
@@ -178,9 +179,9 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 			Date date = rs.getDate(index++);
 			User owner = UserDAO.getById(rs.getInt(index++)) ;
 			String name = rs.getString(index++);
-
+			boolean likeDislikeVisible = rs.getBoolean(index++);
 			
-			video = new Video(videoId,name, url, thumbnail, description, visibility, blocked, previews, date, owner);
+			video = new Video(videoId,name, url, thumbnail, description, visibility, blocked, previews, date, owner,likeDislikeVisible);
 			videos.add(video);
 		}
 
@@ -234,9 +235,9 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 				Date date = rs.getDate(index++);
 				User owner = UserDAO.getById(rs.getInt(index++)) ;
 				String name = rs.getString(index++);
-
+				boolean likeDislikeVisible = rs.getBoolean(index++);
 				
-				video = new Video(id,name, url, thumbnail, description, visibility, blocked, previews, date, owner);
+				video = new Video(id,name, url, thumbnail, description, visibility, blocked, previews, date, owner, likeDislikeVisible);
 				videos.add(video);
 			}
 
@@ -317,7 +318,7 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 		}
 		return videos;
 	}*/
-	public static Video getIdByUrl(Integer id) {
+	public static Video getById(Integer id) {
 
 		Connection conn = ConnectionManager.getConnection();
 		Video video = null;
@@ -334,6 +335,60 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
+				int index = 1;
+				Integer idVideo = rs.getInt(index++);
+				String url = rs.getString(index++);
+				String thumbnail = rs.getString(index++);
+				String description = rs.getString(index++);
+				Visibility visibility = Visibility.valueOf(rs.getString(index++));
+				boolean blocked = rs.getBoolean(index++);
+				Integer previews = rs.getInt(index++);
+				Date date = rs.getDate(index++);
+				User owner = UserDAO.getById(rs.getInt(index++)) ;
+				String name = rs.getString(index++);
+				boolean likeDislikeVisible = rs.getBoolean(index++);
+				
+				return new Video(idVideo,name, url, thumbnail, description, visibility, blocked, previews, date, owner,likeDislikeVisible);
+				
+			}
+
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			System.out.println("Greska u upitu");
+			ex.printStackTrace();
+		}
+
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+		return null;
+	}
+	/*public static List<Video> getComments(Integer id) {
+
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Video> comments = new ArrayList<Video>();
+		try {
+
+			String query = "select v.* from comment c left join video v on c.video = v.id where c.id = ?";
+
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, id);
+			System.out.println(ps);
+
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
 				int index = 1;
 				Integer idVideo = rs.getInt(index++);
 				String url = rs.getString(index++);
@@ -370,6 +425,7 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 			}
 		}
 		return null;
-	}
+	}*/
+
 
 }

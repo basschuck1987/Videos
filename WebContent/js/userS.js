@@ -67,7 +67,9 @@ function getUsers(){
 			if(response.status == "success"){
 				initUsers(response.users);
 			}else{
+				console.log(response)
 				alert(response.message);
+				window.location.replace("/Videos/index.html");
 			}
 	
 		},

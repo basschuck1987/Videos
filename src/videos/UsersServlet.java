@@ -50,12 +50,17 @@ public class UsersServlet extends HttpServlet {
 		String message = "";
 		String status = "";
 		try { 
-			if(orderBy != null && direction != null) {
-				lista.addAll(UserDAO.getOrderBy(orderBy, direction));
+			if(loggedInUser != null && loggedInUser.getRole() == User.Role.ADMIN) {
+				if(orderBy != null && direction != null) {
+					lista.addAll(UserDAO.getOrderBy(orderBy, direction));
+				}else {
+				
+				lista.addAll(UserDAO.getOrderBy(defaultOrderBy, defaultDirection));
+			}
 			}else {
+				throw new Exception ("Nemate pristup zeljenoj stranici.");
+			}
 			
-			lista.addAll(UserDAO.getOrderBy(defaultOrderBy, defaultDirection));
-		}
 			
 			
 			
