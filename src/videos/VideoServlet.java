@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Comment;
 import model.User;
 import model.Video;
-import model.User.Role;
+import model.Video.Visibility;
 import videos.dao.CommentDAO;
 import videos.dao.VideoDAO;
 
@@ -55,8 +55,8 @@ public class VideoServlet extends HttpServlet {
 		
 		try {
 			video = VideoDAO.getById(Integer.parseInt(id));
-			if(video != null) {
-				if(loggedInUser != null && (loggedInUser.getRole() == User.Role.ADMIN && (loggedInUser.getRole() == Role.USER || loggedInUser.getId() == video.getOwner().getId()))) {
+			/*if(video != null) {
+				if(loggedInUser != null && (loggedInUser.getRole() == User.Role.ADMIN &&(loggedInUser.getRole() == User.Role.USER && loggedInUser.getId() == video.getOwner().getId() || video.getVisibility() == Video.Visibility.PUBLIC || video.getVisibility() == Video.Visibility.UNLISTED ))) {
 					if (orderBy == null || direction == null){
 							comments.addAll(CommentDAO.getAll(Integer.parseInt(id), defaultOrderBy, defaultDirection));
 						}else {
@@ -67,7 +67,92 @@ public class VideoServlet extends HttpServlet {
 					}
 			}else {
 				throw new Exception("Trazeni video ne postoji");
-			}
+			}*/
+			
+			if(video != null) {
+				if(loggedInUser != null && loggedInUser.getRole() == User.Role.ADMIN){
+					if (orderBy == null || direction == null){
+							comments.addAll(CommentDAO.getAll(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+						}else {
+							comments.addAll(CommentDAO.getAll(Integer.parseInt(id), orderBy, direction));
+						}
+					}else
+						 if(loggedInUser != null && loggedInUser.getRole() == User.Role.USER && loggedInUser.getId() == video.getOwner().getId() || video.getVisibility() == Video.Visibility.PUBLIC || video.getVisibility() == Video.Visibility.UNLISTED ) {
+							if (orderBy == null || direction == null){
+								comments.addAll(CommentDAO.getAll(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+							}else {
+								comments.addAll(CommentDAO.getAll(Integer.parseInt(id), orderBy, direction));
+							}
+						
+						}else if (loggedInUser ==null && video.getVisibility() == Video.Visibility.PUBLIC || video.getVisibility() == Video.Visibility.UNLISTED) {
+								if (orderBy == null || direction == null){
+									comments.addAll(CommentDAO.getAll(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+								}else {
+									comments.addAll(CommentDAO.getAll(Integer.parseInt(id), orderBy, direction));
+								}
+							}else {
+								throw new Exception("Nemate pristup zeljenoj stranici");
+							}
+						}else {
+							throw new Exception("Trazeni video ne postoji");
+						}
+			
+			
+/*			
+			if(video != null) {
+				if (loggedInUser != null) {
+					if(loggedInUser.getRole() == User.Role.ADMIN) {
+						if(orderBy != null && direction != null ) {
+							comments.addAll(CommentDAO.getAll(Integer.parseInt(id), orderBy, direction));
+						}else {
+							comments.addAll(CommentDAO.getAll(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+						}
+					}else if(loggedInUser.getRole() == User.Role.USER || loggedInUser == video.getOwner()) {
+						if(orderBy != null && direction != null ) {
+							comments.addAll(CommentDAO.getAll(Integer.parseInt(id), orderBy, direction));
+						}else {
+							comments.addAll(CommentDAO.getAll(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+						}
+					}
+					
+				}
+				
+				
+				else {
+					throw new Exception("Nemate pristup zeljenoj stranici");
+				}
+				
+				
+				
+			} else {
+				throw new Exception("Trazeni video ne postoji");
+			}*/
+		/*	if(video != null) {
+				if(loggedInUser == null ||(video.getVisibility() == Video.Visibility.PUBLIC && video.getVisibility() == Video.Visibility.UNLISTED)) {
+					if(orderBy != null && direction != null ) {
+						comments.addAll(CommentDAO.getAll(Integer.parseInt(id), orderBy, direction));
+					}else {
+						comments.addAll(CommentDAO.getAll(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+					}
+					
+				}else if(loggedInUser != null && loggedInUser.getRole() == User.Role.ADMIN){
+					if(orderBy != null && direction != null ) {
+						comments.addAll(CommentDAO.getAll(Integer.parseInt(id), orderBy, direction));
+					}else {
+						comments.addAll(CommentDAO.getAll(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+					}
+				}else if((loggedInUser != null && loggedInUser.getRole() == User.Role.USER) ||((video.getVisibility() == Video.Visibility.PUBLIC && video.getVisibility() == Video.Visibility.UNLISTED) && loggedInUser.getId() == video.getOwner().getId() )) {
+					if(orderBy != null && direction != null ) {
+						comments.addAll(CommentDAO.getAll(Integer.parseInt(id), orderBy, direction));
+					}else {
+						comments.addAll(CommentDAO.getAll(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+					}
+				}else {
+					throw new Exception("Nemate pristup zeljenoj stranici");
+				}
+			}else {
+				throw new Exception("Trazeni video ne postoji");
+			}*/
 			
 	
 	
