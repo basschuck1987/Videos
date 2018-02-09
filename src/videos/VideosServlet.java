@@ -61,7 +61,7 @@ public class VideosServlet extends HttpServlet {
 						lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.PRIVATE,Visibility.UNLISTED, orderBy, direction));
 					}else {
 						lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.UNLISTED,null, orderBy, direction));
-						lista.addAll(VideoDAO.getPrivateVideoUser(loggedInUser.getId()));
+						lista.addAll(VideoDAO.getPrivateVideoUser(loggedInUser.getId(), orderBy, direction));
 					}
 				}
 			} else {
@@ -72,7 +72,7 @@ public class VideosServlet extends HttpServlet {
 						lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.PRIVATE,Visibility.UNLISTED, defaultOrderBy, defaultDirection));
 					}else {
 						lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.UNLISTED,null, defaultOrderBy, defaultDirection));
-						lista.addAll(VideoDAO.getPrivateVideoUser(loggedInUser.getId()));
+						lista.addAll(VideoDAO.getPrivateVideoUser(loggedInUser.getId(), defaultOrderBy, defaultDirection));
 					}
 				}
 			}

@@ -92,9 +92,9 @@ public static List<Comment> getAll(Integer id, String orderBy, String direction)
 			User owner = UserDAO.getById(rs.getInt(index++)) ;
 			Video video = VideoDAO.getById(rs.getInt(index++));
 			
-
-		comment = new Comment(commentId, content, date, owner, video);
-		comments.add(comment);
+	
+			comment = new Comment(commentId, content, date, owner, video);
+			comments.add(comment);
 		}
 
 	} catch (SQLException ex) {

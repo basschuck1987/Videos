@@ -40,16 +40,26 @@
 			      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
 			    </form>
 			    <ul class="nav navbar-nav navbar-right">
-				    <li>
+			    <li class="myProfileButton">
+				    		<button type="submit" class="btn btn-link btn-lg login">
+	                  		<span class="glyphicon glyphicon-user"></span>My profile</button>
+	                  </li>
+			    	<li id="logoutButton">
+				    	<form action="LogoutServlet">
+				    		<button type="submit" class="btn btn-link btn-lg login">
+	                  		<span class="glyphicon glyphicon-log-out"></span> Logout</button>
+	                  	</form>
+	                  </li>
+				   <!--  <li class="loginRegisterButtons">
 				    	<form action="registration.html">
 				    		<button type="submit" class="btn btn-link btn-lg login">
 	                  		<span class="glyphicon glyphicon-user"></span> Sign Up</button>
 	                  	</form>
 	                  </li>
-	                  <li>
+	                  <li class="loginRegisterButtons">
 	                  	<button type="button" class="btn btn-link btn-lg login" data-toggle="modal" data-target="#loginModal">
 	                  	<span class="glyphicon glyphicon-log-in"></span> Login</button>
-	                  </li>
+	                  </li> -->
                 </ul>
 			  </div>
 			</nav>
@@ -168,8 +178,21 @@
 			<br/>
 			<br/>
 			<br/>
+				<div class="container-fluid pb-video-container">
+			<div class="btn-group">
+							  <button type="button" class="btn btn-default">Sort</button>
+							  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+							  <span class="caret"></span> </button>
+								  <ul class="dropdown-menu" role="menu">
+							    	  <li><a id="previewsAsc_btn" role="button">Previews</a></li>
+							    	  <li><a id="dateAsc_btn" role="button">Date</a></li>
+							    	  <!-- <li><a id="dateDesc_btn" role="button"></a></li> -->
+								  </ul>
+						</div> 
  <div id="videosDiv" class="col-md-8 col-md-offset-2">
-				  <div class="col-md-5">
+ 
+ 
+				<!--   <div class="col-md-5">
 				    <div class="thumbnail">
 				    <div><p>naziv</p></div>
 				      <a href="video.html">
@@ -220,9 +243,9 @@
 					    <p>br pregleda</p>
 					  </div>
 				    </div>
+				  </div> -->
 				  </div>
-				  </div>
-				  
+				</div>  
 			
 		<!-- Tabela korisnika koje korisnik prati -->
 		<div class="container bootstrap snippet">
@@ -241,8 +264,8 @@
 				                        <th>&nbsp;</th>
 			                        </tr>
 			                    </thead>
-			                    <tbody>
-			                        <tr>
+			                    <tbody id="followersDiv">
+			                        <!-- <tr>
 			                            <td>
 			                                <div class="glyphicon glyphicon-user">
 			                                	<a href="link ka profilu"class="user-link">Full name 1</a>
@@ -254,7 +277,8 @@
 			                            	<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span>
 			                            	</button>
 			                            </td>
-			                        </tr>
+			                        </tr> -->
+			                        </tbody>
 		                    </table>
 		                </div>
 		            </div>

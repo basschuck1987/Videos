@@ -5,6 +5,11 @@ $(document).ready(function(e){
 	var urlDiv = $('#urlDiv');
 	var commentDiv = $('#commentDiv');
 	
+	var loginRegisterButtons = $(".loginRegisterButtons");
+	var logoutButton = $("#logoutButton");
+	logoutButton.hide();
+	var usersButton = $("#usersButton");
+	usersButton.hide();
 	
 	getVideo();
 	
@@ -71,8 +76,12 @@ function getVideo(){
 		dataType: 'json',
 		success: function(response){
 			if(response.status == "success"){
+				loginRegisterButtons.hide();
+				logoutButton.show();
+				usersButton.show();
 				appendVideo(response.video);
 				initComments(response.comments);
+				
 				console.log(response);
 			}else{
 				console.log(response);

@@ -3,9 +3,25 @@ $(document).ready(function(e){
 	var idUser = getUrlParameter('id');
 	var userDiv = $('#userDiv');
 
+	var videosDiv = $('#videosDiv');
+	var followersDiv = $('#followersDiv');
 	getUser();
 	
+	function initVideos(videos){
+		videosDiv.empty();
+		for (var i = 0; i < videos.length; i++) {
+			appendVideo(videos[i]);
+		}
+	};
+	
+	function initFollowers(followers){
+		followersDiv.empty();
+		for (var i = 0; i < followers.length; i++) {
+			appendFollower(followers[i]);
+		}
+	};
 		
+	
 function appendUser(user){
 	console.log("uso")
 	var tableRow= $('<tr></tr>');
@@ -23,9 +39,59 @@ function appendUser(user){
 	tableRow.append(blockedRole);
 	tableRow.append(button);
 	userDiv.append(tableRow);
-	
 
 }		
+
+function appendVideo(video){
+	console.log("uso u videe");
+	var divColumn = $('<div class="col-md-5"></div>');
+	var divThumbnail = $('<div class="thumbnail"></div>');
+	var naziv = $('<div><p>' + video.name + '</p></div>');
+	var linkVidea = $('<a href="/Videos/video.html?id='+video.id+'"></a>');
+	var img = $('<img src="' + video.thumbnail + '" style="width:470px; height:300px";>');
+	var linkOwnera = $('<a href="/Videos/user.html?id=' + video.owner.id+'"></a>');
+	var caption = $('<div class="caption"><p>' + video.owner.username + '</p></div>');
+	var textBlock = $('<div class="text-block"> <p>Date: '+ new Date(video.date).toLocaleDateString("en-US") + '</p><p>Previews: '+ video.previews +'</p></div>');
+	
+	linkOwnera.append(caption);
+	linkVidea.append(img);
+	divThumbnail.append(naziv);
+	divThumbnail.append(linkVidea);
+	divThumbnail.append(linkOwnera);
+	divThumbnail.append(textBlock);
+	divColumn.append(divThumbnail);
+	
+	videosDiv.append(divColumn);
+	
+}
+
+
+/*<tr>
+<td>
+    <div class="glyphicon glyphicon-user">
+    	<a href="link ka profilu"class="user-link">Full name 1</a>
+    </div>
+</td>
+<td class="text-center"><span class="badge">5</span>
+</td>
+<td>
+	<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span>
+	</button>
+</td>
+</tr>*/
+function appendFollower(follower){
+	console.log("uso u folovere")
+	var tableRow= $('<tr></tr>');
+	var glyphicon = $('<td><div class="glyphicon glyphicon-user"><a href="/Videos/user.html?id='+follower.id+'">'+" "+ follower.username+'</a></div></td>');
+	var numberOfFoll = $('<td class="text-center"><span class="badge">5</span></td>');
+	var button= $('<td><button type="button" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button></td>')
+
+	tableRow.append(glyphicon);
+	tableRow.append(numberOfFoll);
+	tableRow.append(button);
+	followersDiv.append(tableRow);
+}
+
 function getUser(){
 	
 	var params = $.param({
@@ -39,6 +105,8 @@ function getUser(){
 		success: function(response){
 			if(response.status == "success"){
 				appendUser(response.user);
+				initVideos(response.videos);
+				initFollowers(response.followers);
 				console.log(response);
 			}else{
 				alert(response.message);
@@ -80,5 +148,55 @@ $('#changeSave_btn').submit(function(e){
 		
 		
 	});
-})
+});
+$('#previewsAsc_btn').click(function(e){
+	e.preventDefault();
+	
+	var params = $.param({
+	//	lista: videosId,
+		direction: "ASC",
+		orderBy: "previews",
+		id: idUser
+	});
+	console.log(params)
+	$.ajax({
+		url: 'UserServlet?' + params,
+		method: 'GET',
+		dataType: 'json',
+		success: function(response){
+			initVideos(response.videos);
+		},
+		error: function(request, message, error){
+			alert(error)
+		}
+		
+	});
+	
+});
+
+$('#dateAsc_btn').click(function(e){
+	e.preventDefault();
+	
+	var params = $.param({
+	//	lista: videosId,
+		direction: "ASC",
+		orderBy: "date",
+		id: idUser
+	});
+	console.log(params)
+	$.ajax({
+		url: 'UserServlet?' + params,
+		method: 'GET',
+		dataType: 'json',
+		success: function(response){
+			initVideos(response.videos);
+		},
+		error: function(request, message, error){
+			alert(error)
+		}
+		
+	});
+	
+});
+
 });

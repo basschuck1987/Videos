@@ -1,10 +1,17 @@
 $(document).ready(function(e){
 	
+	var idUser = getUrlParameter('id');
+	
+	
 	// VIDEOS DIV
 	var videosDiv = $("#videosDiv");
 	
 	//LOGIN REGISTER BUTTONS
 	var loginRegisterButtons = $(".loginRegisterButtons");
+	
+	//MY PROFILE BUTTON
+	var myProfileButton = $(".myProfileButton");
+	myProfileButton.hide();
 	
 	// LOGOUT BUTTON
 	var logoutButton = $("#logoutButton");
@@ -44,8 +51,6 @@ $(document).ready(function(e){
 		divColumn.append(divThumbnail);
 		
 		videosDiv.append(divColumn);
-		
-		      
 		
 	}
 	
@@ -91,11 +96,9 @@ $(document).ready(function(e){
 					logoutButton.show();
 					loginRegisterButtons.hide();
 					usersButton.show();
+					myProfileButton.show();
 					getVideos();
 				}
-				
-				
-				
 			},
 			error: function(request, message, error){
 				alert(error)
@@ -104,12 +107,19 @@ $(document).ready(function(e){
 
 	});
 	
+	
+	
+	
  $('#loginForm').submit(function(e) {
 		    e.preventDefault();
 		    // Coding
 		    $('#loginModal').modal('toggle'); //or  $('#IDModal').modal('hide');
 		    return false;
 		});
+ 
+
+ 
+ 
 	/*$('#signupForm').submit(function(e){
 		e.preventDefault();
 		
@@ -137,6 +147,8 @@ $(document).ready(function(e){
 		});
 
 	});*/
+	
+	
 	
 	$('#descriptionAsc_btn').click(function(e){
 		e.preventDefault();

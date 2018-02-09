@@ -147,7 +147,7 @@ public class VideoDAO {
 			}
 			return videos;
 		}
-public static List<Video> getPrivateVideoUser(Integer id) {
+public static List<Video> getPrivateVideoUser(Integer id, String orderBy, String direction) {
 	
 	Video video = null;
 	Connection conn = ConnectionManager.getConnection();
@@ -157,8 +157,8 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	try {
-
-		String query = "select * from video where visibility = 'PRIVATE' and owner = ?;";
+		String order = orderBy + " " + direction + ";";
+		String query = "select * from video where visibility = 'PRIVATE' and owner = ? order by " + order;
 		
 
 		ps = conn.prepareStatement(query);
@@ -169,6 +169,65 @@ public static List<Video> getPrivateVideoUser(Integer id) {
 
 		while(rs.next()) {
 			int index = 1;
+			Integer videoId = rs.getInt(index++);
+			String url = rs.getString(index++);
+			String thumbnail = rs.getString(index++);
+			String description = rs.getString(index++);
+			Visibility visibility = Visibility.valueOf(rs.getString(index++));
+			boolean blocked = rs.getBoolean(index++);
+			Integer previews = rs.getInt(index++);
+			Date date = rs.getDate(index++);
+			User owner = UserDAO.getById(rs.getInt(index++)) ;
+			String name = rs.getString(index++);
+			boolean likeDislikeVisible = rs.getBoolean(index++);
+			
+			video = new Video(videoId,name, url, thumbnail, description, visibility, blocked, previews, date, owner,likeDislikeVisible);
+			videos.add(video);
+		}
+
+	} catch (SQLException ex) {
+		// TODO Auto-generated catch block
+		System.out.println("Greska u upitu");
+		ex.printStackTrace();
+	}
+
+	finally {
+		try {
+			ps.close();
+		} catch (SQLException ex1) {
+			ex1.printStackTrace();
+		}
+		try {
+			rs.close();
+		} catch (SQLException ex1) {
+			ex1.printStackTrace();
+		}
+	}
+	return videos;
+}
+
+public static List<Video> getVideoByUser(Integer id, String orderBy, String direction) {
+	
+	Video video = null;
+	Connection conn = ConnectionManager.getConnection();
+
+	List<Video> videos = new ArrayList<Video>();
+	
+	PreparedStatement ps = null;
+	ResultSet rs = null;
+	try {
+		String order = orderBy + " " + direction + ";";
+		String query = "select * from video where owner = ? order by " + order;
+		
+		int index = 1;
+		ps = conn.prepareStatement(query);
+		ps.setInt(1, id);
+		System.out.println(ps);
+
+		rs = ps.executeQuery();
+
+		while(rs.next()) {
+			index = 1;
 			Integer videoId = rs.getInt(index++);
 			String url = rs.getString(index++);
 			String thumbnail = rs.getString(index++);

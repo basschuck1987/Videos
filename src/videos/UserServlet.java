@@ -10,11 +10,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import model.User;
+import model.Video;
+import videos.dao.CommentDAO;
 import videos.dao.UserDAO;
+import videos.dao.VideoDAO;
 
 /**
  * Servlet implementation class UserServlet
@@ -35,15 +39,44 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		User loggedInUser = (User) session.getAttribute("loggedInUser");
 		String id = request.getParameter("id");
+		String orderBy = request.getParameter("orderBy");
+		String direction = request.getParameter("direction");
+		String defaultOrderBy = "id";
+		String defaultDirection = "DESC";
 		System.out.println(id);
 		User user = null;
-		
+		List<Video> videos = new ArrayList<Video>();
+		List<User> followers = new ArrayList<User>();
 		String message = "";
 		String status = "";
 		try { 
 			user = UserDAO.getById(Integer.parseInt(id));
-			if(user == null) {
+			if(user != null) {
+				if(loggedInUser != null && loggedInUser.getRole() == User.Role.ADMIN){
+					if (orderBy == null || direction == null){
+						videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+						followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+					}else {
+							videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id), orderBy, direction));
+							followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+						}
+				}else 
+					if(loggedInUser != null && loggedInUser.getRole() == User.Role.USER){
+						if (orderBy == null || direction == null){
+							videos.addAll(VideoDAO.getPrivateVideoUser(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+							followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+						}else {
+							videos.addAll(VideoDAO.getPrivateVideoUser(Integer.parseInt(id), orderBy, direction));
+							followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+						}
+					}
+				else {
+					throw new Exception("Nemate pristup zeljenoj stranici.");
+				}
+			}else{
 				throw new Exception("Nepostojeci korisnik.");
 			}
 			
@@ -58,6 +91,8 @@ public class UserServlet extends HttpServlet {
 		data.put("message", message);
 		data.put("status",status);
 		data.put("user", user);
+		data.put("videos", videos);
+		data.put("followers", followers);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonData = mapper.writeValueAsString(data);
