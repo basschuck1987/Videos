@@ -2,7 +2,7 @@ $(document).ready(function(e){
 
 	var idUser = getUrlParameter('id');
 	var userDiv = $('#userDiv');
-
+	var changeDiv = $('#changeDiv');
 	var videosDiv = $('#videosDiv');
 	var followersDiv = $('#followersDiv');
 	getUser();
@@ -30,7 +30,19 @@ function appendUser(user){
 	var date = $('<td>' +user.date+ '</td>');
 	var description = $('<td>' +user.description+ '</td>');
 	var blockedRole = $('<td>'+user.blocked+ user.role + '</td>');
-	var button = $('<td><button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></button><div id="myModal" class="modal fade" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title">Change</h4></div><div class="modal-body"><div class="form-group"><label for="usr">Name:</label><input id="usr" type="text" class="form-control"></div><div class="form-group"><label for="sur">Surname:</label<input id="ps" type="text" class="form-control"></div><div class="form-group"><label for="pwd">Password:</label><input id="ps" type="password" class="form-control"></div><div class="form-group"><label for="pwd">Repeat password:</label><input id="rps" type="password" class="form-control"></div><div class="form-group"><label for="desc">Description:</label><input id="desc" type="text" class="form-control"></div><div class="form-group"><label for="sel1">Select role:</label><select class="form-control" id="sel1"><option>User</option><option>Admin</option></select></div></div><div class="modal-footer"><button id="changeSave_btn" type="button" class="btn btn-success">Save changes</button></div></div></div></div>');
+	var button = $('<td><button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></button>'+
+					'<div id="myModal" class="modal fade" role="dialog">'+
+						'<div class="modal-dialog">'+
+						'<div class="modal-content">'+
+							'<div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title">Change</h4></div>'+
+					'<div class="modal-body">'+
+						'<div class="form-group"><label for="usr">Name:</label><input class="form-control" type="text" id="usr" value="'+user.name+'"></div>'+
+						'<div class="form-group"><label for="sur">Surname:</label<input type="text" class="form-control" id="sur" value="'+user.surname+'" ></div>'+
+						'<div class="form-group"><label for="pwd">Password:</label><input type="password" class="form-control" id="ps" value="'+user.password+'" ></div>'+
+						'<div class="form-group"><label for="pwd">Repeat password:</label><input type="password" class="form-control" id="rps" value="'+user.password+'" ></div>'+
+						'<div class="form-group"><label for="desc">Description:</label><input type="text" class="form-control" id="desc" value="'+user.description+'"></div>'+
+						'<div class="form-group"><label for="sel1">Select role:</label><select class="form-control" id="sel1"><option>User</option><option>Admin</option></select></div></div>'+
+					'<div class="modal-footer"><button id="changeSave_btn" type="button" class="btn btn-success">Save changes</button></div></div></div></div>');
 	
 	tableRow.append(username);
 	tableRow.append(previews);
@@ -41,6 +53,7 @@ function appendUser(user){
 	userDiv.append(tableRow);
 
 }		
+
 
 function appendVideo(video){
 	console.log("uso u videe");
@@ -66,19 +79,7 @@ function appendVideo(video){
 }
 
 
-/*<tr>
-<td>
-    <div class="glyphicon glyphicon-user">
-    	<a href="link ka profilu"class="user-link">Full name 1</a>
-    </div>
-</td>
-<td class="text-center"><span class="badge">5</span>
-</td>
-<td>
-	<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span>
-	</button>
-</td>
-</tr>*/
+
 function appendFollower(follower){
 	console.log("uso u folovere")
 	var tableRow= $('<tr></tr>');
@@ -122,6 +123,7 @@ function getUser(){
 $('#changeSave_btn').submit(function(e){
 	
 	var x = $('#usr').val();
+	var s = $('#sur').val();
 	var y = $('#ps').val();
 	var z = $('#rps').val();
 	var p = $('#desc').val();
@@ -129,6 +131,7 @@ $('#changeSave_btn').submit(function(e){
 	
 	var params = $.param({
 		inputUsr : x,
+		inputSur : s,
 		inputPs : y,
 		inputRps : z,
 		inputDesc : p,

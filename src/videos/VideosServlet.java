@@ -51,11 +51,9 @@ public class VideosServlet extends HttpServlet {
 		String message = "";
 		String status = "";
 		try {
-		//	lista.addAll(VideoDAO.getSearch(parameters));
-			
 			if(orderBy != null && direction != null) {
 				if(loggedInUser == null) {
-					lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, null, null,orderBy, direction));
+					lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.UNLISTED, null,orderBy, direction));
 				}else {
 					if(loggedInUser.getRole() == User.Role.ADMIN) {
 						lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.PRIVATE,Visibility.UNLISTED, orderBy, direction));
@@ -66,7 +64,7 @@ public class VideosServlet extends HttpServlet {
 				}
 			} else {
 				if(loggedInUser == null) {
-					lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, null, null,defaultOrderBy, defaultDirection));
+					lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.UNLISTED, null,defaultOrderBy, defaultDirection));
 				}else {
 					if(loggedInUser.getRole() == User.Role.ADMIN) {
 						lista.addAll(VideoDAO.getByTypeOrdered(Visibility.PUBLIC, Visibility.PRIVATE,Visibility.UNLISTED, defaultOrderBy, defaultDirection));
@@ -88,6 +86,7 @@ public class VideosServlet extends HttpServlet {
 		data.put("message", message);
 		data.put("status",status);
 		data.put("videos", lista);
+		data.put("loggedInUser", loggedInUser);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonData = mapper.writeValueAsString(data);

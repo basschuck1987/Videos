@@ -2,6 +2,7 @@ $(document).ready(function(e){
 	
 	var idUser = getUrlParameter('id');
 	
+	var loggedInUser =  null;
 	
 	// VIDEOS DIV
 	var videosDiv = $("#videosDiv");
@@ -20,9 +21,6 @@ $(document).ready(function(e){
 	var usersButton = $("#usersButton");
 	usersButton.hide();
 	
-/*	// VIDEOS ID LIST
-	var videosId = [];*/
-
 	getVideos();
 	
 	function initVideos(videos){
@@ -31,6 +29,12 @@ $(document).ready(function(e){
 			appendVideo(videos[i]);
 		}
 	};
+	
+	$('#goToProfile').button().click(function(){
+		window.location.href = '/Videos/user.html?id=' + loggedInUser.id;
+	});
+		
+	
 
 	function appendVideo(video){
 		var divColumn = $('<div class="col-md-5"></div>');
@@ -54,6 +58,25 @@ $(document).ready(function(e){
 		
 	}
 	
+	function showHide(loggedInUser){
+		console.log(loggedInUser);
+		if(loggedInUser == null){
+			usersButton.hide();
+			myProfileButton.hide();
+		}else{
+			myProfileButton.show();
+			loginRegisterButtons.hide();
+			logoutButton.show();
+			if(loggedInUser.role == 'ADMIN'){
+				usersButton.show();
+			}else if(loggedInUser.role == 'USER'){
+				usersButton.hide();
+			}
+		}
+			
+	};
+	
+	
 	function getVideos(){
 		$.ajax({
 			url: 'VideosServlet',
@@ -62,6 +85,8 @@ $(document).ready(function(e){
 			success: function(response){
 				if(response.status == "success"){
 					initVideos(response.videos);
+					showHide(response.loggedInUser);
+					loggedInUser = response.loggedInUser;
 				}else{
 					
 					alert(response.message);
@@ -93,10 +118,6 @@ $(document).ready(function(e){
 					
 					alert(response.message)
 				}else{
-					logoutButton.show();
-					loginRegisterButtons.hide();
-					usersButton.show();
-					myProfileButton.show();
 					getVideos();
 				}
 			},
@@ -117,39 +138,6 @@ $(document).ready(function(e){
 		    return false;
 		});
  
-
- 
- 
-	/*$('#signupForm').submit(function(e){
-		e.preventDefault();
-		
-		var x = $('#enterUsername').val().trim();
-		var p = $('#enterPassword').val();
-		var s = $('#repeatPassword').val();
-		
-		var params = $.param({
-			usernameReg: x,
-			passwordReg: p,
-			passwordRep: s
-		});
-		$.ajax({
-			url: 'RegisterServlet?' + params,
-			method: 'POST',
-			dataType: 'json',
-			success: function(response){
-				if(response.status == 'failure'){
-					alert(response.message)
-				}
-			},
-			error: function(request, message, error){
-				alert(error)
-			}
-		});
-
-	});*/
-	
-	
-	
 	$('#descriptionAsc_btn').click(function(e){
 		e.preventDefault();
 		

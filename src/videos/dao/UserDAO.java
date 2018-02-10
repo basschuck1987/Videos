@@ -284,46 +284,26 @@ public class UserDAO {
 		return users;
 	}
 	
-	public static List<User> update(String name, String surname,
-		String password, String description, Role role) {
+	public static boolean update(User user) {
 		
-		User user = null;
 		Connection conn = ConnectionManager.getConnection();
 
-		List<User> users = new ArrayList<User>();
 		PreparedStatement ps = null;
-		ResultSet rs = null;
 		try {
 			String query = "update user set name = ?, surname = ?, password = ?, description = ?, role = ?;";
+			
+			ps = conn.prepareStatement(query);
 			int index = 1;
-			ps.setString(index++, name);
-			ps.setString(index++, surname);
-			ps.setString(index++, password);
-			ps.setString(index++, description);
-			ps.setString(index++, role.toString());
+			ps.setString(index++, user.getName());
+			ps.setString(index++, user.getSurname());
+			ps.setString(index++, user.getPassword());
+			ps.setString(index++, user.getDescription());
+			ps.setString(index++, user.getRole().toString());
 			System.out.println(ps);
 
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				index = 1;
-				Integer userId = rs.getInt(index++);
-				String username = rs.getString(index++);
-				String passwordUpdate = rs.getString(index++);
-				String nameUpdate = rs.getString(index++);
-				String surnameUpdate = rs.getString(index++);
-				String email = rs.getString(index++);
-				String descriptionUpdate = rs.getString(index++);
-				Date date = rs.getDate(index++);
-				Role roleUpdate = Role.valueOf(rs.getString(index++));
-				boolean blocked = rs.getBoolean(index++);
-
-				user = new User(userId, username, passwordUpdate, nameUpdate, surnameUpdate, email, descriptionUpdate, date, roleUpdate, blocked);
-				users.add(user);
-			}
-
+			return ps.executeUpdate() == 1;
+			
 		} catch (SQLException ex) {
-			// TODO Auto-generated catch block
 			System.out.println("Greska u upitu");
 			ex.printStackTrace();
 		}
@@ -334,14 +314,10 @@ public class UserDAO {
 			} catch (SQLException ex1) {
 				ex1.printStackTrace();
 			}
-			try {
-				rs.close();
-			} catch (SQLException ex1) {
-				ex1.printStackTrace();
-			}
 		}
-		return users;
-	}
+		return false;
+		}
+	
 	
 	
 	
@@ -377,3 +353,4 @@ public class UserDAO {
 	 */
 
 }
+
