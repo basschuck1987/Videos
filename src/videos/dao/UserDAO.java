@@ -134,8 +134,11 @@ public class UserDAO {
 				Date date = rs.getDate(index++);
 				Role role = Role.valueOf(rs.getString(index++));
 				boolean blocked = rs.getBoolean(index++);
-
-				return new User(userId, username, password, name, surname, email, description, date, role, blocked);
+				List<User> followers = getFollowers(userId);
+				User user = new User(userId, username, password, name, surname, email, description, date, role, blocked);
+				user.setFollowers(followers);
+				
+				return user;
 			}
 
 		} catch (SQLException ex) {
@@ -268,6 +271,62 @@ public class UserDAO {
 		return followers;
 	}
 
+	public static List<User> getFollowing(Integer id) {
+
+		Connection conn = ConnectionManager.getConnection();
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<User> followers = new ArrayList<User>();
+		try {
+
+			String query = "select u.* from followers f left join user u on f.idUser = u.id where f.idFollower =?;";
+
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				int index = 1;
+				Integer userId = rs.getInt(index++);
+				String username = rs.getString(index++);
+				String password = rs.getString(index++);
+				String name = rs.getString(index++);
+				String surname = rs.getString(index++);
+				String email = rs.getString(index++);
+				String description = rs.getString(index++);
+				Date date = rs.getDate(index++);
+				Role role = Role.valueOf(rs.getString(index++));
+				boolean blocked = rs.getBoolean(index++);
+				List<User> usersFollowers = getFollowers(userId);
+				User follower = new User(userId, username, password, name, surname, email, description, date, role,
+						blocked);
+				follower.setFollowers(usersFollowers);
+				followers.add(follower);
+
+			}
+
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			System.out.println("Greska u upitu");
+			ex.printStackTrace();
+		}
+
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+		return followers;
+	}
+	
 	public static List<User> getOrderBy(String orderBy, String direction) {
 		
 		User user = null;

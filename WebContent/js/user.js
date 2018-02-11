@@ -60,7 +60,7 @@ $(document).ready(function(e){
 function appendUser(user){
 	var tableRow= $('<tr></tr>');
 	var username = $('<td>' + user.username + '</td>');
-	var previews = $('<td><span class="badge">'+user.followers+'</span></td>');
+	var previews = $('<td><span class="badge">'+user.followers.length+'</span></td>');
 	var date = $('<td>' +new Date(user.date).toLocaleDateString("en-US")+ '</td>');
 	var description = $('<td>' +user.description+ '</td>');
 	var theRole = $('<td>'+ user.role + '</td>');
@@ -181,7 +181,7 @@ function appendVideo(video){
 function appendFollower(follower){
 	var tableRow= $('<tr></tr>');
 	var glyphicon = $('<td><div class="glyphicon glyphicon-user"><a href="/Videos/user.html?id='+follower.id+'">'+" "+ follower.username+'</a></div></td>');
-	var numberOfFoll = $('<td class="text-center"><span class="badge">5</span></td>');
+	var numberOfFoll = $('<td class="text-center"><span class="badge">'+follower.followers.length+'</span></td>');
 	var button= $('<td><button type="button" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button></td>')
 
 	tableRow.append(glyphicon);

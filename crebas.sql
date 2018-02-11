@@ -20,7 +20,10 @@ create table user(
 select  password from user;
 select * from user order by name desc;
 
+update user set blocked = true where id = 1;
+
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('a' , 'a', 'admin', 'admin', 'email', 'description','2017-05-21', 'ADMIN',0);
+insert into user (username,password,name,surname,email,description,Date,role,blocked)values('AAAA' , 'AAAA', 'Sandra', 'Stojanovic', 'email', 'description','2017-05-21', 'USER',0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('sake' , 'sake123', 'Sandra', 'Stojanovic', 'email', 'description','2017-05-21', 'ADMIN',0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('u' , 'u', 'user', 'user', 'email1', 'description1', '2017-11-17', 'USER', 0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('s' , 's' 'admin', 'admin', 'email', 'description','2017-05-21', 'ADMIN',0);
@@ -30,7 +33,7 @@ insert into user (username,password,name,surname,email,description,Date,role,blo
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('raso' , 'raso123' 'Radovan', 'Maodus', 'email', 'description','2017-05-21', 'ADMIN',0);
 delete from user where id in(2,4,1,3,5,6);
 
-select * from user;
+delete from user where id = 6;
 select * from user;
 create table followers(
 	id bigint auto_increment,
@@ -48,7 +51,16 @@ drop table UserLikeDislike;
 
 select * from user order by id DESC;
 
+select u.* from followers f left join user u on f.idUser = u.id where f.idFollower = 3;
+
+select * from user;
+select * from followers;
+
+select * from followers where idFollower = 3;
+
 insert into UserLikeDislike (idUser,idLikeDislike) values (1, 1);
+
+update followers set idUser = 4 where id=3;
 
 create table video(
 
@@ -69,6 +81,8 @@ create table video(
 );
 alter table video add column name varchar(20) not null;
 select * from video;
+
+
 alter table video drop column name;
 alter table video add column name varchar(20);
 alter table video add column likeDislikeVisible boolean;
@@ -77,7 +91,7 @@ insert into video (url, thumbnail, description, visibility, blocked, previews, d
 insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('uT6T-a9Dl28', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'aaa');
 insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'ssss');
 insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'ddd');
-
+insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name,likeDislikeVisible) values ('url', 'thumnail', 'decription', 'PRIVATE', 0, 5,'2017-06-13', 10, 'aaa', 0);
 insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1);
 insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url1', 'thumnail1', 'decription1', 'PRIVATE', 0, 15,'2017-12-31',2);
 insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url2', 'thumnail2', 'decription2', 'PUBLIC', 0, 25,'2018-01-27',1);
@@ -86,8 +100,9 @@ insert into video (url, thumbnail, description, visibility, blocked, previews,da
 
 select * from video where description like "%l%";
 select * from video;
+select * from user;
 select * from user where id = 1;
-
+select * from video where owner = 1;
 use videos;
 select * from video where visibility in ('PUBLIC','PRIVATE',null);
 select * from video where visibility = 'PUBLIC' order by id desc;
@@ -107,7 +122,7 @@ create table comment(
     foreign key (video) references video(id)
     
 );
-
+select* from followers;
 select * from comment order by date;
 
 select * from comment;
@@ -130,11 +145,11 @@ select * from likeDislike;
     foreign key (comment) references comment(id)
     
 );
-
+select*from user;
 insert into likeDislike(likeOrDislike, date, video, comment) values (0, '2015-06-11', 1, null);
 insert into likeDislike(likeOrDislike, date, video, comment) values (1, '2017-06-11', null, 2);
 
-
+select* from video;
 select* from likeDislike;
 
 create table UserLikeDislike(

@@ -59,37 +59,37 @@ public class UserServlet extends HttpServlet {
 				if(loggedInUser != null && loggedInUser.getRole() == User.Role.ADMIN){
 					if (orderBy == null && direction == null){
 						videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, Visibility.PRIVATE, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
-						followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+						followers.addAll(UserDAO.getFollowing(Integer.parseInt(id)));
 					}else {
 							videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, Visibility.PRIVATE, Visibility.UNLISTED, orderBy, direction));
-							followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+							followers.addAll(UserDAO.getFollowing(Integer.parseInt(id)));
 						}
 				}else 
 					if(loggedInUser != null && loggedInUser.getRole() == User.Role.USER) {
 						if (loggedInUser.getId() != user.getId()){
 							if (orderBy == null && direction == null){
 								videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, null, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
-								followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+								followers.addAll(UserDAO.getFollowing(Integer.parseInt(id)));
 							}else {
 								videos.addAll(VideoDAO.getPrivateVideoUser(Integer.parseInt(id), orderBy, direction));
-								followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+								followers.addAll(UserDAO.getFollowing(Integer.parseInt(id)));
 							}
 						}else {
 							if (orderBy == null && direction == null){
 								videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, Visibility.PRIVATE, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
-								followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+								followers.addAll(UserDAO.getFollowing(Integer.parseInt(id)));
 							}else {
 								videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, Visibility.PRIVATE, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
-								followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+								followers.addAll(UserDAO.getFollowing(Integer.parseInt(id)));
 							}
 						}
 					}else if(loggedInUser == null){
 						if (orderBy == null && direction == null){
 							videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, null, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
-							followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+							followers.addAll(UserDAO.getFollowing(Integer.parseInt(id)));
 						}else {
 							videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, null, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
-							followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+							followers.addAll(UserDAO.getFollowing(Integer.parseInt(id)));
 						}
 					}
 				
