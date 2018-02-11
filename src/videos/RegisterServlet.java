@@ -1,6 +1,7 @@
 package videos;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,8 +47,10 @@ public class RegisterServlet extends HttpServlet {
 		String surnameReg = request.getParameter("surnameReg");
 		String passwordReg = request.getParameter("passwordReg");
 		String passwordRep = request.getParameter("passwordRep");
+		String nameReg = request.getParameter("nameReg");
 		String descriptionReg = request.getParameter("descriptionReg");
 		String emailReg = request.getParameter("emailReg");
+		System.out.println(emailReg);
 		User newUser = null;
 		String message = "";
 		String status = "";
@@ -65,10 +68,13 @@ public class RegisterServlet extends HttpServlet {
 			newUser = new User();
 			newUser.setUsername(usernameReg);
 			newUser.setSurname(surnameReg);
+			newUser.setName(nameReg);
 			newUser.setPassword(passwordRep);
 			newUser.setDescription(descriptionReg);
 			newUser.setEmail(emailReg);
-			
+			newUser.setRole(User.Role.USER);
+			newUser.setBlocked(false);
+			newUser.setDate(new Date());
 			UserDAO.createUser(newUser);
 			newUser = UserDAO.getByUserName(usernameReg);
 			

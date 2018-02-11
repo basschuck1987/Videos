@@ -138,6 +138,8 @@ public class UserServlet extends HttpServlet {
 		String role = request.getParameter("sel1");
 		String action = request.getParameter("action");
 		String id = request.getParameter("id");
+		String idRemove = request.getParameter("idRemove");
+		String blocked = request.getParameter("blocked");
 		String message = "";
 		String status = "";
 		
@@ -157,6 +159,11 @@ public class UserServlet extends HttpServlet {
 						user.setSurname(inputSur);
 						user.setPassword(inputPs);
 						user.setDescription(inputDesc);
+						if(blocked.equals("true")) {
+							user.setBlocked(true);
+						}else {
+							user.setBlocked(false);
+						}
 						if(role.equals("Admin")) {
 							user.setRole(User.Role.ADMIN);
 						}else if(role.equals("User")) {
@@ -171,16 +178,23 @@ public class UserServlet extends HttpServlet {
 					if(!UserDAO.update(user)) {
 						throw new Exception("Promene nisu izvrsene");
 					}
-					//UserDAO.update(user);
 				}
 				
 				
 				status = "success";
 				message = "Uspesno obradjen zahtev";
+				break;
 				
-			
+			case "delete" :
+				
+				if(!UserDAO.delete(Integer.parseInt(idRemove))) {
+					throw new Exception("Brisanje nije moguce");
+				}
+				status = "success";
+				message = "Uspesno obradjen zahtev";
+				
+				break;
 			}
-			
 			
 		}
 		catch (Exception e){

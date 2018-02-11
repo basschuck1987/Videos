@@ -34,6 +34,8 @@ $(document).ready(function(e){
 	//CHANGE BUTTON
 	var buttonEdit = null;
 	
+	var checkboxChange = null;
+	
 	getUser();
 	
 	function initVideos(videos){
@@ -61,7 +63,9 @@ function appendUser(user){
 	var previews = $('<td><span class="badge">'+user.followers+'</span></td>');
 	var date = $('<td>' +new Date(user.date).toLocaleDateString("en-US")+ '</td>');
 	var description = $('<td>' +user.description+ '</td>');
-	var blockedRole = $('<td>'+user.blocked+ user.role + '</td>');
+	var theRole = $('<td>'+ user.role + '</td>');
+	var checkBlocked = $('<td class="text-center"><input id="checkBox" type="checkbox" disabled="disabled" value="Bike"></td>');
+	var buttonBlock = $('<td><button id="Block_btn" type="button" class="btn btn-m"><span class="glyphicon glyphicon-ban-circle"></span></button></td>');
 	var buttonChange = $('<td><button id="changeBtn" type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></button>'+
 					'<div id="myModal" class="modal fade" role="dialog">'+
 						'<div class="modal-dialog">'+
@@ -72,22 +76,36 @@ function appendUser(user){
 						'<div class="form-group"><label for="sur">Surname:</label><input type="text" class="form-control" id="sur" value="'+user.surname+'" ></div>'+
 						'<div class="form-group"><label for="pwd">Password:</label><input type="password" class="form-control" id="ps" value="'+user.password+'" ></div>'+
 						'<div class="form-group"><label for="desc">Description:</label><input type="text" class="form-control" id="desc" value="'+user.description+'"></div>'+
-						'<div class="form-group"><label for="sel1">Select role:</label><select class="form-control" id="sel1"><option>User</option><option>Admin</option></select></div></div>'+
+						'<div class="form-group"><label for="sel1">Select role:</label><select class="form-control" id="sel1"><option>User</option><option>Admin</option></select></div>'+
+						'<div id="checkBlock" class="form-group"><label for="blocked">Block</label><input id="checkbox_change" type="checkbox" class="form-control"></div></div>'+
 						'<div class="modal-footer"><button id="changeSave_btn" type="submit" class="btn btn-success">Save changes</button></div></div></div></div>');
-	var buttonBlock = $('<td><button id="Block_btn" type="button" class="btn btn-m"><span class="glyphicon glyphicon-ban-circle"></span></button></td>');
 	
 	
 	tableRow.append(username);
 	tableRow.append(previews);
 	tableRow.append(date);
 	tableRow.append(description);
-	tableRow.append(blockedRole);
-	tableRow.append(buttonChange);
+	tableRow.append(theRole);
+	tableRow.append(checkBlocked);
 	tableRow.append(buttonBlock);
+	tableRow.append(buttonChange);
 	userDiv.append(tableRow);
 	
 	blockButton = $("#Block_btn");
 	blockButton.hide();
+	
+	checkBlock = $('#checkBlock');
+	checkBlock.hide();
+	
+	checkboxChange = $('#checkbox_change');
+	
+	checkBox = $('#checkBox');
+	
+	if(user.blocked == true){
+		checkBox.attr('checked','checked');
+		checkboxChange.attr('checked','checked');
+		buttonBlock.hide();
+	}
 	
 	buttonEdit = $("#changeBtn");
 	if(loggedInUser != null && loggedInUser.id == user.id){
@@ -96,6 +114,45 @@ function appendUser(user){
 		buttonEdit.hide();
 	}
 	
+	blockButton.click(function(e){
+		var x = $('#usr').val();
+		var s = $('#sur').val();
+		var y = $('#ps').val();
+		var z = $('#rps').val();
+		var p = $('#desc').val();
+		var r = $('#sel1').find(":selected").text();
+		
+		var params = $.param({
+			id : idUser,
+			inputUsr : x,
+			inputSur : s,
+			inputPs : y,
+			inputDesc : p,
+			sel1 : r,
+			action : 'update',
+			blocked : true
+		});
+		
+		$.ajax({
+			url: 'UserServlet?' + params,
+			method: 'POST',
+			dataType: 'json',
+			success: function(response){
+				if(response.status == "success"){
+					userDiv.empty();
+					getUser();
+				}else{
+					alert(response.message);
+				}
+			},
+			error: function(request,message,error){
+				alert(error)
+			}
+		});	
+		
+		
+	});
+
 
 }
 
@@ -149,11 +206,13 @@ function showHide(loggedInUser){
 			usersButton.show();
 			blockButton.show();
 			buttonEdit.show();
+			checkBlock.show();
 			$('#sel1').removeAttr('disabled');
 		}else if(loggedInUser.role == 'USER'){
 			/*usersButton.hide();*/
 			blockButton.hide();
 			$('#sel1').attr('disabled', 'disabled');
+			
 		}
 	}
 		
@@ -195,6 +254,7 @@ $('#fff').submit(function(e){
 	var z = $('#rps').val();
 	var p = $('#desc').val();
 	var r = $('#sel1').find(":selected").text();
+	var checkbox = checkboxChange.is(':checked');
 	
 	var params = $.param({
 		id : idUser,
@@ -203,6 +263,7 @@ $('#fff').submit(function(e){
 		inputPs : y,
 		inputDesc : p,
 		sel1 : r,
+		blocked: checkbox,
 		action : 'update'
 	});
 	$.ajax({

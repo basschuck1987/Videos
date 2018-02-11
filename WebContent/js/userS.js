@@ -1,22 +1,3 @@
- /*<tr>
-        <td>
-            <div class="glyphicon glyphicon-user">
-            	<a href="link ka profilu"class="user-link">Full name 1</a>
-            </div>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-	<button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span>
-	</button>
-</td>*/
-
 $(document).ready(function(e){
 	
 	var usersDiv = $('#usersDiv');
@@ -36,6 +17,8 @@ $(document).ready(function(e){
 	var usersButton = $("#usersButton");
 	usersButton.hide();
 	
+	var removeButton = null;
+	
 	getUsers();
 	
 	function initUsers(users){
@@ -43,6 +26,40 @@ $(document).ready(function(e){
 		for (var i = 0; i < users.length; i++) {
 			appendUser(users[i]);
 		}
+		
+		removeButton = $('.removeUser');
+		
+		removeButton.click(function(e){
+			e.preventDefault();
+			 var text = $(this).attr('value');
+			 var params = $.param({
+				 idRemove : text,
+				 action : "delete"
+			 });
+			 console.log(text);
+			$.ajax({
+				url: 'UserServlet?' + params,
+				method: 'POST',
+				dataType: 'json',
+				success: function(response){
+					if(response.status == "success"){
+						getUsers();
+					}else{
+						alert(response.message);
+					}
+			
+				},
+				error: function(request, message, error){
+					alert(error);
+				}
+					
+				
+				
+			});
+			
+			
+			
+		});
 	};
 	
 	$('#goToProfile').button().click(function(){
@@ -56,14 +73,8 @@ function appendUser(user){
 	var surname = $('<td>'+user.surname+'</td>');
 	var email = $('<td>'+user.email+'</td>');
 	var role = $('<td>'+user.role +'</td>');
-	var button= $('<td><button type="button" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button></td>')
-	/*usersDiv.append(tableRow);
-	usersDiv.append(userName);
-	usersDiv.append(name);
-	usersDiv.append(surname);
-	usersDiv.append(email);
-	usersDiv.append(role);
-	usersDiv.append(button);*/
+	var button= $('<td><button type="button" class="removeUser btn btn-xs" value="'+user.id+'"><span class="glyphicon glyphicon-remove"></span></button></td>')
+
 	tableRow.append(userName);
 	tableRow.append(name);
 	tableRow.append(surname);
@@ -71,6 +82,7 @@ function appendUser(user){
 	tableRow.append(role);
 	tableRow.append(button);
 	usersDiv.append(tableRow);
+	
 }
 
 function showHide(loggedInUser){
@@ -141,28 +153,6 @@ $('#loginForm').submit(function(e){
 
 });
 
-/*$('#usernameAsc_btn').click(function(e){
-	e.preventDefault();
-	
-	var params = $.param({
-		orderBy: "username",
-		direction: "ASC"
-		
-	});
-	console.log(params)
-	$.ajax({
-		url: 'UsersServlet' + params,
-		method: 'GET',
-		dataType: 'json',
-		success: function(response){
-			initUsers(response.users);
-		},
-		error: function(request,message,error){
-			alert(error)
-		}
-	});
-	
-});*/
 
 $('#usernameAsc_btn').click(function(e){
 	e.preventDefault();

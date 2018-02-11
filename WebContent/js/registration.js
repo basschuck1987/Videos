@@ -1,18 +1,52 @@
-	
-	
-	var password = document.getElementById("pwd")
-	  , confirm_password = document.getElementById("rpwd");
+$(document).ready(function(e){
 
-	function validatePassword(){
-	  if(pwd.value != rpwd.value) {
-	    confirm_password.setCustomValidity("Whoops, these passwords don't match");
-	  } else {
-	    confirm_password.setCustomValidity('');
-	  }
-	}
+	
+	
+	
+	$('#confirm').submit(function(e){
+		e.preventDefault();
+		
+		var usernameInput = $('#usr').val();
+		var surnameInput = $('#sur').val();
+		var nameInput = $('#name').val();
+		var passwordInput = $('#pwd').val();
+		var passwordRepeatedInput = $('#rpwd').val();
+		var descriptionInput = $('#desc').val();
+		var emailInput = $('#email').val();
+		
+		var params = $.param({
+			usernameReg : usernameInput,
+			surnameReg : surnameInput,
+			nameReg : nameInput,
+			passwordReg : passwordInput,
+			passwordRep : passwordRepeatedInput,
+			descriptionReg : descriptionInput,
+			emailReg : emailInput
+			
+		});
+		console.log(params);
+		$.ajax({
+			url: 'RegisterServlet?' + params,
+			method: 'POST',
+			dataType: 'json',
+			success : function(response){
+				if(response.status == "success"){
+					window.location.replace("/Videos/user.html?id=" + response.user.id);
+					console.log(response);
+				}else{
+					alert(response.message);
+				}
+			},
+			error: function(request, message, error){
+				alert(error);
+			}
+			
+		});
+	});
+	
+});
 
-	password.onchange = validatePassword;
-	confirm_password.onkeyup = validatePassword;	
+
 	
-	
+
 	

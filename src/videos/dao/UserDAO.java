@@ -72,7 +72,7 @@ public class UserDAO {
 		PreparedStatement ps = null;
 		try {
 
-			String query = "insert into user (username,password,name,surname,email,description,Date,role,blocked)values(?,?,?,?,?,?,?,?,?);";
+			String query = "insert into user (username,password,name,surname,email,description,Date,role,blocked) values (?,?,?,?,?,?,?,?,?);";
 			int index = 1;
 			ps = conn.prepareStatement(query);
 			ps.setString(index++, user.getUsername());
@@ -81,9 +81,12 @@ public class UserDAO {
 			ps.setString(index++, user.getSurname());
 			ps.setString(index++, user.getEmail());
 			ps.setString(index++, user.getDescription());
-			ps.setObject(index++, user.getDate());
+			ps.setDate(index++, new java.sql.Date(user.getDate().getTime()));
 			ps.setString(index++, user.getRole().toString());
-			ps.setInt(index++, user.getId());
+			ps.setBoolean(index++, user.isBlocked());
+			
+			System.out.println(ps);
+
 
 			return ps.executeUpdate() == 1;
 
@@ -326,7 +329,7 @@ public class UserDAO {
 
 		PreparedStatement ps = null;
 		try {
-			String query = "update user set name = ?, surname = ?, password = ?, description = ?, role = ? where id=?; ";
+			String query = "update user set name = ?, surname = ?, password = ?, description = ?, role = ?, blocked = ? where id=?; ";
 			
 			ps = conn.prepareStatement(query);
 			int index = 1;
@@ -335,6 +338,7 @@ public class UserDAO {
 			ps.setString(index++, user.getPassword());
 			ps.setString(index++, user.getDescription());
 			ps.setString(index++, user.getRole().toString());
+			ps.setBoolean(index++, user.isBlocked());
 			ps.setInt(index++, user.getId());
 			System.out.println(ps);
 
@@ -356,6 +360,33 @@ public class UserDAO {
 		}
 	
 	
+public static boolean delete(Integer id) {
+		
+		Connection conn = ConnectionManager.getConnection();
+
+		PreparedStatement ps = null;
+		try {
+			String query = "delete from user where id = ?; ";
+			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, id);
+			System.out.println(ps);
+
+			return ps.executeUpdate() == 1;
+			
+		} catch (SQLException ex) {
+			System.out.println("Greska u upitu");
+		}
+
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+		return false;
+		}
 	
 	
 	/*
