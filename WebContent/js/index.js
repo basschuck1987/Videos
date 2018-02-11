@@ -18,6 +18,7 @@ $(document).ready(function(e){
 	var logoutButton = $("#logoutButton");
 	logoutButton.hide();
 	
+	//USER BUTTON
 	var usersButton = $("#usersButton");
 	usersButton.hide();
 	
@@ -41,9 +42,9 @@ $(document).ready(function(e){
 		var divThumbnail = $('<div class="thumbnail"></div>');
 		var naziv = $('<div><p>' + video.name + '</p></div>');
 		var linkVidea = $('<a href="/Videos/video.html?id='+video.id+'"></a>');
-		var img = $('<img src="' + video.thumbnail + '" style="width:470px; height:300px";>');
+		var img = $('<img src="' + video.thumbnail + '" style="width:300px; height:270px";>');
 		var linkOwnera = $('<a href="/Videos/user.html?id=' + video.owner.id+'"></a>');
-		var caption = $('<div class="caption"><p>' + video.owner.username + '</p></div>');
+		var caption = $('<div class="caption"><p>' + video.owner.name + '</p></div>');
 		var textBlock = $('<div class="text-block"> <p>Date: '+ new Date(video.date).toLocaleDateString("en-US") + '</p><p>Previews: '+ video.previews +'</p></div>');
 		
 		linkOwnera.append(caption);
@@ -88,10 +89,8 @@ $(document).ready(function(e){
 					showHide(response.loggedInUser);
 					loggedInUser = response.loggedInUser;
 				}else{
-					
 					alert(response.message);
 				}
-
 			},
 			error: function(request, message, error){
 				alert(error);
@@ -125,18 +124,18 @@ $(document).ready(function(e){
 				alert(error)
 			}
 		});
-
+		$('#loginModal').modal('toggle');
 	});
 	
 	
 	
 	
- $('#loginForm').submit(function(e) {
+ /*$('#loginForm').submit(function(e) {
 		    e.preventDefault();
 		    // Coding
-		    $('#loginModal').modal('toggle'); //or  $('#IDModal').modal('hide');
+		   //or  $('#IDModal').modal('hide');
 		    return false;
-		});
+		});*/
  
 	$('#descriptionAsc_btn').click(function(e){
 		e.preventDefault();

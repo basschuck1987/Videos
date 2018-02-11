@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import model.User;
 import model.Video;
+import model.Video.Visibility;
 import videos.dao.CommentDAO;
 import videos.dao.UserDAO;
 import videos.dao.VideoDAO;
@@ -56,23 +57,42 @@ public class UserServlet extends HttpServlet {
 			user = UserDAO.getById(Integer.parseInt(id));
 			if(user != null) {
 				if(loggedInUser != null && loggedInUser.getRole() == User.Role.ADMIN){
-					if (orderBy == null || direction == null){
-						videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+					if (orderBy == null && direction == null){
+						videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, Visibility.PRIVATE, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
 						followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
 					}else {
-							videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id), orderBy, direction));
+							videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, Visibility.PRIVATE, Visibility.UNLISTED, orderBy, direction));
 							followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
 						}
 				}else 
-					if(loggedInUser != null && loggedInUser.getRole() == User.Role.USER){
-						if (orderBy == null || direction == null){
-							videos.addAll(VideoDAO.getPrivateVideoUser(Integer.parseInt(id), defaultOrderBy, defaultDirection));
+					if(loggedInUser != null && loggedInUser.getRole() == User.Role.USER) {
+						if (loggedInUser.getId() != user.getId()){
+							if (orderBy == null && direction == null){
+								videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, null, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
+								followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+							}else {
+								videos.addAll(VideoDAO.getPrivateVideoUser(Integer.parseInt(id), orderBy, direction));
+								followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+							}
+						}else {
+							if (orderBy == null && direction == null){
+								videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, Visibility.PRIVATE, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
+								followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+							}else {
+								videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, Visibility.PRIVATE, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
+								followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
+							}
+						}
+					}else if(loggedInUser == null){
+						if (orderBy == null && direction == null){
+							videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, null, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
 							followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
 						}else {
-							videos.addAll(VideoDAO.getPrivateVideoUser(Integer.parseInt(id), orderBy, direction));
+							videos.addAll(VideoDAO.getVideoByUser(Integer.parseInt(id),Visibility.PUBLIC, null, Visibility.UNLISTED, defaultOrderBy, defaultDirection));
 							followers.addAll(UserDAO.getFollowers(Integer.parseInt(id)));
 						}
 					}
+				
 				else {
 					throw new Exception("Nemate pristup zeljenoj stranici.");
 				}
@@ -93,6 +113,7 @@ public class UserServlet extends HttpServlet {
 		data.put("user", user);
 		data.put("videos", videos);
 		data.put("followers", followers);
+		data.put("loggedInUser", loggedInUser);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonData = mapper.writeValueAsString(data);
@@ -108,8 +129,81 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		User loggedInUser = (User) session.getAttribute("loggedInUser");
 		String inputUsr = request.getParameter("inputUsr");
+		String inputSur = request.getParameter("inputSur");
 		String inputPs = request.getParameter("inputPs");
+		String inputDesc = request.getParameter("inputDesc");
+		String role = request.getParameter("sel1");
+		String action = request.getParameter("action");
+		String id = request.getParameter("id");
+		String message = "";
+		String status = "";
+		
+		try {
+			switch(action) {
+			case "update" :
+				
+				User user = UserDAO.getById(Integer.parseInt(id));
+				if(user == null) {
+					throw new Exception("Nepostojeci korisnik.");
+				}
+				if(loggedInUser == null) {
+					throw new Exception("Nemate pristup zeljenoj funkciji.");
+				}else {
+					if(loggedInUser.getRole() == User.Role.ADMIN) {
+						user.setUsername(inputUsr);
+						user.setSurname(inputSur);
+						user.setPassword(inputPs);
+						user.setDescription(inputDesc);
+						if(role.equals("Admin")) {
+							user.setRole(User.Role.ADMIN);
+						}else if(role.equals("User")) {
+							user.setRole(User.Role.USER);
+						}
+					}else {
+						user.setUsername(inputUsr);
+						user.setSurname(inputSur);
+						user.setPassword(inputPs);
+						user.setDescription(inputDesc);
+					}
+					if(!UserDAO.update(user)) {
+						throw new Exception("Promene nisu izvrsene");
+					}
+					//UserDAO.update(user);
+				}
+				
+				
+				status = "success";
+				message = "Uspesno obradjen zahtev";
+				
+			
+			}
+			
+			
+		}
+		catch (Exception e){
+			status = "failure";
+			message = e.getMessage();
+			
+		}
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("message", message);
+		data.put("status",status);
+		
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonData = mapper.writeValueAsString(data);
+		System.out.println(jsonData);
+		response.setContentType("application/json");
+		response.getWriter().write(jsonData);
+		/*switch(action) {
+		case "UPDATE" : {
+			
+		}
+		}*/
 	
 	}
 

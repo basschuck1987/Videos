@@ -21,6 +21,21 @@ $(document).ready(function(e){
 	
 	var usersDiv = $('#usersDiv');
 	
+	//LOGIN REGISTER BUTTONS
+	var loginRegisterButtons = $(".loginRegisterButtons");
+	
+	//MY PROFILE BUTTON
+	var myProfileButton = $(".myProfileButton");
+	myProfileButton.hide();
+	
+	// LOGOUT BUTTON
+	var logoutButton = $("#logoutButton");
+	logoutButton.hide();
+	
+	//USER BUTTON
+	var usersButton = $("#usersButton");
+	usersButton.hide();
+	
 	getUsers();
 	
 	function initUsers(users){
@@ -30,9 +45,9 @@ $(document).ready(function(e){
 		}
 	};
 	
-	
-
-
+	$('#goToProfile').button().click(function(){
+		window.location.href = '/Videos/user.html?id=' + loggedInUser.id;
+	});
 
 function appendUser(user){
 	var tableRow= $('<tr></tr>');
@@ -58,6 +73,24 @@ function appendUser(user){
 	usersDiv.append(tableRow);
 }
 
+function showHide(loggedInUser){
+	console.log(loggedInUser);
+	if(loggedInUser == null){
+		usersButton.hide();
+		myProfileButton.hide();
+	}else{
+		myProfileButton.show();
+		loginRegisterButtons.hide();
+		logoutButton.show();
+		if(loggedInUser.role == 'ADMIN'){
+			usersButton.show();
+		}else if(loggedInUser.role == 'USER'){
+			usersButton.hide();
+		}
+	}
+		
+};
+
 function getUsers(){
 	$.ajax({
 		url: 'UsersServlet',
@@ -66,6 +99,8 @@ function getUsers(){
 		success: function(response){
 			if(response.status == "success"){
 				initUsers(response.users);
+				showHide(response.loggedInUser);
+				loggedInUser = response.loggedInUser;
 			}else{
 				console.log(response)
 				alert(response.message);

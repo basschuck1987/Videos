@@ -7,6 +7,7 @@
 	<script src="js/jquery-2.1.0.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
 	<script src="js/index.js"></script>
+	<script src="js/registration.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/jquery-ui.css">
@@ -34,7 +35,7 @@
 				</div>
 		</div>
 	</div>
-		<form>
+		<form id="confirm">
 			<div class="col-sm-offset-1 col-sm-6">
 				<div class="form-group">
 				    <label for="usr">Username:</label>
@@ -42,11 +43,11 @@
 				</div>
 				<div class="form-group">
 				    <label for="pwd">Password:</label>
-				    <input type="password" class="form-control" id="pwd">
+				    <input type="password" class="form-control" id="pwd" required>
 				</div>
 				<div class="form-group">
-				    <label for="pwd">Repeat password:</label>
-				    <input type="password" class="form-control" id="pwd">
+				    <label for="rpwd">Repeat password:</label>
+				    <input type="password" class="form-control" id="rpwd" required>
 				</div>
 				<div class="form-group">
 				    <label for="usr">Name:</label>
@@ -54,14 +55,14 @@
 				</div>
 				<div class="form-group">
 				    <label for="usr">Surname:</label>
-				    <input type="text" class="form-control" id="usr">
+				    <input type="text" class="form-control" id="sur">
 				</div>
 				<div class="form-group">
 				    <label for="usr">Email:</label>
-				    <input type="text" class="form-control" id="usr">
+				    <input type="text" class="form-control" id="email">
 				</div>
 				<div class="modal-footer">
-			    	<a href="user.html" class="btn btn-success" role="button">Submit</a>
+					<button class="btn btn-success" type="submit">Confirm</button>
 				</div>
 			</div>
 		</form>

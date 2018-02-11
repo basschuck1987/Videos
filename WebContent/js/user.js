@@ -1,10 +1,39 @@
 $(document).ready(function(e){
 
 	var idUser = getUrlParameter('id');
+	
+	var loggedInUser =  null;
+	
 	var userDiv = $('#userDiv');
+	
 	var changeDiv = $('#changeDiv');
+	
 	var videosDiv = $('#videosDiv');
+	
 	var followersDiv = $('#followersDiv');
+	
+	//LOGIN REGISTER BUTTONS
+	var loginRegisterButtons = $(".loginRegisterButtons");
+	loginRegisterButtons.show();
+	
+	//MY PROFILE BUTTON
+	var myProfileButton = $(".myProfileButton");
+	myProfileButton.hide();
+	
+	// LOGOUT BUTTON
+	var logoutButton = $("#logoutButton");
+	logoutButton.hide();
+	
+	//USER BUTTON
+	var usersButton = $("#usersButton");
+	usersButton.hide();
+	
+	//BLOCK BUTTON
+	var blockButton = null;
+	
+	//CHANGE BUTTON
+	var buttonEdit = null;
+	
 	getUser();
 	
 	function initVideos(videos){
@@ -20,48 +49,62 @@ $(document).ready(function(e){
 			appendFollower(followers[i]);
 		}
 	};
+	
+	$('#goToProfile').button().click(function(){
+		window.location.href = '/Videos/user.html?id=' + loggedInUser.id;
+	});
 		
 	
 function appendUser(user){
-	console.log("uso")
 	var tableRow= $('<tr></tr>');
 	var username = $('<td>' + user.username + '</td>');
 	var previews = $('<td><span class="badge">'+user.followers+'</span></td>');
-	var date = $('<td>' +user.date+ '</td>');
+	var date = $('<td>' +new Date(user.date).toLocaleDateString("en-US")+ '</td>');
 	var description = $('<td>' +user.description+ '</td>');
 	var blockedRole = $('<td>'+user.blocked+ user.role + '</td>');
-	var button = $('<td><button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></button>'+
+	var buttonChange = $('<td><button id="changeBtn" type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span></button>'+
 					'<div id="myModal" class="modal fade" role="dialog">'+
 						'<div class="modal-dialog">'+
 						'<div class="modal-content">'+
-							'<div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title">Change</h4></div>'+
+							'<div class="modal-header"><button id="closeModal_btn" type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title">Change</h4></div>'+
 					'<div class="modal-body">'+
 						'<div class="form-group"><label for="usr">Name:</label><input class="form-control" type="text" id="usr" value="'+user.name+'"></div>'+
-						'<div class="form-group"><label for="sur">Surname:</label<input type="text" class="form-control" id="sur" value="'+user.surname+'" ></div>'+
+						'<div class="form-group"><label for="sur">Surname:</label><input type="text" class="form-control" id="sur" value="'+user.surname+'" ></div>'+
 						'<div class="form-group"><label for="pwd">Password:</label><input type="password" class="form-control" id="ps" value="'+user.password+'" ></div>'+
-						'<div class="form-group"><label for="pwd">Repeat password:</label><input type="password" class="form-control" id="rps" value="'+user.password+'" ></div>'+
 						'<div class="form-group"><label for="desc">Description:</label><input type="text" class="form-control" id="desc" value="'+user.description+'"></div>'+
 						'<div class="form-group"><label for="sel1">Select role:</label><select class="form-control" id="sel1"><option>User</option><option>Admin</option></select></div></div>'+
-					'<div class="modal-footer"><button id="changeSave_btn" type="button" class="btn btn-success">Save changes</button></div></div></div></div>');
+						'<div class="modal-footer"><button id="changeSave_btn" type="submit" class="btn btn-success">Save changes</button></div></div></div></div>');
+	var buttonBlock = $('<td><button id="Block_btn" type="button" class="btn btn-m"><span class="glyphicon glyphicon-ban-circle"></span></button></td>');
+	
 	
 	tableRow.append(username);
 	tableRow.append(previews);
 	tableRow.append(date);
 	tableRow.append(description);
 	tableRow.append(blockedRole);
-	tableRow.append(button);
+	tableRow.append(buttonChange);
+	tableRow.append(buttonBlock);
 	userDiv.append(tableRow);
+	
+	blockButton = $("#Block_btn");
+	blockButton.hide();
+	
+	buttonEdit = $("#changeBtn");
+	if(loggedInUser != null && loggedInUser.id == user.id){
+		buttonEdit.show();
+	}else{
+		buttonEdit.hide();
+	}
+	
 
-}		
-
+}
 
 function appendVideo(video){
-	console.log("uso u videe");
 	var divColumn = $('<div class="col-md-5"></div>');
 	var divThumbnail = $('<div class="thumbnail"></div>');
 	var naziv = $('<div><p>' + video.name + '</p></div>');
 	var linkVidea = $('<a href="/Videos/video.html?id='+video.id+'"></a>');
-	var img = $('<img src="' + video.thumbnail + '" style="width:470px; height:300px";>');
+	var img = $('<img src="' + video.thumbnail + '" style="width:300px; height:270px";>');
 	var linkOwnera = $('<a href="/Videos/user.html?id=' + video.owner.id+'"></a>');
 	var caption = $('<div class="caption"><p>' + video.owner.username + '</p></div>');
 	var textBlock = $('<div class="text-block"> <p>Date: '+ new Date(video.date).toLocaleDateString("en-US") + '</p><p>Previews: '+ video.previews +'</p></div>');
@@ -78,10 +121,7 @@ function appendVideo(video){
 	
 }
 
-
-
 function appendFollower(follower){
-	console.log("uso u folovere")
 	var tableRow= $('<tr></tr>');
 	var glyphicon = $('<td><div class="glyphicon glyphicon-user"><a href="/Videos/user.html?id='+follower.id+'">'+" "+ follower.username+'</a></div></td>');
 	var numberOfFoll = $('<td class="text-center"><span class="badge">5</span></td>');
@@ -93,26 +133,52 @@ function appendFollower(follower){
 	followersDiv.append(tableRow);
 }
 
+
+function showHide(loggedInUser){
+	if(loggedInUser == null){
+		/*usersButton.hide();
+		myProfileButton.hide();*/
+		blockButton.hide();
+		buttonEdit.hide();
+	}else{
+		myProfileButton.show();
+		loginRegisterButtons.hide();
+		logoutButton.show();
+//		buttonEdit.show();
+		if(loggedInUser.role == 'ADMIN'){
+			usersButton.show();
+			blockButton.show();
+			buttonEdit.show();
+			$('#sel1').removeAttr('disabled');
+		}else if(loggedInUser.role == 'USER'){
+			/*usersButton.hide();*/
+			blockButton.hide();
+			$('#sel1').attr('disabled', 'disabled');
+		}
+	}
+		
+};
+
 function getUser(){
 	
 	var params = $.param({
 		id : idUser
 	});
-	console.log(params);
+
 	$.ajax({
 		url: 'UserServlet?' + params,
 		method: 'GET',
 		dataType: 'json',
 		success: function(response){
 			if(response.status == "success"){
+				loggedInUser = response.loggedInUser;
 				appendUser(response.user);
 				initVideos(response.videos);
 				initFollowers(response.followers);
-				console.log(response);
+				showHide(response.loggedInUser);
 			}else{
 				alert(response.message);
 			}
-	
 		},
 		error: function(request, message, error){
 			alert(error);
@@ -120,8 +186,9 @@ function getUser(){
 	});
 };
 
-$('#changeSave_btn').submit(function(e){
-	
+
+$('#fff').submit(function(e){
+	e.preventDefault();
 	var x = $('#usr').val();
 	var s = $('#sur').val();
 	var y = $('#ps').val();
@@ -130,28 +197,35 @@ $('#changeSave_btn').submit(function(e){
 	var r = $('#sel1').find(":selected").text();
 	
 	var params = $.param({
+		id : idUser,
 		inputUsr : x,
 		inputSur : s,
 		inputPs : y,
-		inputRps : z,
 		inputDesc : p,
-		sel1 : sel1
+		sel1 : r,
+		action : 'update'
 	});
-	console.log(params);
 	$.ajax({
 		url: 'UserServlet?' + params,
 		method: 'POST',
 		dataType: 'json',
 		success: function(response){
-			
+			if(response.status == "success"){
+				userDiv.empty();
+				getUser();
+			}else{
+				alert(response.message);
+			}
 		},
 		error: function(request,message,error){
 			alert(error)
 		}
 		
-		
 	});
+	$('.modal-backdrop').remove();
 });
+
+
 $('#previewsAsc_btn').click(function(e){
 	e.preventDefault();
 	
@@ -161,7 +235,6 @@ $('#previewsAsc_btn').click(function(e){
 		orderBy: "previews",
 		id: idUser
 	});
-	console.log(params)
 	$.ajax({
 		url: 'UserServlet?' + params,
 		method: 'GET',
@@ -186,7 +259,6 @@ $('#dateAsc_btn').click(function(e){
 		orderBy: "date",
 		id: idUser
 	});
-	console.log(params)
 	$.ajax({
 		url: 'UserServlet?' + params,
 		method: 'GET',

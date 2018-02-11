@@ -206,7 +206,9 @@ public static List<Video> getPrivateVideoUser(Integer id, String orderBy, String
 	return videos;
 }
 
-public static List<Video> getVideoByUser(Integer id, String orderBy, String direction) {
+public static List<Video> getVideoByUser(Integer id, Visibility visibility1, 
+										Visibility visibility2,Visibility visibility3,
+										String orderBy, String direction) {
 	
 	Video video = null;
 	Connection conn = ConnectionManager.getConnection();
@@ -217,11 +219,26 @@ public static List<Video> getVideoByUser(Integer id, String orderBy, String dire
 	ResultSet rs = null;
 	try {
 		String order = orderBy + " " + direction + ";";
-		String query = "select * from video where owner = ? order by " + order;
+		String query = "select * from video where visibility in (?,?,?) and owner = ? order by " + order;
 		
 		int index = 1;
 		ps = conn.prepareStatement(query);
-		ps.setInt(1, id);
+		if(visibility1 == null) {
+			ps.setObject(index++,null);
+		}else {
+			ps.setString(index++, visibility1.toString());
+		}
+		if(visibility2 == null) {
+			ps.setObject(index++,null);
+		}else {
+			ps.setString(index++, visibility2.toString());
+		}
+		if(visibility3 == null) {
+			ps.setObject(index++,null);
+		}else {
+			ps.setString(index++, visibility3.toString());
+		}
+		ps.setInt(index++, id);
 		System.out.println(ps);
 
 		rs = ps.executeQuery();

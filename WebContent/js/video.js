@@ -1,13 +1,26 @@
 $(document).ready(function(e){
 	
 	var idVideo = getUrlParameter('id');
+	
+	var loggedInUser =  null;
+	
 	var videoDiv = $('#videoDiv');
+	
 	var urlDiv = $('#urlDiv');
 	var commentDiv = $('#commentDiv');
 	
+	//LOGIN REGISTER BUTTONS
 	var loginRegisterButtons = $(".loginRegisterButtons");
+	
+	//MY PROFILE BUTTON
+	var myProfileButton = $(".myProfileButton");
+	myProfileButton.hide();
+	
+	// LOGOUT BUTTON
 	var logoutButton = $("#logoutButton");
 	logoutButton.hide();
+	
+	//USER BUTTON
 	var usersButton = $("#usersButton");
 	usersButton.hide();
 	
@@ -19,6 +32,10 @@ $(document).ready(function(e){
 			appendComment(comments[i]);
 		}
 	};
+	
+	$('#goToProfile').button().click(function(){
+		window.location.href = '/Videos/user.html?id=' + loggedInUser.id;
+	});
 	
 
 function appendVideo(video){
@@ -35,7 +52,7 @@ function appendVideo(video){
 	var tableRow = $('<tr></tr>');
 	var name = $('<td class="text-center">'+video.name+'</td>');
 	var previews = $('<td class="text-center">'+video.previews+'</td>');
-	var owner = $('<td class="text-center">'+video.owner.username+'</td>');
+	var owner = $('<td class="text-center"><a href="/Videos/user.html?id='+video.owner.id+'"</a>'+video.owner.name+'</td>');
 	var date = $('<td class="text-center">'+new Date(video.date).toLocaleDateString("en-US")+'</td>');
 	var description = $('<td class="text-center">'+video.description+'</td>');
 	var rating = $('<td class="text-center"><a>Likes:</a><span class="badge">'+video.like+'</span><a>Dislikes:</a><span class="badge">'+video.dislikes+'</span></span></td>');
@@ -63,6 +80,26 @@ function appendComment(comment){
 	commentDiv.append(column);
 	}
 
+
+
+function showHide(loggedInUser){
+	console.log(loggedInUser);
+	if(loggedInUser == null){
+		usersButton.hide();
+		myProfileButton.hide();
+	}else{
+		myProfileButton.show();
+		loginRegisterButtons.hide();
+		logoutButton.show();
+		if(loggedInUser.role == 'ADMIN'){
+			usersButton.show();
+		}else if(loggedInUser.role == 'USER'){
+			usersButton.hide();
+		}
+	}
+		
+};
+
 function getVideo(){
 	
 	var params = $.param({
@@ -76,12 +113,10 @@ function getVideo(){
 		dataType: 'json',
 		success: function(response){
 			if(response.status == "success"){
-				loginRegisterButtons.hide();
-				logoutButton.show();
-				usersButton.show();
 				appendVideo(response.video);
 				initComments(response.comments);
-				
+				showHide(response.loggedInUser);
+				loggedInUser = response.loggedInUser;
 				console.log(response);
 			}else{
 				console.log(response);

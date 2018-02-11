@@ -168,6 +168,7 @@ public class VideoServlet extends HttpServlet {
 		data.put("status",status);
 		data.put("video", video);
 		data.put("comments", comments);
+		data.put("loggedInUser", loggedInUser);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonData = mapper.writeValueAsString(data);

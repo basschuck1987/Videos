@@ -290,7 +290,7 @@ public class UserDAO {
 
 		PreparedStatement ps = null;
 		try {
-			String query = "update user set name = ?, surname = ?, password = ?, description = ?, role = ?;";
+			String query = "update user set name = ?, surname = ?, password = ?, description = ?, role = ? where id=?; ";
 			
 			ps = conn.prepareStatement(query);
 			int index = 1;
@@ -299,6 +299,7 @@ public class UserDAO {
 			ps.setString(index++, user.getPassword());
 			ps.setString(index++, user.getDescription());
 			ps.setString(index++, user.getRole().toString());
+			ps.setInt(index++, user.getId());
 			System.out.println(ps);
 
 			return ps.executeUpdate() == 1;

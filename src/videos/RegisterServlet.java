@@ -42,8 +42,12 @@ public class RegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String usernameReg = request.getParameter("usernameReg");
+		String surnameReg = request.getParameter("surnameReg");
+		
 		String passwordReg = request.getParameter("passwordReg");
 		String passwordRep = request.getParameter("passwordRep");
+		
+		
 		
 		String message = "Uspesno ste se registrovali";
 		try {
