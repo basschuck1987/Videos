@@ -32,7 +32,7 @@ public class UserDAO {
 			if (rs.next()) {
 				int index = 1;
 				Integer id = rs.getInt(index++);
-				username = rs.getString(index++);
+				String username1 = rs.getString(index++);
 				String password = rs.getString(index++);
 				String name = rs.getString(index++);
 				String surname = rs.getString(index++);
@@ -42,7 +42,7 @@ public class UserDAO {
 				Role role = Role.valueOf(rs.getString(index++));
 				boolean blocked = rs.getBoolean(index++);
 
-				return new User(id, username, password, name, surname, email, description, date, role, blocked);
+				return new User(id, username1, password, name, surname, email, description, date, role, blocked);
 			}
 
 		} catch (SQLException ex) {
@@ -65,7 +65,43 @@ public class UserDAO {
 		}
 		return null;
 	}
-	
+	public static boolean createUser(User user) {
+
+		Connection conn = ConnectionManager.getConnection();
+
+		PreparedStatement ps = null;
+		try {
+
+			String query = "insert into user (username,password,name,surname,email,description,Date,role,blocked)values(?,?,?,?,?,?,?,?,?);";
+			int index = 1;
+			ps = conn.prepareStatement(query);
+			ps.setString(index++, user.getUsername());
+			ps.setString(index++, user.getPassword());
+			ps.setString(index++, user.getName());
+			ps.setString(index++, user.getSurname());
+			ps.setString(index++, user.getEmail());
+			ps.setString(index++, user.getDescription());
+			ps.setObject(index++, user.getDate());
+			ps.setString(index++, user.getRole().toString());
+			ps.setInt(index++, user.getId());
+
+			return ps.executeUpdate() == 1;
+
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			System.out.println("Greska u upitu");
+			ex.printStackTrace();
+		}
+
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+		return false;
+	}
 	
 	public static User getById(Integer id) {
 
@@ -132,7 +168,7 @@ public class UserDAO {
 
 			String query = "select * from user";
 
-			ps = ps = conn.prepareStatement(query);
+			ps = conn.prepareStatement(query);
 			System.out.println(ps);
 
 			rs = ps.executeQuery();

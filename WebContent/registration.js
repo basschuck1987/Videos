@@ -29,7 +29,7 @@ $(document).ready(function(e){
 			dataType: 'json',
 			success : function(response){
 				if(response.status == "success"){
-					
+					window.location.replace("/Videos/user.html?id=" + response.user.id);
 				}else{
 					alert(response.message);
 				}
@@ -37,8 +37,6 @@ $(document).ready(function(e){
 			error: function(request, message, error){
 				alert(error);
 			}
-			
-			
 			
 		});
 	});
