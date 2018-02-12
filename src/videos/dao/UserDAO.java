@@ -327,6 +327,8 @@ public class UserDAO {
 		return followers;
 	}
 	
+	
+	
 	public static List<User> getOrderBy(String orderBy, String direction) {
 		
 		User user = null;
@@ -447,37 +449,65 @@ public static boolean delete(Integer id) {
 		return false;
 		}
 	
+public static boolean addFollower(Integer idUser, Integer idFollower) {
 	
-	/*
-	 * public static List<User> getAll(){ return new ArrayList<>(); } public static
-	 * List<User> getAll(String username, Role role) { return new ArrayList<>(); }
-	 * 
-	 * public static boolean add(User user) { Connection conn =
-	 * ConnectionManager.getConnection();
-	 * 
-	 * PreparedStatement ps = null; try { String query =
-	 * "Insert into user (username,password,name,surname,email,desription,Date,role,blocked) values (?, ?,null,null,null,null,null,null,null,null)"
-	 * ;
-	 * 
-	 * ps = conn.prepareStatement(query); int index =1; ps.setString(index++,
-	 * user.getUsername()); ps.setString(index++, user.getPassword());
-	 * ps.setString(index++, user.getName()); ps.setString(index++,
-	 * user.getSurname()); ps.setString(index++, user.getEmail());
-	 * ps.setString(index++, user.getDescription()); ps.setString(index++,
-	 * user.getDate().toString()); ps.setString(index++, user.getRole().toString());
-	 * 
-	 * return ps.executeUpdate() == 1; } catch (Exception ex){
-	 * System.out.println("greska u upitu"); ex.printStackTrace(); } finally { try
-	 * {ps.close();} catch (SQLException ex1) {ex1.printStackTrace();}
-	 * 
-	 * 
-	 * 
-	 * 
-	 * }
-	 * 
-	 * 
-	 * return false; }
-	 */
+	Connection conn = ConnectionManager.getConnection();
+
+	PreparedStatement ps = null;
+	try {
+		String query = "insert into followers (idUser,idFollower) values(?,?); ";
+		
+		ps = conn.prepareStatement(query);
+		int index = 1;
+		ps.setInt(index++, idUser);
+		ps.setInt(index++, idFollower);
+		System.out.println(ps);
+
+		return ps.executeUpdate() == 1;
+		
+	} catch (SQLException ex) {
+		System.out.println("Greska u upitu");
+	}
+
+	finally {
+		try {
+			ps.close();
+		} catch (SQLException ex1) {
+			ex1.printStackTrace();
+		}
+	}
+	return false;
+	}
+
+public static boolean deleteFollower(Integer idUser, Integer idFollower) {
+	
+	Connection conn = ConnectionManager.getConnection();
+
+	PreparedStatement ps = null;
+	try {
+		String query = "delete from followers where idUser = ?, idFollower=?; ";
+		
+		ps = conn.prepareStatement(query);
+		int index =1;
+		ps.setInt(index++, idUser);
+		ps.setInt(index++, idFollower);
+		System.out.println(ps);
+
+		return ps.executeUpdate() == 1;
+		
+	} catch (SQLException ex) {
+		System.out.println("Greska u upitu");
+	}
+
+	finally {
+		try {
+			ps.close();
+		} catch (SQLException ex1) {
+			ex1.printStackTrace();
+		}
+	}
+	return false;
+	}
 
 }
 

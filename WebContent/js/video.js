@@ -56,13 +56,14 @@ function appendVideo(video){
 	var date = $('<td class="text-center">'+new Date(video.date).toLocaleDateString("en-US")+'</td>');
 	var description = $('<td class="text-center">'+video.description+'</td>');
 	var rating = $('<td class="text-center"><a>Likes:</a><span class="badge">'+video.like+'</span><a>Dislikes:</a><span class="badge">'+video.dislikes+'</span></span></td>');
-	
+	var changeButton =$('<td><button id="changeVideoBtn" type="button" class="btn btn-info " data-toggle="modal" data-target="#changeVideo"><span class="glyphicon glyphicon-pencil"></span>Edit</button>');
 	tableRow.append(name);
 	tableRow.append(previews);
 	tableRow.append(owner);
 	tableRow.append(date);
 	tableRow.append(description);
 	tableRow.append(rating);
+	tableRow.append(changeButton);
 	videoDiv.append(tableRow);
 
 }

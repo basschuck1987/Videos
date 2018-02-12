@@ -35,6 +35,12 @@ $(document).ready(function(e){
 	var buttonEdit = null;
 	
 	var checkboxChange = null;
+
+	//FOLLOW BUTTON
+	var followButton = null; 
+	
+	//UNFOLLOW BUTTON
+	var unfollowButton = $('#unfollowButton');
 	
 	getUser();
 	
@@ -152,7 +158,72 @@ function appendUser(user){
 		
 		
 	});
-
+	
+	followButton = $('#followButton');
+	var foundFollower = false;
+	for (var i = 0; i < user.followers.length; i++) {
+		if(user.followers[i].id == loggedInUser.id){
+			followButton.attr('disabled','disabled');
+			foundFollower = true;
+			break;
+		}
+	}
+	if(!foundFollower){
+		unfollowButton.attr('disabled','disabled');
+	}
+	followButton.click(function(e){
+		e.preventDefault();
+		
+		var params=$.param({
+			id : idUser,
+			action : "add"
+		})
+		console.log(params);
+		$.ajax({
+			url: 'FollowersServlet?' + params,
+			method: 'POST',
+			dataType: 'json',
+			success: function(response){
+				if(response == "success"){
+					userDiv.empty();
+					getUser();
+				}else{
+					alert(response.message);
+				}
+			},
+			error: function(request, message, error){
+				alert(error)
+			}
+		});
+		
+	});
+	
+	unfollowButton.click(function(e){
+		e.preventDefault();
+		
+		var params=$.param({
+			id : idUser,
+			action : "delete"
+		})
+		console.log(params);
+		$.ajax({
+			url: 'FollowersServlet?' + params,
+			method: 'POST',
+			dataType: 'json',
+			success: function(response){
+				if(response == "success"){
+					userDiv.empty();
+					getUser();
+				}else{
+					alert(response.message);
+				}
+			},
+			error: function(request, message, error){
+				alert(error)
+			}
+		});
+		
+	});
 
 }
 
@@ -182,11 +253,9 @@ function appendFollower(follower){
 	var tableRow= $('<tr></tr>');
 	var glyphicon = $('<td><div class="glyphicon glyphicon-user"><a href="/Videos/user.html?id='+follower.id+'">'+" "+ follower.username+'</a></div></td>');
 	var numberOfFoll = $('<td class="text-center"><span class="badge">'+follower.followers.length+'</span></td>');
-	var button= $('<td><button type="button" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button></td>')
 
 	tableRow.append(glyphicon);
 	tableRow.append(numberOfFoll);
-	tableRow.append(button);
 	followersDiv.append(tableRow);
 }
 
@@ -334,5 +403,45 @@ $('#dateAsc_btn').click(function(e){
 	});
 	
 });
+
+$('#confirmVideo').submit(function(e){
+	e.preventDefault();
+	
+	var tittleInput = $('#tittle').val();
+	var urlInput = $('#url').val();
+	var descriptionVideoInput = $('#descVideo');
+	
+	var params = $.param({
+		tittleInput : tittleInput,
+		urlInput : urlInput,
+		descriptionVideoInput : descriptionVideoInput
+	});
+	
+	$.ajax({
+		url: 'VideoServlet?' + params,
+		method: 'POST',
+		dataType: 'json',
+		success : function(response){
+			if(response.status == "success"){
+				window.location.replace("/Videos/video.html?id=" + response.video.id);
+				console.log(response);
+			}else{
+				alert(response.message);
+			}
+		},
+		error: function(request, message, error){
+			alert(error);
+		}
+		
+		
+		
+	});
+	
+	
+});
+
+
+
+
 
 });

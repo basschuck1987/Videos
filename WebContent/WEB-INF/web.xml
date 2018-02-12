@@ -102,4 +102,14 @@
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/LogoutServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>FollowersServlet</display-name>
+    <servlet-name>FollowersServlet</servlet-name>
+    <servlet-class>videos.FollowersServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FollowersServlet</servlet-name>
+    <url-pattern>/FollowersServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

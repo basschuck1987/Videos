@@ -213,12 +213,6 @@ public class UserServlet extends HttpServlet {
 		System.out.println(jsonData);
 		response.setContentType("application/json");
 		response.getWriter().write(jsonData);
-		/*switch(action) {
-		case "UPDATE" : {
-			
-		}
-		}*/
-	
 	}
 
 }

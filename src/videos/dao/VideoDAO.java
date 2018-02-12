@@ -448,6 +448,99 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 		}
 		return null;
 	}
+	
+	public static Video getByUrl(String url) {
+
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+
+			String query = "select * from video where url = ?";
+
+			ps = conn.prepareStatement(query);
+			ps.setString(1, url);
+			System.out.println(ps);
+
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				int index = 1;
+				Integer id = rs.getInt(index++);
+				String urlVideo = rs.getString(index++);
+				String thumbnail = rs.getString(index++);
+				String description = rs.getString(index++);
+				Visibility visibility = Visibility.valueOf(rs.getString(index++));
+				boolean blocked = rs.getBoolean(index++);
+				Integer previews = rs.getInt(index++);
+				Date date = rs.getDate(index++);
+				User owner = UserDAO.getById(rs.getInt(index++)) ;
+				String name = rs.getString(index++);
+				boolean likeDislikeVisible = rs.getBoolean(index++);
+				
+				return new Video(id,name, urlVideo, thumbnail, description, visibility, blocked, previews, date, owner,likeDislikeVisible);
+				
+			}
+
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			System.out.println("Greska u upitu");
+			ex.printStackTrace();
+		}
+
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+		return null;
+	}
+	public static boolean createVideo(Video video) {
+
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement ps = null;
+		try {
+
+			String query = "insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name, likeDislikeVisible) values(?,?,?,?,?,?,?,?,?,?);";
+			int index = 1;
+			ps = conn.prepareStatement(query);
+			System.out.println(ps);
+			ps.setString(index++, video.getUrl());
+			ps.setString(index++, video.getThumbnail());
+			ps.setString(index++, video.getDescription());
+			ps.setString(index++, video.getVisibility().toString());
+			ps.setBoolean(index++, video.isBlocked());
+			ps.setInt(index++, video.getPreviews());
+			ps.setDate(index++, new java.sql.Date(video.getDate().getTime()));
+			ps.setObject(index++, video.getOwner());
+			ps.setBoolean(index++, video.isLikeDislikeVisible());
+				
+				
+			
+
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			System.out.println("Greska u upitu");
+			ex.printStackTrace();
+		}
+
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
 	/*public static List<Video> getComments(Integer id) {
 
 		Connection conn = ConnectionManager.getConnection();

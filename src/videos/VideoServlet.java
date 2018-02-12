@@ -182,7 +182,52 @@ public class VideoServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		HttpSession session = request.getSession();
+		User loggedInUser = (User) session.getAttribute("loggedInUser");
+		String tittle = request.getParameter("tittleInput");
+		String url = request.getParameter("urlInput");
+		String descriptionVideo = request.getParameter("descriptionVideoInput");
+		Video newVideo = null;
+		String message = "";
+		String status = "";
+		
+		try {
+			if(loggedInUser == null) {
+				throw new Exception("Nemate pristup zeljenoj funkciji");
+			}else {
+				if("".equals(tittle) || "".equals(url)) {
+					throw new Exception("Niste popunili sva polja");
+				}
+				Video existingVideo = VideoDAO.getByUrl(url);
+				if(existingVideo != null) {
+					throw new Exception("Video vec postoji");
+				}
+				newVideo = new Video();
+				newVideo.setUrl(url);
+				newVideo.setName(tittle);
+				newVideo.setDescription(descriptionVideo);
+				VideoDAO.createVideo(newVideo);
+				newVideo = VideoDAO.getByUrl(url);
+				
+			}
+			
+			message = "Uspesno ste dodali video.";
+			status = "success";
+		}
+		catch(Exception e){
+			message = e.getMessage();
+			status = "failure";
+		}
+		Map<String, Object> data = new HashMap<>();
+		data.put("message", message);
+		data.put("status", status);
+		data.put("video", newVideo);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonData = mapper.writeValueAsString(data);
+		System.out.println(jsonData);
+		response.setContentType("application/json");
+		response.getWriter().write(jsonData);
 	}
 
 }

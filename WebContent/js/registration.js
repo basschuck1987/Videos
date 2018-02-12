@@ -1,7 +1,4 @@
 $(document).ready(function(e){
-
-	
-	
 	
 	$('#confirm').submit(function(e){
 		e.preventDefault();
