@@ -111,6 +111,7 @@ public class VideoDAO {
 				while(rs.next()) {
 					index = 1;
 					Integer id = rs.getInt(index++);
+					String name = rs.getString(index++);
 					String url = rs.getString(index++);
 					String thumbnail = rs.getString(index++);
 					String description = rs.getString(index++);
@@ -119,7 +120,6 @@ public class VideoDAO {
 					Integer previews = rs.getInt(index++);
 					Date date = rs.getDate(index++);
 					User owner = UserDAO.getById(rs.getInt(index++)) ;
-					String name = rs.getString(index++);
 					boolean likeDislikeVisible = rs.getBoolean(index++);
 	
 					
@@ -170,6 +170,7 @@ public static List<Video> getPrivateVideoUser(Integer id, String orderBy, String
 		while(rs.next()) {
 			int index = 1;
 			Integer videoId = rs.getInt(index++);
+			String name = rs.getString(index++);
 			String url = rs.getString(index++);
 			String thumbnail = rs.getString(index++);
 			String description = rs.getString(index++);
@@ -178,7 +179,7 @@ public static List<Video> getPrivateVideoUser(Integer id, String orderBy, String
 			Integer previews = rs.getInt(index++);
 			Date date = rs.getDate(index++);
 			User owner = UserDAO.getById(rs.getInt(index++)) ;
-			String name = rs.getString(index++);
+			
 			boolean likeDislikeVisible = rs.getBoolean(index++);
 			
 			video = new Video(videoId,name, url, thumbnail, description, visibility, blocked, previews, date, owner,likeDislikeVisible);
@@ -246,6 +247,7 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 		while(rs.next()) {
 			index = 1;
 			Integer videoId = rs.getInt(index++);
+			String name = rs.getString(index++);
 			String url = rs.getString(index++);
 			String thumbnail = rs.getString(index++);
 			String description = rs.getString(index++);
@@ -254,7 +256,7 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 			Integer previews = rs.getInt(index++);
 			Date date = rs.getDate(index++);
 			User owner = UserDAO.getById(rs.getInt(index++)) ;
-			String name = rs.getString(index++);
+			
 			boolean likeDislikeVisible = rs.getBoolean(index++);
 			
 			video = new Video(videoId,name, url, thumbnail, description, visibility, blocked, previews, date, owner,likeDislikeVisible);
@@ -302,6 +304,7 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 			while(rs.next()) {
 				index = 1;
 				Integer id = rs.getInt(index++);
+				String name = rs.getString(index++);
 				String url = rs.getString(index++);
 				String thumbnail = rs.getString(index++);
 				String description = rs.getString(index++);
@@ -310,7 +313,7 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 				Integer previews = rs.getInt(index++);
 				Date date = rs.getDate(index++);
 				User owner = UserDAO.getById(rs.getInt(index++)) ;
-				String name = rs.getString(index++);
+				
 				boolean likeDislikeVisible = rs.getBoolean(index++);
 				
 				video = new Video(id,name, url, thumbnail, description, visibility, blocked, previews, date, owner, likeDislikeVisible);
@@ -413,6 +416,7 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 			if (rs.next()) {
 				int index = 1;
 				Integer idVideo = rs.getInt(index++);
+				String name = rs.getString(index++);
 				String url = rs.getString(index++);
 				String thumbnail = rs.getString(index++);
 				String description = rs.getString(index++);
@@ -421,7 +425,7 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 				Integer previews = rs.getInt(index++);
 				Date date = rs.getDate(index++);
 				User owner = UserDAO.getById(rs.getInt(index++)) ;
-				String name = rs.getString(index++);
+				
 				boolean likeDislikeVisible = rs.getBoolean(index++);
 				
 				return new Video(idVideo,name, url, thumbnail, description, visibility, blocked, previews, date, owner,likeDislikeVisible);
@@ -467,6 +471,7 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 			if (rs.next()) {
 				int index = 1;
 				Integer id = rs.getInt(index++);
+				String name = rs.getString(index++);
 				String urlVideo = rs.getString(index++);
 				String thumbnail = rs.getString(index++);
 				String description = rs.getString(index++);
@@ -475,7 +480,7 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 				Integer previews = rs.getInt(index++);
 				Date date = rs.getDate(index++);
 				User owner = UserDAO.getById(rs.getInt(index++)) ;
-				String name = rs.getString(index++);
+				
 				boolean likeDislikeVisible = rs.getBoolean(index++);
 				
 				return new Video(id,name, urlVideo, thumbnail, description, visibility, blocked, previews, date, owner,likeDislikeVisible);
@@ -511,7 +516,7 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 			String query = "insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name, likeDislikeVisible) values(?,?,?,?,?,?,?,?,?,?);";
 			int index = 1;
 			ps = conn.prepareStatement(query);
-			System.out.println(ps);
+			
 			ps.setString(index++, video.getUrl());
 			ps.setString(index++, video.getThumbnail());
 			ps.setString(index++, video.getDescription());
@@ -519,11 +524,52 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 			ps.setBoolean(index++, video.isBlocked());
 			ps.setInt(index++, video.getPreviews());
 			ps.setDate(index++, new java.sql.Date(video.getDate().getTime()));
-			ps.setObject(index++, video.getOwner());
+			ps.setInt(index++, video.getOwner().getId());
+			ps.setString(index++, video.getName());
 			ps.setBoolean(index++, video.isLikeDislikeVisible());
+			System.out.println(ps);	
 				
-				
+			return ps.executeUpdate() == 1;
+
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			System.out.println("Greska u upitu");
+			ex.printStackTrace();
+		}
+
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+		return false;
+	}
+	public static boolean updateVideo(Video video) {
+
+		Connection conn = ConnectionManager.getConnection();
+		PreparedStatement ps = null;
+		try {
+
+			String query = "update video set url=?, thumbnail=?, description=?, visibility=?, blocked=?, previews=?, date=?, owner=?, name=?, likeDislikeVisible=? where id=?;";
 			
+			ps = conn.prepareStatement(query);
+			int index = 1;
+			ps.setString(index++, video.getUrl());
+			ps.setString(index++, video.getThumbnail());
+			ps.setString(index++, video.getDescription());
+			ps.setString(index++, video.getVisibility().toString());
+			ps.setBoolean(index++, video.isBlocked());
+			ps.setInt(index++, video.getPreviews());
+			ps.setDate(index++, new java.sql.Date(video.getDate().getTime()));
+			ps.setInt(index++, video.getOwner().getId());
+			ps.setString(index++, video.getName());
+			ps.setBoolean(index++, video.isLikeDislikeVisible());
+			ps.setObject(index++, video.getId());
+			System.out.println(ps);	
+				
+			return ps.executeUpdate() == 1;
 
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
@@ -541,6 +587,35 @@ public static List<Video> getVideoByUser(Integer id, Visibility visibility1,
 		return false;
 	}
 	
+public static boolean deleteVideo(Integer id) {
+		
+		Connection conn = ConnectionManager.getConnection();
+
+		PreparedStatement ps = null;
+		try {
+			String query = "delete from video where id = ?; ";
+			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, id);
+			System.out.println(ps);
+			
+			boolean retVal = ps.executeUpdate() == 1;
+
+			return retVal;
+			
+		} catch (SQLException ex) {
+			System.out.println("Greska u upitu");
+		}
+
+		finally {
+			try {
+				ps.close();
+			} catch (SQLException ex1) {
+				ex1.printStackTrace();
+			}
+		}
+		return false;
+		}
 	/*public static List<Video> getComments(Integer id) {
 
 		Connection conn = ConnectionManager.getConnection();

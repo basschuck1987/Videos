@@ -42,6 +42,8 @@ $(document).ready(function(e){
 	//UNFOLLOW BUTTON
 	var unfollowButton = $('#unfollowButton');
 	
+	var confirmVideo =null;
+	
 	getUser();
 	
 	function initVideos(videos){
@@ -185,8 +187,9 @@ function appendUser(user){
 			dataType: 'json',
 			success: function(response){
 				if(response == "success"){
-					userDiv.empty();
-					getUser();
+					/*userDiv.empty();
+					getUser();*/
+					location.reload();
 				}else{
 					alert(response.message);
 				}
@@ -211,9 +214,10 @@ function appendUser(user){
 			method: 'POST',
 			dataType: 'json',
 			success: function(response){
-				if(response == "success"){
-					userDiv.empty();
-					getUser();
+				if(response.status == "success"){
+					/*userDiv.empty();
+					getUser();*/
+					location.reload();
 				}else{
 					alert(response.message);
 				}
@@ -232,7 +236,7 @@ function appendVideo(video){
 	var divThumbnail = $('<div class="thumbnail"></div>');
 	var naziv = $('<div><p>' + video.name + '</p></div>');
 	var linkVidea = $('<a href="/Videos/video.html?id='+video.id+'"></a>');
-	var img = $('<img src="' + video.thumbnail + '" style="width:300px; height:270px";>');
+	var img = $('<img src="'+video.thumbnail+'" style="width:300px; height:270px";>');
 	var linkOwnera = $('<a href="/Videos/user.html?id=' + video.owner.id+'"></a>');
 	var caption = $('<div class="caption"><p>' + video.owner.username + '</p></div>');
 	var textBlock = $('<div class="text-block"> <p>Date: '+ new Date(video.date).toLocaleDateString("en-US") + '</p><p>Previews: '+ video.previews +'</p></div>');
@@ -409,14 +413,17 @@ $('#confirmVideo').submit(function(e){
 	
 	var tittleInput = $('#tittle').val();
 	var urlInput = $('#url').val();
-	var descriptionVideoInput = $('#descVideo');
+	var descriptionVideoInput = $('#descVideo').val();
+	var select2 = $('#sel2').find(":selected").text();
 	
 	var params = $.param({
 		tittleInput : tittleInput,
 		urlInput : urlInput,
-		descriptionVideoInput : descriptionVideoInput
+		descriptionVideoInput : descriptionVideoInput,
+		select2 : select2,
+		action : "add"
 	});
-	
+	console.log(params);
 	$.ajax({
 		url: 'VideoServlet?' + params,
 		method: 'POST',

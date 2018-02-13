@@ -24,6 +24,9 @@ $(document).ready(function(e){
 	var usersButton = $("#usersButton");
 	usersButton.hide();
 	
+	//CHANGE BUTTON
+	var changeVideoButton = null;
+	
 	getVideo();
 	
 	function initComments(comments){
@@ -56,7 +59,43 @@ function appendVideo(video){
 	var date = $('<td class="text-center">'+new Date(video.date).toLocaleDateString("en-US")+'</td>');
 	var description = $('<td class="text-center">'+video.description+'</td>');
 	var rating = $('<td class="text-center"><a>Likes:</a><span class="badge">'+video.like+'</span><a>Dislikes:</a><span class="badge">'+video.dislikes+'</span></span></td>');
-	var changeButton =$('<td><button id="changeVideoBtn" type="button" class="btn btn-info " data-toggle="modal" data-target="#changeVideo"><span class="glyphicon glyphicon-pencil"></span>Edit</button>');
+	var changeButton =$('<td><button id="changeVideoBtn" type="button" class="btn btn-info " data-toggle="modal" data-target="#changeVideo"><span class="glyphicon glyphicon-pencil"></span>Edit</button>'+
+		 	'<div id="changeVideo" class="modal fade" role="dialog">'+
+		 	'<div class="modal-dialog">'+
+		 	'<div class="modal-content">'+
+		      '<div class="modal-header">'+	
+		      	'<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+		      	'<h4 class="modal-title">CHANGE</h4>'+
+		      '</div>'+
+		      '<div class="modal-body">'+
+		      '<div class="form-group">'+
+		      		'<label for="tittle">Tittle:</label>'+
+		      	'<input id="tittle" type="text" class="form-control" required value="'+video.name+'">'+
+		      	'</div>'+
+		      '<div class="form-group">'+
+		      	'<label for="url">URL:</label>'+
+		      	'<input id="url" type="text" class="form-control" required value="'+video.url+'">'+
+		      	'</div>'+
+		      	'<div class="form-group">'+
+		      	'<label for="desc">Description:</label>'+
+		      		'<input id="descVideo" type="text" class="form-control" value="'+video.description+'">'+
+		      '</div>'+
+		      '<div class="form-group">'+
+		      		'<label for="sel2">Select visibility:</label>'+
+		      		'<select class="form-control" id="sel2">'+
+		      			'<option>PUBLIC</option>'+
+		      			'<option>UNLISTED</option>'+
+		      			'<option>PRIVATE</option>'+
+		      			'</select>'+
+		      		'</div>'+
+		      	'</div>'+
+		      '<div class="modal-footer">'+
+		      '<button type="submit" class="btn btn-success">Save</button>'+
+		      	'</div>'+
+		      		'</div></td>');
+	var emptyColumn =$('<td></td>')
+	var deleteVideoButton = $('<td><td<button id="deleteVideoButton" class="btn btn-danger btn-m">DELETE VIDEO</button></td></td>')
+	
 	tableRow.append(name);
 	tableRow.append(previews);
 	tableRow.append(owner);
@@ -64,8 +103,47 @@ function appendVideo(video){
 	tableRow.append(description);
 	tableRow.append(rating);
 	tableRow.append(changeButton);
+	tableRow.append(emptyColumn);
+	tableRow.append(deleteVideoButton);
 	videoDiv.append(tableRow);
-
+	
+	deleteVideoButton = $('#deleteVideoButton');
+	
+	deleteVideoButton.click(function(e){
+		var params = $.param({
+			id : idVideo,
+			action : "delete"
+		});
+		$.ajax({
+			url: 'VideoServlet?' + params,
+			method: 'POST',
+			dataType: 'json',
+			success : function(response){
+				if(response.status == "success"){
+					window.location.replace("/Videos/index.html");
+				}else{
+					alert(response.message);
+				}
+			},
+			error: function(request, message, error){
+				alert(error);
+			}
+			
+			
+			
+			
+		});
+		
+		
+	});
+	
+	/*changeVideoButton = $('#changeVideoBtn');
+	if(loggedInUser != null && loggedInUser.id == user.id){
+		changeVideoButton.show();
+	}else{
+		changeVideoButton.hide();
+	}*/
+	
 }
 function appendComment(comment){
 	console.log("komentariii");
@@ -224,10 +302,73 @@ $('#dateDesc_btn').click(function(e){
 	
 });
 
+$('#videoEditForm').submit(function(e){
+	e.preventDefault();
+	var tittleInput = $('#tittle').val();
+	var urlInput = $('#url').val();
+	var descriptionVideoInput = $('#descVideo').val();
+	var select2 = $('#sel2').find(":selected").text();
+	
+	var params = $.param({
+		id : idVideo,
+		tittleInput : tittleInput,
+		urlInput : urlInput,
+		descriptionVideoInput : descriptionVideoInput,
+		select2 : select2,
+		action : "update"
+	});
+	$.ajax({
+		url: 'VideoServlet?' + params,
+		method: 'POST',
+		dataType: 'json',
+		success : function(response){
+			if(response.status == "success"){
+			/*	urlDiv.empty();
+				videoDiv.empty();
+				getVideo();*/
+				location.reload();
+			}else{
+				alert(response.message);
+			}
+		},
+		error: function(request, message, error){
+			alert(error);
+		}
+	});
+	$('.modal-backdrop').remove();
+});
 
 
-
-
+$('#commentForm').submit(function(e){
+	e.preventDefault();
+	var comment = $('#writeComment').val();
+	var params = $.param({
+		comment : comment,
+		id : idVideo
+	});
+	console.log(params);
+	$.ajax({
+		url: 'CommentServlet?' + params,
+		method: 'POST',
+		dataType: 'json',
+		success : function(response){
+			if(response.status == "success"){
+				
+				location.reload();
+			}else{
+				alert(response.message);
+			}
+		},
+		error: function(request, message, error){
+			alert(error);
+		}
+		
+		
+	});
+	
+	
+	
+})
 		
 	
 	

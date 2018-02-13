@@ -2,6 +2,7 @@ package videos;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Comment;
 import model.User;
 import model.Video;
-import model.Video.Visibility;
 import videos.dao.CommentDAO;
 import videos.dao.VideoDAO;
 
@@ -187,32 +187,87 @@ public class VideoServlet extends HttpServlet {
 		String tittle = request.getParameter("tittleInput");
 		String url = request.getParameter("urlInput");
 		String descriptionVideo = request.getParameter("descriptionVideoInput");
+		String select2 = request.getParameter("select2");
+		String action = request.getParameter("action");
+		String id = request.getParameter("id");
 		Video newVideo = null;
 		String message = "";
 		String status = "";
 		
 		try {
-			if(loggedInUser == null) {
-				throw new Exception("Nemate pristup zeljenoj funkciji");
-			}else {
-				if("".equals(tittle) || "".equals(url)) {
-					throw new Exception("Niste popunili sva polja");
+			switch(action) {
+			case "add" :
+				if(loggedInUser == null) {
+					throw new Exception("Nemate pristup zeljenoj funkciji");
+				}else {
+					if("".equals(tittle) || "".equals(url)) {
+						throw new Exception("Niste popunili sva polja");
+					}
+					Video existingVideo = VideoDAO.getByUrl(url);
+					if(existingVideo != null) {
+						throw new Exception("Video vec postoji");
+					}
+					newVideo = new Video();
+					newVideo.setUrl(url);
+					newVideo.setName(tittle);
+					newVideo.setDescription(descriptionVideo);
+					newVideo.setOwner(loggedInUser);
+					if(select2.equals("PUBLIC")) {
+						newVideo.setVisibility(Video.Visibility.PUBLIC);
+						
+					}else if(select2.equals("UNLISTED")) {
+						newVideo.setVisibility(Video.Visibility.UNLISTED);
+					}else if(select2.equals("PRIVATE")){
+						newVideo.setVisibility(Video.Visibility.PRIVATE);
+					}
+					newVideo.setDate(new Date());
+					
+					VideoDAO.createVideo(newVideo);
+					newVideo = VideoDAO.getByUrl(url);
+					
 				}
-				Video existingVideo = VideoDAO.getByUrl(url);
-				if(existingVideo != null) {
-					throw new Exception("Video vec postoji");
-				}
-				newVideo = new Video();
-				newVideo.setUrl(url);
-				newVideo.setName(tittle);
-				newVideo.setDescription(descriptionVideo);
-				VideoDAO.createVideo(newVideo);
-				newVideo = VideoDAO.getByUrl(url);
 				
-			}
+				message = "Uspesno ste dodali video.";
+				status = "success";
+				break;
+				
+			case "update":
+				Video video = VideoDAO.getById(Integer.parseInt(id));
+				if(video == null) {
+					throw new Exception("Video ne postoji");
+				}
+				if(loggedInUser == null) {
+					throw new Exception("Nemate pristup zeljenoj funkciji");
+				}else {
+					video.setName(tittle);
+					video.setUrl(url);
+					video.setDescription(descriptionVideo);
+					if(select2.equals("PUBLIC")) {
+						video.setVisibility(Video.Visibility.PUBLIC);
+						
+					}else if(select2.equals("UNLISTED")) {
+						video.setVisibility(Video.Visibility.UNLISTED);
+					}else if(select2.equals("PRIVATE")){
+						video.setVisibility(Video.Visibility.PRIVATE);
+					}
+				}
+				if(!VideoDAO.updateVideo(video)) {
+					throw new Exception("Promene nisu izvrsene");
+				}
 			
-			message = "Uspesno ste dodali video.";
 			status = "success";
+			message = "Uspesno obradjen zahtev";
+			break;
+			
+			case "delete" :
+				if(!VideoDAO.deleteVideo(Integer.parseInt(id))) {
+					throw new Exception("Brisanje nije moguce");
+				}
+				status = "success";
+				message = "Uspesno obradjen zahtev";
+				
+				break;
+			}
 		}
 		catch(Exception e){
 			message = e.getMessage();

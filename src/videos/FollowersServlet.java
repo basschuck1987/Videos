@@ -44,17 +44,15 @@ public class FollowersServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		User loggedInUser = (User) session.getAttribute("loggedInUser");
-		String id = request.getParameter("idUser");
+		String id = request.getParameter("id");
 		String action = request.getParameter("action");
 		User user = null;
-		
 		String status = "";
 		String message = "";
 		
 		try {
 			switch(action) {
 			case "add" :
-				
 				user = UserDAO.getById(Integer.parseInt(id));
 				if(user == null) {
 					throw new Exception("Nepostojeci korisnik.");
@@ -65,10 +63,9 @@ public class FollowersServlet extends HttpServlet {
 					for (User follower : user.getFollowers()) {
 						if(loggedInUser.getId() == follower.getId()) {
 							throw new Exception("Nije dozvoljeno");	
-						}else {
-							UserDAO.addFollower(Integer.parseInt(id), loggedInUser.getId());
 						}
 					}
+					UserDAO.addFollower(Integer.parseInt(id), loggedInUser.getId());
 				}
 				
 				
@@ -77,7 +74,6 @@ public class FollowersServlet extends HttpServlet {
 				break;
 				
 			case "delete" :
-				
 				
 				if(!UserDAO.deleteFollower(Integer.parseInt(id),loggedInUser.getId())) {
 					throw new Exception("Nije dozvoljeno");

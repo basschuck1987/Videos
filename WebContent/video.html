@@ -7,7 +7,6 @@
 	<script src="js/jquery-2.1.0.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
 	<script src="js/video.js"></script>
-	<script src="js/user.js"></script>
 	<script src="js/f.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -112,7 +111,8 @@
 			   <br/>
 			<br/>
 			<br/>
-			 <div class="table-responsive">          
+			 <div class="table-responsive">   
+			 <form id="videoEditForm">       
 			  <table class="table">
 			    <thead>
 			      <tr>
@@ -123,37 +123,80 @@
 			        <th class="text-center">Description</th>
  			        <th class="text-center">Rating</th>
  			        <th></th>
+ 			        <th></th>
+ 			        <th></th>
 			      </tr>
 			    </thead>
 			    <tbody id="videoDiv">
-			      <!-- <tr>
+			      <!--  <tr>
 			        <td></td>
 			        <td></td>
 			        <td></td>
 			        <td></td>
 			        <td></td>
-			        <td class="text-center"><a>Likes:</a><span class="badge">5</span><a>Dislikes:</a><span class="badge"></span></span></td>
-			      </tr> -->
+			        <td class="text-center"><a>Likes:</a><span class="badge">5</span><a>Dislikes:</a><span class="badge"></span></span></td> -->
+			      	<!-- <td><button type="button" class="btn btn-default btn-m " data-toggle="modal" data-target="#changeVideo">Change</button>
+			 	<div id="changeVideo"class="modal fade" role="dialog">
+  										<div class="modal-dialog">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									        <button type="button" class="close" data-dismiss="modal">&times;</button>
+									        <h4 class="modal-title">CHANGE</h4>
+									      </div>
+									   <div class="modal-body">
+										     <div class="form-group">
+											 	<label for="tittle">Tittle:</label>
+												<input id="tittle" type="text" class="form-control" required>
+											</div>
+											<div class="form-group">
+												<label for="url">URL:</label>
+												<input id="url" type="text" class="form-control" required>
+											</div>
+											<div class="form-group">
+												<label for="desc">Description:</label>
+											    <input id="descVideo" type="text" class="form-control">
+											</div>
+											<div class="form-group">
+													  <label for="sel2">Select visibility:</label>
+													  <select class="form-control" id="sel2">
+													    <option>PUBLIC</option>
+													    <option>UNLISTED</option>
+													    <option>PRIVATE</option>
+													  </select>
+													</div>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="submit" class="btn btn-success">Save</button>
+								      </div>
+								    </div></td>
+								    <td<button class="btn btn-danger btn-m">DELETE VIDEO</button></td> -->
+			      </tr>
 			    </tbody>
 			  </table>
+			  </form>
+			 
 			  </div>
 			</div>
 			
 			<!-- Write a comment  -->
+			<form id="commentForm">
 			<div class="form-group">
+			
 			<div class="col-sm-offset-3 col-sm-5">
 			 <br/>
 			<br/>
 			<br/>
+			
   				<label for="comment">Leave a comment:</label>
-  					<textarea class="form-control" placeholder="Write a comment" rows="5" id="comment">
-  					</textarea>
+  					<textarea id="writeComment"class="form-control" placeholder="Write a comment" rows="5" id="comment"></textarea>
 			</div>
 			<div class="form-group">
           		<div class="col-sm-offset-3 col-sm-10">                    
                 	<button class="btn btn-success btn-circle text-uppercase" type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Submit comment</button>
                 </div>
-            </div>     
+            </div>  
+            </form>
+               
              <br/>
 			<br/>
 			<br/>
@@ -252,7 +295,7 @@
 				
 		       
                     
-                
+               
 
              </div>
 			

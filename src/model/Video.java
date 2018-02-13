@@ -24,6 +24,7 @@ public class Video {
 	
 	public Video() {
 		super();
+		this.thumbnail = "img/playButton.png";
 		// TODO Auto-generated constructor stub
 	}
 

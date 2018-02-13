@@ -42,7 +42,7 @@ public static Comment getById(Integer id) {
 				Video video = VideoDAO.getById(rs.getInt(index++));
 				
 
-			comment = new Comment(id, content, date, owner, video);
+			comment = new Comment(commentId, content, date, owner, video);
 			}
 
 		} catch (SQLException ex) {
@@ -170,4 +170,37 @@ public static List<Comment> getAll(Integer id) {
 	return comments;
 
 }
+public static boolean addComment(Comment comment) {
+
+	Connection conn = ConnectionManager.getConnection();
+	PreparedStatement ps = null;
+	try {
+
+		String query = "insert into comment (content, date, owner, video) values (?, ?, ?, ?);";
+		int index = 1;
+		ps = conn.prepareStatement(query);
+		
+		ps.setString(index++, comment.getContent());
+		ps.setDate(index++, new java.sql.Date(comment.getDate().getTime()));
+		ps.setInt(index++, comment.getOwner().getId());
+		ps.setObject(index++, comment.getVideo().getId());
+			
+		return ps.executeUpdate() == 1;
+
+	} catch (SQLException ex) {
+		// TODO Auto-generated catch block
+		System.out.println("Greska u upitu");
+		ex.printStackTrace();
+	}
+
+	finally {
+		try {
+			ps.close();
+		} catch (SQLException ex1) {
+			ex1.printStackTrace();
+		}
+	}
+	return false;
+}
+
 }

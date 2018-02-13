@@ -24,13 +24,13 @@ update user set blocked = true where id = 1;
 
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('a' , 'a', 'admin', 'admin', 'email', 'description','2017-05-21', 'ADMIN',0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('AAAA' , 'AAAA', 'Sandra', 'Stojanovic', 'email', 'description','2017-05-21', 'USER',0);
-insert into user (username,password,name,surname,email,description,Date,role,blocked)values('sake' , 'sake123', 'Sandra', 'Stojanovic', 'email', 'description','2017-05-21', 'ADMIN',0);
+insert into user (username,password,name,surname,email,description,Date,role,blocked)values('sake' , 'sake123', 'Sandra', 'Stojanovic', 'email', 'description','2017-05-21', 'USER',0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('u' , 'u', 'user', 'user', 'email1', 'description1', '2017-11-17', 'USER', 0);
-insert into user (username,password,name,surname,email,description,Date,role,blocked)values('s' , 's' 'admin', 'admin', 'email', 'description','2017-05-21', 'ADMIN',0);
+insert into user (username,password,name,surname,email,description,Date,role,blocked)values('s' , 's' 'admin', 'admin', 'email', 'description','2017-05-21', 'USER',0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('s' , 's', 'admin', 'admin', 'email', 'description','2017-05-21', 'ADMIN',0);
 insert into user (username,password,name,surname,email,description,Date,role,blocked)values('t' , null, 'admin', 'admin', 'email', 'description','2017-05-21', 'ADMIN',0);
-insert into user (username,password,name,surname,email,description,Date,role,blocked)values('sake' , 'sake123' 'Sandra', 'Stojanovic', 'sandramish96@gmailcom', 'description','2017-05-21', 'ADMIN',0);
-insert into user (username,password,name,surname,email,description,Date,role,blocked)values('raso' , 'raso123' 'Radovan', 'Maodus', 'email', 'description','2017-05-21', 'ADMIN',0);
+insert into user (username,password,name,surname,email,description,Date,role,blocked)values('sake' , 'sake123', 'Sandra', 'Stojanovic', 'sandramish96gmailcom', 'description','2017-05-21', 'ADMIN',0);
+insert into user (username,password,name,surname,email,description,Date,role,blocked)values('raso' , 'raso123', 'Radovan', 'Maodus', 'email', 'description','2017-05-21', 'USER',0);
 delete from user where id in(2,4,1,3,5,6);
 
 delete from user where id = 6;
@@ -55,6 +55,8 @@ select u.* from followers f left join user u on f.idUser = u.id where f.idFollow
 
 select * from user;
 select * from followers;
+
+
 
 select * from followers where idFollower = 3;
 
@@ -87,11 +89,11 @@ alter table video drop column name;
 alter table video add column name varchar(20);
 alter table video add column likeDislikeVisible boolean;
 
-insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name,likeDislikeVisible) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'aaa', 0);
-insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('uT6T-a9Dl28', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'aaa');
+insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name,likeDislikeVisible) values ('url', 'thumnail', 'decription', 'PUBLIC', 0, 5,'2017-06-13', 1, 'aaa', 0);
+insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('uT6T-a9Dl28', 'thumnail','UNLISTED' , 'decription', 0, 5,'2017-06-13', 3, 'aaa');
 insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'ssss');
-insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1, 'ddd');
-insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name,likeDislikeVisible) values ('url', 'thumnail', 'decription', 'PRIVATE', 0, 5,'2017-06-13', 10, 'aaa', 0);
+insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 2, 'ddd');
+insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner, name,likeDislikeVisible) values ('url', 'thumnail', 'decription', 'PRIVATE', 0, 5,'2017-06-13', 2, 'aaa', 0);
 insert into video (url, thumbnail, description, visibility, blocked, previews, date, owner) values ('url', 'thumnail', 'decription', 'UNLISTED', 0, 5,'2017-06-13', 1);
 insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url1', 'thumnail1', 'decription1', 'PRIVATE', 0, 15,'2017-12-31',2);
 insert into video (url, thumbnail, description, visibility, blocked, previews,date, owner) values ('url2', 'thumnail2', 'decription2', 'PUBLIC', 0, 25,'2018-01-27',1);

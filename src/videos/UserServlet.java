@@ -146,7 +146,6 @@ public class UserServlet extends HttpServlet {
 		try {
 			switch(action) {
 			case "update" :
-				
 				User user = UserDAO.getById(Integer.parseInt(id));
 				if(user == null) {
 					throw new Exception("Nepostojeci korisnik.");

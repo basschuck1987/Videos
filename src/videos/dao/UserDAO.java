@@ -432,8 +432,10 @@ public static boolean delete(Integer id) {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, id);
 			System.out.println(ps);
+			
+			boolean retVal = ps.executeUpdate() == 1;
 
-			return ps.executeUpdate() == 1;
+			return retVal;
 			
 		} catch (SQLException ex) {
 			System.out.println("Greska u upitu");
@@ -485,7 +487,7 @@ public static boolean deleteFollower(Integer idUser, Integer idFollower) {
 
 	PreparedStatement ps = null;
 	try {
-		String query = "delete from followers where idUser = ?, idFollower=?; ";
+		String query = "delete from followers where idUser = ? and idFollower=?; ";
 		
 		ps = conn.prepareStatement(query);
 		int index =1;
@@ -493,8 +495,9 @@ public static boolean deleteFollower(Integer idUser, Integer idFollower) {
 		ps.setInt(index++, idFollower);
 		System.out.println(ps);
 
-		return ps.executeUpdate() == 1;
+		boolean retVal = ps.executeUpdate() == 1;
 		
+		return retVal;
 	} catch (SQLException ex) {
 		System.out.println("Greska u upitu");
 	}

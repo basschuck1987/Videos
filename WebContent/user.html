@@ -100,14 +100,13 @@
 					<img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
 				</div>
 				<a>Upload slike</a>
-				</br>
-				</br>
-				</br>
-				</br>
+				<br/>
+				<br/>
+				<br/>
 				<div>
 				<button id="followButton" class="btn btn-default btn-m">FOLLOW</button>
-				</br>
-				</br>
+				<br/>
+			<br/>
 				<button id="unfollowButton" class="btn btn-default btn-m">UNFOLLOW</button>
 			</div>
 			</div>
@@ -210,17 +209,25 @@
 									      </div>
 									   <div class="modal-body">
 										     <div class="form-group">
-											 	<label id="tittle" for="tittle">Tittle:</label>
-												<input type="text" class="form-control" required>
+											 	<label for="tittle">Tittle:</label>
+												<input id="tittle" type="text" class="form-control" required>
 											</div>
 											<div class="form-group">
-												<label id="url" for="url">URL:</label>
-												<input type="text" class="form-control" required>
+												<label for="url">URL:</label>
+												<input id="url" type="text" class="form-control" required>
 											</div>
 											<div class="form-group">
-												<label id="descVideo" for="desc">Description:</label>
-											    <input type="password" class="form-control">
+												<label for="desc">Description:</label>
+											    <input id="descVideo" type="text" class="form-control">
 											</div>
+											<div class="form-group">
+													  <label for="sel2">Select visibility:</label>
+													  <select class="form-control" id="sel2">
+													    <option>PUBLIC</option>
+													    <option>UNLISTED</option>
+													    <option>PRIVATE</option>
+													  </select>
+													</div>
 								      </div>
 								      <div class="modal-footer">
 								        <button type="submit" class="btn btn-success">Save</button>

@@ -1,6 +1,7 @@
 package videos;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,20 +13,22 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import model.Comment;
 import model.User;
-import model.User.Role;
-import videos.dao.UserDAO;
+import model.Video;
+import videos.dao.CommentDAO;
+import videos.dao.VideoDAO;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class CommentServlet
  */
-public class LoginServlet extends HttpServlet {
+public class CommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public CommentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,29 +46,43 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-	//	System.out.println(username + " " + password);
-		
-		String message = "Uspesno";
-		String status = "success";
-		
+		HttpSession session = request.getSession();
+		User loggedInUser =(User) session.getAttribute("loggedInUser");
+		String comment = request.getParameter("comment");
+		String id = request.getParameter("id");
+		Comment newComment = null;
+		String message = "";
+		String status = "";
 		
 		try {
-			User user = UserDAO.getByUserName(username);
-			if(user == null) throw new Exception("Nepostojeci korisnik");
-			if(!user.getPassword().equals(password)) throw new Exception("Neispravna lozinka");
-			HttpSession session = request.getSession();
-			session.setAttribute("loggedInUser", user);
+			if(loggedInUser == null) {
+				throw new Exception("Nemate pristup");
+			}
+			if("".equals(comment)) {
+				throw new Exception("Komentar mora imati sadrzaj");
+			}
+			Video video = VideoDAO.getById(Integer.parseInt(id));
+			if(video == null) {
+				throw new Exception("Trazeni video ne postoji");
+			}
+			newComment = new Comment();
+			newComment.setContent(comment);
+			newComment.setOwner(loggedInUser);
+			newComment.setVideo(video);
+			newComment.setDate(new Date());
+			CommentDAO.addComment(newComment);
 			
-		} catch (Exception ex){
-			message = ex.getMessage();
+			message = "Uspesno dodat komentar";
+			status = "success";
+		}
+		catch(Exception e) {
+			message = e.getMessage();
 			status = "failure";
 		}
-		
 		Map<String, Object> data = new HashMap<>();
 		data.put("message", message);
-		data.put("status",status);
+		data.put("status", status);
+		data.put("comment", newComment);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonData = mapper.writeValueAsString(data);
@@ -73,5 +90,6 @@ public class LoginServlet extends HttpServlet {
 		response.setContentType("application/json");
 		response.getWriter().write(jsonData);
 	}
+	
 
 }
